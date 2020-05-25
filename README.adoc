@@ -1,0 +1,86 @@
+= AsciiDoc Editor
+
+This is a web-browser only proof-of concent for a editor.
+The editor should run in the browser and should read/write to GitHub via API.
+
+== How to develop
+
+=== Setup of the development environment
+
+This application uses the GitHub API.
+To be able to log-in during development mode, the _CLIENT_ID_ and _CLIENT_SECRET_ for a GitHub OAuth app need to be set.
+Each OAuth app has a specific "`Authorization callback URL`".
+As all development will run on localhost, developers need to setup a new OAuth application in their developer settings to start local development.
+
+To do this, register an application at https://github.com/settings/developers and put the client ID and secret in the respective configuration files.
+
+Follow these steps to do this:
+
+. Open https://github.com/settings/developers
+. Click on "`New OAuth App`"
+. Fill the blanks with the following details:
++
+Application name:: AsciiDoc Web Editor Development
+Homepage URL:: http://localhost:8080/
+Application description:: (optional, can be blank)
+Authorization callback URL:: http://localhost:8080/
+. Configure the frontend in file _.env_, use _.env.sample_ as a example
+. Configure the backend in file _lamba/.env_, use _lambda/.env.sample_ as a example
+
+=== Starting the app in development mode
+
+. Start in development mode for the frontend
++
+----
+yarn install
+yarn dev
+----
++
+. Start in development mode for the backend
++
+----
+cd lambda
+yarn install
+yarn serve
+----
++
+. Go do http://localhost:8080 for a preview.
+
+== How to deploy
+
+=== Configuration
+
+For the login at GitHub to work, the application needs to be registered as an OAuth application with the production URL as callback.
+The client ID and secret should then be provided as environment variables.
+
+Follow these steps to do this:
+
+. Open https://github.com/settings/developers
+. Click on "`New OAuth App`"
+. Fill the blanks with the following details:
++
+Application name:: AsciiDoc Web Editor Development
+Homepage URL:: (production URL)
+Application description:: (optional, but should receive a meaningful description)
+Authorization callback URL:: (production URL)
+. Set environment variables _CLIENT_ID_ and _CLIENT_SECRET_ with their respective values
+
+=== Building the application
+
+. Run build of the client:
++
+----
+export NODE_ENV=production
+yarn install
+yarn prod
+----
++
+. Run build of Netlify lambdas:
++
+----
+yarn install
+yarn generate
+----
++
+. Publish contents in _dist_ folder to a web server as static files
+. Publish contents in _lambda/dist_ as netlify lambdas as funtions on Netlify

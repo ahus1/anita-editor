@@ -1,0 +1,25 @@
+[build]
+  command = "./build.sh"
+  publish = "_site"
+  functions = "lambda/dist"
+[[headers]]
+  for = "/static/fonts/*.*.*"
+  [headers.values]
+	cache-control = '''
+	public,
+	max-age=86400,
+	must-revalidate'''
+[[headers]]
+  for = "/static/img/*.*.*"
+  [headers.values]
+	cache-control = '''
+	public,
+	max-age=86400,
+	must-revalidate'''
+[[headers]]
+  for = "/*.*.js"
+  [headers.values]
+	cache-control = '''
+	public,
+	max-age=86400,
+	must-revalidate'''

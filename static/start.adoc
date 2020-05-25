@@ -1,0 +1,11 @@
+= Welcome!
+
+This is a minimal editor for AsciiDoc files.
+
+Enter a GitHub URL in the form below to load a file to the editor.
+You can return any time after editing, your status will be saved in your local browser using in-browser localstorage.
+
+To save your changes, you'll need to log in to GitHub with your account.
+
+You can pass the GitHub file URL as a parameter to this app, use: +
+`\https://\.../#/edit?file=https://github.com/<owner>/<repo>/blob/<branch>/<path>`

@@ -1,0 +1,16 @@
+{
+  "name": "lambda",
+  "version": "1.0.0",
+  "description": "Lambdas only",
+  "author": "",
+  "private": true,
+  "scripts": {
+    "serve": "netlify-lambda --config webpack.config.js serve src",
+    "generate": "netlify-lambda --config webpack.config.prod.js build src"
+  },
+  "devDependencies": {
+    "babel-minify-webpack-plugin": "^0.3.1",
+    "dotenv": "^8.0.0",
+    "netlify-lambda": "^1.5.0"
+  }
+}

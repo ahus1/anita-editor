@@ -1,0 +1,63 @@
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    font-size: 1.0625rem; /* taken from AsciiDoc */
+}
+
+del {
+    text-decoration: none;
+    background-color: #fdb8c0;
+}
+
+ins {
+    text-decoration: none;
+    background-color: #acf2bd;
+}
+
+/* just formatting changes */
+ins.mod {
+    background-color: #fafaa9;
+}
+
+.router-link-exact-active {
+ @apply underline;
+}
+
+.adoc {
+    /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+    /* Uncomment @import statement to use as custom stylesheet */
+
+    background: #fff;
+    color: rgba(0, 0, 0, .8);
+    padding: 0;
+    margin: 0;
+    font-family: "Noto Serif", "DejaVu Serif", serif;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1;
+    position: relative;
+    cursor: auto;
+    tab-size: 4;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+
+    /* restoring browser defaults for ul */
+    ul ul ul {
+        list-style-type: square;
+    }
+
+    ul ul {
+        list-style-type: circle;
+    }
+
+    ul {
+        list-style-type: disc;
+    }
+
+    @import "../../node_modules/@asciidoctor/core/dist/css/asciidoctor.css";
+}

@@ -1,0 +1,48 @@
+{
+  "name": "vue-webpack-4",
+  "version": "1.1.0",
+  "description": "AsciiDoc Scratch Pad",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack-dev-server --progress --config build/webpack.config.dev.js",
+    "prod": "webpack --config build/webpack.config.prod.js",
+    "serve": "http-server dist -p 5000 -a 127.0.0.1"
+  },
+  "dependencies": {
+    "@asciidoctor/core": "^2.2.0",
+    "asciidoctor-kroki": "^0.8.2",
+    "axios": "^0.19.2",
+    "font-awesome": "^4.7.0",
+    "highlight.js": "9.15.6",
+    "vue": "^2.6.11",
+    "vue-axios": "^2.1.5",
+    "vue-router": "^3.1.6",
+    "vuex": "^3.4.0",
+    "vuex-persistedstate": "^3.0.1"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^5.1.1",
+    "css-loader": "^3.4.2",
+    "dotenv": "^8.2.0",
+    "file-loader": "^6.0.0",
+    "html-loader": "^1.1.0",
+    "html-webpack-plugin": "^3.2.0",
+    "http-server": "^0.12.3",
+    "postcss-import": "^12.0.1",
+    "postcss-loader": "^3.0.0",
+    "precss": "^4.0.0",
+    "raw-loader": "^4.0.1",
+    "tailwindcss": "^1.4.4",
+    "url-loader": "^4.1.0",
+    "val-loader": "^2.1.1",
+    "vue-loader": "^15.8.3",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.6.11",
+    "vue2-ace-editor": "0.0.15",
+    "webpack": "^4.43.0",
+    "webpack-bundle-analyzer": "^3.8.0",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.3",
+    "webpack-merge": "^4.2.2"
+  }
+}
