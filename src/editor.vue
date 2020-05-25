@@ -6,12 +6,16 @@
         </div>
         <div class="overflow-y-auto relative border-collapse box-border shadow-inner p-4"
              style="min-height: 100vh; height: 100vh; max-height: 100vh;">
-            <button v-if="!conflicted" class="text-white font-bold py-2 px-4 rounded"
+            <button v-if="!conflicted && loggedin" class="text-white font-bold py-2 px-4 rounded"
                     @click="save"
                     :class="{ 'bg-gray-500': !changed, 'bg-blue-500': changed, 'hover:bg-blue-700': changed, 'cursor-wait': saving, 'cursor-default': !changed}"
                     :disabled="saving || !changed">
                 {{ this.saving ? 'Saving...' : 'Save' }}
             </button>
+            <template v-if="changed && !loggedin">
+                Please log-in using the action on the toolbar on the left to be able to save your changes.
+                <br />
+            </template>
             <template v-if="conflicted">
                 Unable to save contents as remote branch has been modified. Discard local changes and reload from server.
                 <br />
@@ -115,6 +119,9 @@
                     return false
                 }
                 return activeFile.conflict === true
+            },
+            loggedin() {
+                return this.$store.state.github.user !== undefined && this.$store.state.github.user !== null;
             },
             content: {
                 get () {

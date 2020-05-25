@@ -22,7 +22,7 @@ module.exports = merge(baseConfig, {
         publicPath: '/',
         quiet: true,
         proxy: {
-            '/token': 'http://localhost:9000/token.js'
+            '/.netlify/functions/token': 'http://localhost:9000/token.js'
         }
     },
 

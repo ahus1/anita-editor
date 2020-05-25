@@ -175,7 +175,7 @@ export const store = new Vuex.Store({
             if (context.state.github.oauthState !== state) {
                 throw "unable to authenticate, auth state doesn't match"
             }
-            let token = await axios.post(`/token`,
+            let token = await axios.post(`.netlify/functions/token`,
                 {
                     "code": code,
                     "state": state
