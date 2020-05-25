@@ -292,3 +292,8 @@ export const store = new Vuex.Store({
     ]
 })
 
+window.addEventListener('storage', (event) => {
+    if (event.key === 'vuex') {
+        window.location.href = '/changed.html'
+    }
+});
