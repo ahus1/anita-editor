@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import axios from "axios";
+import * as Cookies from "js-cookie";
 
 Vue.use(Vuex)
 
@@ -274,7 +275,20 @@ export const store = new Vuex.Store({
     },
     plugins: [
         createPersistedState({paths: ["activeWorkspace", "workspaces"]}),
-        createPersistedState({storage: window.sessionStorage, paths: ["github"]})
+        // using session storage this would be only per tab, not per browser instance
+        // createPersistedState({storage: window.sessionStorage, paths: ["github"]}),
+        createPersistedState({
+            storage: {
+                getItem: (key) => Cookies.get(key),
+                // Please see https://github.com/js-cookie/js-cookie#json, on how to handle JSON.
+                setItem: (key, value) =>
+                    Cookies.set(key, value, { expires: 1, // expire after 1 day
+                        secure: window.location.href.startsWith("https://") }),
+                removeItem: (key) => Cookies.remove(key)
+            },
+            fetchBeforeUse: true,
+            paths: ["github"]
+        })
     ]
 })
 
