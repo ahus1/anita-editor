@@ -65,13 +65,15 @@ Application description:: (optional, but should receive a meaningful description
 Authorization callback URL:: (production URL)
 . Set environment variables _CLIENT_ID_ and _CLIENT_SECRET_ with their respective values
 
+Optional: to enable the Netlify notifications via Telegram on deploys, add _API_TOKEN_/_CHAT_ID_ for the relevant bot.
+
 === Building the application
 
 . Run build of the client:
 +
 ----
-export NODE_ENV=production
 yarn install
+export NODE_ENV=production
 yarn prod
 ----
 +
