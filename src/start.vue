@@ -1,6 +1,6 @@
 <template>
     <div class="overflow-y-auto border-collapse box-border shadow-inner p-4"
-         style="min-height: 50vh; height: 50vh; max-height: 50vh;">
+         style="min-height: 100vh; height: 100vh; max-height: 100vh;">
         <div v-html="content" class="adoc"></div>
         <label for="url" class="block text-gray-700 text-sm font-bold mb-2">GitHub URL:</label>
         <input id="url" class="shadow appearance-none border rounded py-2 w-full px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" v-model="url" type="text"/>
