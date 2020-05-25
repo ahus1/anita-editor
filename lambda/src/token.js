@@ -51,8 +51,6 @@ exports.handler = function (event, context, callback) {
     const req = https.request(options, res => {
         res.on("data", d => {
             const data = JSON.parse(d)
-            console.error(d)
-            console.error( JSON.stringify(data))
             callback(null, {
                 statusCode: res.statusCode,
                 headers: {"Content-Type": "application/json"},
@@ -67,8 +65,6 @@ exports.handler = function (event, context, callback) {
         state: data.state,
         code: data.code
     })
-
-    console.error("request: " + request)
 
     req.write(
         request
