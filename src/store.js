@@ -78,7 +78,7 @@ export const store = new Vuex.Store({
             state.github.oauthState = key
         },
         switchWorkspace(state, {owner, repo, branch}) {
-            for(let i = 0; i < state.workspaces.length; ++i) {
+            for (let i = 0; i < state.workspaces.length; ++i) {
                 if (state.workspaces[i].owner === owner && state.workspaces[i].repo === repo && state.workspaces[i].branch === branch) {
                     state.activeWorkspace = i
                     return
@@ -90,7 +90,7 @@ export const store = new Vuex.Store({
         clearWorkspace(state, {workspaceId}) {
             state.workspaces.splice(workspaceId, 1)
             if (state.activeWorkspace > workspaceId) {
-                state.activeWorkspace --;
+                state.activeWorkspace--;
             }
             if (state.workspaces.length === 0) {
                 state.activeWorkspace = undefined
@@ -100,7 +100,7 @@ export const store = new Vuex.Store({
             const workspace = state.workspaces[workspaceId]
             workspace.files.splice(fileId, 1)
             if (workspace.activeFile > fileId) {
-                workspace.activeFile --;
+                workspace.activeFile--;
             }
             if (workspace.files.length === 0) {
                 workspace.activeFile = undefined
@@ -112,12 +112,13 @@ export const store = new Vuex.Store({
         },
         loadedFile(state, {owner, repo, branch, path, content, sha}) {
             this.commit('switchWorkspace', {owner, repo, branch})
-            for(let i = 0; i < state.workspaces[state.activeWorkspace].files.length; ++i) {
+            for (let i = 0; i < state.workspaces[state.activeWorkspace].files.length; ++i) {
                 const file = state.workspaces[state.activeWorkspace].files[i]
                 if (file.path === path) {
                     file.content = content
                     file.original = content
                     file.sha = sha
+                    file.oldShas = {}
                     file.conflict = false
                     state.workspaces[state.activeWorkspace].activeFile = i
                     return
@@ -137,13 +138,21 @@ export const store = new Vuex.Store({
             const file = workspace.files[workspace.activeFile]
             Vue.set(file, 'content', content)
         },
-        saveConflict(state, {owner, repo, branch, path, conflict}) {
+        saveConflict(state, {owner, repo, branch, path, sha, conflict}) {
             let found = false;
             state.workspaces.forEach(workspace => {
                 if (workspace.owner === owner && workspace.repo === repo && workspace.branch === branch) {
                     workspace.files.forEach(file => {
                         if (file.path === path) {
-                            file.conflict = conflict
+                            if (sha) {
+                                file.conflict = file.sha !== sha && (file.oldShas === undefined || file.oldShas[sha] === undefined)
+                                if (file.sha === sha) {
+                                    file.oldShas = {}
+                                }
+                            }
+                            if (conflict === true) {
+                                file.conflict = conflict
+                            }
                             found = true
                         }
                     })
@@ -159,6 +168,7 @@ export const store = new Vuex.Store({
                 if (workspace.owner === owner && workspace.repo === repo && workspace.branch === branch) {
                     workspace.files.forEach(file => {
                         if (file.path === path) {
+                            file.oldShas[file.sha] = true
                             file.sha = sha
                             file.original = content
                             found = true
@@ -222,7 +232,14 @@ export const store = new Vuex.Store({
             const response = await axios.get(`https://api.github.com/repos/${workspace.owner}/${workspace.repo}/contents/${file.path}?ref=${workspace.branch}`)
             if (response.data.encoding === 'base64') {
                 const content = b64DecodeUnicode(response.data.content)
-                context.commit('loadedFile', {owner: workspace.owner, repo: workspace.repo, branch: workspace.branch, path: file.path, content, sha: response.data.sha})
+                context.commit('loadedFile', {
+                    owner: workspace.owner,
+                    repo: workspace.repo,
+                    branch: workspace.branch,
+                    path: file.path,
+                    content,
+                    sha: response.data.sha
+                })
             }
         },
         async checkConflictActiveFile(context) {
@@ -241,7 +258,7 @@ export const store = new Vuex.Store({
                     repo: workspace.repo,
                     branch: workspace.branch,
                     path: file.path,
-                    conflict: file.sha !== response.data.sha
+                    sha: file.sha
                 })
             }
         },
@@ -262,11 +279,24 @@ export const store = new Vuex.Store({
                         "content": b64EncodeUnicode(newContent),
                         "sha": file.sha
                     })
-                context.commit('saveComplete', {owner: workspace.owner, repo: workspace.repo, branch: workspace.branch, path: file.path, sha: response.data.content.sha, content: newContent})
+                context.commit('saveComplete', {
+                    owner: workspace.owner,
+                    repo: workspace.repo,
+                    branch: workspace.branch,
+                    path: file.path,
+                    sha: response.data.content.sha,
+                    content: newContent
+                })
                 return true;
             } catch (error) {
                 if (error.response && error.response.status === 409) {
-                    context.commit('saveConflict', {owner: workspace.owner, repo: workspace.repo, branch: workspace.branch, path: file.path, conflict: true})
+                    context.commit('saveConflict', {
+                        owner: workspace.owner,
+                        repo: workspace.repo,
+                        branch: workspace.branch,
+                        path: file.path,
+                        conflict: true
+                    })
                 } else {
                     throw error
                 }
@@ -274,7 +304,22 @@ export const store = new Vuex.Store({
         }
     },
     plugins: [
-        createPersistedState({paths: ["activeWorkspace", "workspaces"]}),
+        createPersistedState({
+            paths: ["activeWorkspace", "workspaces"],
+            rehydrated: s => {
+                // state "schema" migration to clean out old contents and set defaults for old properties
+                s.state.workspaces.forEach(workspace => {
+                    workspace.files.forEach(file => {
+                        if (file.oldShas === undefined) {
+                            Vue.set(file, 'oldShas', {})
+                        }
+                        if (typeof file.lastReadSha !== undefined) {
+                            Vue.delete(file, 'lastReadSha')
+                        }
+                    })
+                })
+            }
+        }),
         // using session storage this would be only per tab, not per browser instance
         // createPersistedState({storage: window.sessionStorage, paths: ["github"]}),
         createPersistedState({
@@ -282,8 +327,10 @@ export const store = new Vuex.Store({
                 getItem: (key) => Cookies.get(key),
                 // Please see https://github.com/js-cookie/js-cookie#json, on how to handle JSON.
                 setItem: (key, value) =>
-                    Cookies.set(key, value, { expires: 1, // expire after 1 day
-                        secure: window.location.href.startsWith("https://") }),
+                    Cookies.set(key, value, {
+                        expires: 1, // expire after 1 day
+                        secure: window.location.href.startsWith("https://")
+                    }),
                 removeItem: (key) => Cookies.remove(key)
             },
             fetchBeforeUse: true,
