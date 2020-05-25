@@ -1,6 +1,6 @@
 [build]
   command = "./build.sh"
-  publish = "_site"
+  publish = "dist"
   functions = "lambda/dist"
 [[headers]]
   for = "/static/fonts/*.*.*"
