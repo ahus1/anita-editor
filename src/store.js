@@ -53,6 +53,15 @@ export const store = new Vuex.Store({
             }
             return workspace.files[workspace.activeFile]
         },
+        activeWorkspace: function (state) {
+            if (state.workspaces.length === 0) {
+                return undefined
+            }
+            if (state.activeWorkspace === undefined) {
+                return undefined
+            }
+            return state.workspaces[state.activeWorkspace]
+        },
         isDirty: function (state) {
             let dirty = false
             workspaces:
@@ -148,6 +157,13 @@ export const store = new Vuex.Store({
             state.workspaces[state.activeWorkspace].files.push({path, content, original: content, sha, conflict: false})
             state.workspaces[state.activeWorkspace].activeFile = 0
         },
+        loadedRepo(state, {owner, repo, permissions}) {
+            for (let i = 0; i < state.workspaces.length; ++i) {
+                if (state.workspaces[i].owner === owner && state.workspaces[i].repo === repo) {
+                    state.workspaces[i].permissions = permissions
+                }
+            }
+        },
         updateActiveFileContent(state, {content}) {
             if (state.activeWorkspace === undefined) {
                 return;
@@ -218,6 +234,24 @@ export const store = new Vuex.Store({
                 })
                 let user = await axios.get(`https://api.github.com/user`)
                 context.commit('githubUser', user.data)
+                let cache = {}
+                for (let i = 0; i < context.state.workspaces.length; ++i) {
+                    const workspace = context.state.workspaces[i]
+
+                    // avoid calling GitHub multiple times for different branches of same repository
+                    if (cache[`${workspace.owner}/${workspace.repo}`] !== undefined) {
+                        continue
+                    }
+                    cache[`${workspace.owner}/${workspace.repo}`] = true
+
+                    const responseRepo = await axios.get(`https://api.github.com/repos/${workspace.owner}/${workspace.repo}`)
+                    context.commit('loadedRepo', {
+                        owner: workspace.owner,
+                        repo: workspace.repo,
+                        permissions: {push: responseRepo.data.permissions.push},
+                    })
+                }
+
             }
         },
         async refreshUser(context) {
@@ -235,11 +269,17 @@ export const store = new Vuex.Store({
             }
             const {groups: {owner, repo, branch, path}} = regex
             // GET /repos/:owner/:repo/contents/:path
-            const response = await axios.get(`https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`)
-            if (response.data.encoding === 'base64') {
-                const content = b64DecodeUnicode(response.data.content)
-                context.commit('loadedFile', {owner, repo, branch, path, content, sha: response.data.sha})
+            const responseFile = await axios.get(`https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`)
+            if (responseFile.data.encoding === 'base64') {
+                const content = b64DecodeUnicode(responseFile.data.content)
+                context.commit('loadedFile', {owner, repo, branch, path, content, sha: responseFile.data.sha})
             }
+            const responseRepo = await axios.get(`https://api.github.com/repos/${workspace.owner}/${workspace.repo}`)
+            context.commit('loadedRepo', {
+                owner: workspace.owner,
+                repo: workspace.repo,
+                permissions: {push: responseRepo.data.permissions.push},
+            })
         },
         async reloadActiveFile(context) {
             if (context.state.activeWorkspace === undefined) {
@@ -250,18 +290,24 @@ export const store = new Vuex.Store({
                 return false;
             }
             const file = workspace.files[workspace.activeFile]
-            const response = await axios.get(`https://api.github.com/repos/${workspace.owner}/${workspace.repo}/contents/${file.path}?ref=${workspace.branch}`)
-            if (response.data.encoding === 'base64') {
-                const content = b64DecodeUnicode(response.data.content)
+            const responseFile = await axios.get(`https://api.github.com/repos/${workspace.owner}/${workspace.repo}/contents/${file.path}?ref=${workspace.branch}`)
+            if (responseFile.data.encoding === 'base64') {
+                const content = b64DecodeUnicode(responseFile.data.content)
                 context.commit('loadedFile', {
                     owner: workspace.owner,
                     repo: workspace.repo,
                     branch: workspace.branch,
                     path: file.path,
                     content,
-                    sha: response.data.sha
+                    sha: responseFile.data.sha
                 })
             }
+            const responseRepo = await axios.get(`https://api.github.com/repos/${workspace.owner}/${workspace.repo}`)
+            context.commit('loadedRepo', {
+                owner: workspace.owner,
+                repo: workspace.repo,
+                permissions: {push: responseRepo.data.permissions.push},
+            })
         },
         async checkConflictActiveFile(context) {
             if (context.state.activeWorkspace === undefined) {
@@ -330,6 +376,9 @@ export const store = new Vuex.Store({
             rehydrated: s => {
                 // state "schema" migration to clean out old contents and set defaults for old properties
                 s.state.workspaces.forEach(workspace => {
+                    if (typeof workspace.permissions === undefined) {
+                        Vue.set(workspace, 'permissions', {})
+                    }
                     workspace.files.forEach(file => {
                         if (file.oldShas === undefined) {
                             Vue.set(file, 'oldShas', {})
