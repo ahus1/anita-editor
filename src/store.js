@@ -41,8 +41,14 @@ export const store = new Vuex.Store({
             if (state.workspaces.length === 0) {
                 return undefined
             }
+            if (state.activeWorkspace === undefined) {
+                return undefined
+            }
             let workspace = state.workspaces[state.activeWorkspace]
             if (workspace.files.length === 0) {
+                return undefined;
+            }
+            if (workspace.activeFile === undefined) {
                 return undefined;
             }
             return workspace.files[workspace.activeFile]
@@ -85,7 +91,7 @@ export const store = new Vuex.Store({
                 }
             }
             state.workspaces.push({owner, repo, branch, files: [], activeFile: undefined})
-            state.workspaces.activeWorkspace = 0
+            state.activeWorkspace = state.workspaces.length - 1
         },
         clearWorkspace(state, {workspaceId}) {
             state.workspaces.splice(workspaceId, 1)
