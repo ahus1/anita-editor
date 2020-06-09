@@ -52,6 +52,21 @@ export const store = new Vuex.Store({
                 return undefined;
             }
             return workspace.files[workspace.activeFile]
+        },
+        isDirty: function (state) {
+            let dirty = false
+            workspaces:
+            for (let i = 0; i < state.workspaces.length; ++i) {
+                const workspace = state.workspaces[i]
+                for (let j = 0; j < workspace.files.length; ++j) {
+                    const file = workspace.files[j]
+                    if (file.content !== file.original) {
+                        dirty = true
+                        break workspaces;
+                    }
+                }
+            }
+            return dirty
         }
     },
     mutations: {
@@ -350,3 +365,17 @@ window.addEventListener('storage', (event) => {
         window.location.href = '/changed.html'
     }
 });
+
+window.addEventListener("beforeunload", function (e) {
+    if (!store.getters.isDirty) {
+        return undefined;
+    }
+
+    // message will never show, browser will show a generic (translated) message in case of Chrome
+    var confirmationMessage = 'It looks like you have been changed a file but haven\'t saved yet. '
+        + 'If you leave before saving, your changes will only be store locally in the browser';
+
+    (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+    return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+});
+
