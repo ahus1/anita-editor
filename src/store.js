@@ -277,13 +277,15 @@ export const store = new Vuex.Store({
             if (responseFile.data.encoding === 'base64') {
                 const content = b64DecodeUnicode(responseFile.data.content)
                 context.commit('loadedFile', {owner, repo, branch, path, content, sha: responseFile.data.sha})
+                if (context.state.github.user) {
+                    const responseRepo = await axios.get(`https://api.github.com/repos/${workspace.owner}/${workspace.repo}`)
+                    context.commit('loadedRepo', {
+                        owner: workspace.owner,
+                        repo: workspace.repo,
+                        permissions: {push: responseRepo.data.permissions.push},
+                    })
+                }
             }
-            const responseRepo = await axios.get(`https://api.github.com/repos/${workspace.owner}/${workspace.repo}`)
-            context.commit('loadedRepo', {
-                owner: workspace.owner,
-                repo: workspace.repo,
-                permissions: {push: responseRepo.data.permissions.push},
-            })
         },
         async reloadActiveFile(context) {
             if (context.state.activeWorkspace === undefined) {
@@ -305,13 +307,15 @@ export const store = new Vuex.Store({
                     content,
                     sha: responseFile.data.sha
                 })
+                if (context.state.github.user) {
+                    const responseRepo = await axios.get(`https://api.github.com/repos/${workspace.owner}/${workspace.repo}`)
+                    context.commit('loadedRepo', {
+                        owner: workspace.owner,
+                        repo: workspace.repo,
+                        permissions: {push: responseRepo.data.permissions.push},
+                    })
+                }
             }
-            const responseRepo = await axios.get(`https://api.github.com/repos/${workspace.owner}/${workspace.repo}`)
-            context.commit('loadedRepo', {
-                owner: workspace.owner,
-                repo: workspace.repo,
-                permissions: {push: responseRepo.data.permissions.push},
-            })
         },
         async checkConflictActiveFile(context) {
             if (context.state.activeWorkspace === undefined) {
