@@ -10,14 +10,18 @@
 	max-age=86400,
 	must-revalidate'''
 [[headers]]
-  for = "/static/img/*.*.*"
+  for = "/*"
+  [headers.values]
+	content-security-policy = "base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'unsafe-inline' 'self' https://fonts.googleapis.com/; connect-src 'self' https://api.github.com/; img-src 'self' https: data:; media-src 'none'; child-src 'none'; frame-src https://player.vimeo.com/ https://www.youtube.com/"
+[[headers]]
+  for = "/*.*.js"
   [headers.values]
 	cache-control = '''
 	public,
 	max-age=86400,
 	must-revalidate'''
 [[headers]]
-  for = "/*.*.js"
+  for = "/*.*.css"
   [headers.values]
 	cache-control = '''
 	public,
