@@ -10,7 +10,7 @@
                 Please log-in using the action on the toolbar on the left to be able to save your changes.
                 <br />
             </template>
-            <template v-else-if="!canpush">
+            <template v-else-if="!canpush && loggedin">
                 Unable to save contents as user doesn't have push permissions on this repository.
                 <br />
             </template>

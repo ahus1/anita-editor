@@ -107,6 +107,9 @@ export const store = new Vuex.Store({
             }
             state.github.oauthState = key
         },
+        discardOauthState(state) {
+            state.github.oauthState = undefined
+        },
         switchWorkspace(state, {owner, repo, branch}) {
             for (let i = 0; i < state.workspaces.length; ++i) {
                 if (state.workspaces[i].owner === owner && state.workspaces[i].repo === repo && state.workspaces[i].branch === branch) {
@@ -114,7 +117,7 @@ export const store = new Vuex.Store({
                     return
                 }
             }
-            state.workspaces.push({owner, repo, branch, files: [], activeFile: undefined})
+            state.workspaces.push({owner, repo, branch, files: [], activeFile: undefined, permissions: {}})
             state.activeWorkspace = state.workspaces.length - 1
         },
         clearWorkspace(state, {workspaceId}) {
@@ -228,6 +231,7 @@ export const store = new Vuex.Store({
                     "code": code,
                     "state": state
                 })
+            context.commit('discardOauthState')
             if (token.data.access_token && token.data.token_type) {
                 context.commit('loggedIn', {
                     access_token: token.data.access_token
@@ -376,7 +380,7 @@ export const store = new Vuex.Store({
             rehydrated: s => {
                 // state "schema" migration to clean out old contents and set defaults for old properties
                 s.state.workspaces.forEach(workspace => {
-                    if (typeof workspace.permissions === undefined) {
+                    if (workspace.permissions === undefined) {
                         Vue.set(workspace, 'permissions', {})
                     }
                     workspace.files.forEach(file => {
@@ -416,7 +420,7 @@ window.addEventListener('storage', (event) => {
 });
 
 window.addEventListener("beforeunload", function (e) {
-    if (!store.getters.isDirty) {
+    if (!store.getters.isDirty || store.state.github.oauthState !== undefined) {
         return undefined;
     }
 
