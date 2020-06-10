@@ -417,14 +417,17 @@ export const store = new Vuex.Store({
     ]
 })
 
+let unload = false
+
 window.addEventListener('storage', (event) => {
     if (event.key === 'vuex') {
+        unload = true
         window.location.href = '/changed.html'
     }
 });
 
 window.addEventListener("beforeunload", function (e) {
-    if (!store.getters.isDirty || store.state.github.oauthState !== undefined) {
+    if (!store.getters.isDirty || store.state.github.oauthState !== undefined || unload) {
         return undefined;
     }
 
