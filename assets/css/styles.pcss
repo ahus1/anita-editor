@@ -59,5 +59,10 @@ ins.mod {
         list-style-type: disc;
     }
 
+    .fa::before {
+        /* prevent wrong ordering of CSS to make icons italic */
+        font-style: normal;
+    }
+
     @import "../../node_modules/@asciidoctor/core/dist/css/asciidoctor.css";
 }
