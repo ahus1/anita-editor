@@ -5830,6 +5830,13 @@ terser@^4.1.2, terser@^4.6.3:
     source-map "~0.6.1"
     source-map-support "~0.5.12"
 
+three-way-merge@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/three-way-merge/-/three-way-merge-0.1.0.tgz#d82029d5d84cde37d681981145403dee71e14552"
+  integrity sha512-FzQCDf2No6a1bYop4B4WWAlI9FcnV9+WCXRENaae1fZMRobxj92JDA/W1pc6eV7QQoDyUdoud2tCyZYolP6DYg==
+  dependencies:
+    ts-std "^0.6.0"
+
 through2@^2.0.0:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/through2/-/through2-2.0.5.tgz#01c1e39eb31d07cb7d03a96a70823260b23132cd"
@@ -5906,6 +5913,11 @@ tryer@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/tryer/-/tryer-1.0.1.tgz#f2c85406800b9b0f74c9f7465b81eaad241252f8"
   integrity sha512-c3zayb8/kWWpycWYg87P71E1S1ZL6b6IJxfb5fvsUgsf0S2MVGaDhDXXjDMpdCpfWXqptc+4mXwmiy1ypXqRAA==
+
+ts-std@^0.6.0:
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/ts-std/-/ts-std-0.6.2.tgz#bc76d271d338e7ca543e1b89ce4531ddc0424f8d"
+  integrity sha512-mhlyyOBvF7r+Xh8Ut4Fa3qe3BxjQMTWxHLb7NBSkOmxOe1V5Oc5+PpUl/y7tpBOL2sJZwLL1r5T8hqmc0SAFTw==
 
 tslib@^1.10.0, tslib@^1.9.0:
   version "1.13.0"

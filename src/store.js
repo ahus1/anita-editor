@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import axios from "axios";
 import * as Cookies from "js-cookie";
+import merge from 'three-way-merge';
 
 Vue.use(Vuex)
 
@@ -178,16 +179,28 @@ export const store = new Vuex.Store({
             const file = workspace.files[workspace.activeFile]
             Vue.set(file, 'content', content)
         },
-        saveConflict(state, {owner, repo, branch, path, sha, conflict}) {
+        saveConflict(state, {owner, repo, branch, path, sha, content, conflict}) {
             let found = false;
             state.workspaces.forEach(workspace => {
                 if (workspace.owner === owner && workspace.repo === repo && workspace.branch === branch) {
                     workspace.files.forEach(file => {
                         if (file.path === path) {
                             if (sha) {
-                                file.conflict = file.sha !== sha && (file.oldShas === undefined || file.oldShas[sha] === undefined)
                                 if (file.sha === sha) {
+                                    // the retrieved file has same contents like the on in the editor
                                     file.oldShas = {}
+                                    file.conflict = false
+                                } else if (!file.conflict && (file.oldShas[sha] === undefined)) {
+                                    const merged = merge(file.content, file.original, content);
+                                    if (merged.conflict) {
+                                        file.conflict = true;
+                                    } else {
+                                        file.sha = sha
+                                        file.original = content
+                                        file.content = merged.joinedResults()
+                                    }
+                                } else {
+                                    file.conflict = (file.oldShas[sha] === undefined)
                                 }
                             }
                             if (conflict === true) {
@@ -328,12 +341,14 @@ export const store = new Vuex.Store({
             const file = workspace.files[workspace.activeFile]
             const response = await axios.get(`https://api.github.com/repos/${workspace.owner}/${workspace.repo}/contents/${file.path}?ref=${workspace.branch}`)
             if (response.data.encoding === 'base64') {
+                const content = b64DecodeUnicode(response.data.content)
                 context.commit('saveConflict', {
                     owner: workspace.owner,
                     repo: workspace.repo,
                     branch: workspace.branch,
                     path: file.path,
-                    sha: file.sha
+                    sha: response.data.sha,
+                    content:  content
                 })
             }
         },
