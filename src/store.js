@@ -34,6 +34,11 @@ export const store = new Vuex.Store({
             },
             user: undefined
         },
+        messages: [
+            // dummy content for UI testing
+            // {id: 0, message: "xxx"}
+        ],
+        currentMessageId: 0,
         activeWorkspace: 0,
         workspaces: []
     },
@@ -190,7 +195,7 @@ export const store = new Vuex.Store({
                                     // the retrieved file has same contents like the on in the editor
                                     file.oldShas = {}
                                     file.conflict = false
-                                } else if (!file.conflict && (file.oldShas[sha] === undefined)) {
+                                } else if (file.oldShas[sha] === undefined) {
                                     const merged = merge(file.content, file.original, content);
                                     if (merged.conflict) {
                                         file.conflict = true;
@@ -231,6 +236,18 @@ export const store = new Vuex.Store({
             })
             if (!found) {
                 console.error('can not record save conflict', {owner, repo, branch, path})
+            }
+        },
+        addErrorMessage(state, {message}) {
+            state.currentMessageId ++;
+            state.messages.push({message, id: state.currentMessageId})
+        },
+        removeErrorMessage(state, {id}) {
+            for (let i = 0; i < state.messages.length; ++i) {
+                if (state.messages[i].id === id) {
+                    state.messages.splice(i, 1)
+                    break
+                }
             }
         }
     },
@@ -276,6 +293,27 @@ export const store = new Vuex.Store({
                 let user = await axios.get(`https://api.github.com/user`)
                 context.commit('githubUser', user.data)
             }
+        },
+        showErrorMessage(context, {message, error}) {
+            if (message !== undefined) {
+                context.commit('addErrorMessage', {message})
+            } else if (error !== undefined) {
+                let m = "";
+                if (error.response) {
+                    if (error.response.data.message !== error.response.statusText) {
+                        m = error.response.data.message
+                    } else {
+                        m = `${error.response.statusText} (${error.response.status})`
+                    }
+                } else {
+                    m = error
+                }
+                context.commit('addErrorMessage', {message: m})
+            }
+            const id = context.state.currentMessageId
+            window.setTimeout(() => {
+                context.commit('removeErrorMessage', {id})
+            }, 10000)
         },
         async loadFile(context, {file}) {
             // https://github.com/ahus1/asciidoctor-deepdive/blob/master/README.adoc
@@ -387,8 +425,9 @@ export const store = new Vuex.Store({
                         path: file.path,
                         conflict: true
                     })
+                    await context.dispatch('showErrorMessage', { message: "Remote file has been changed while editing it. Results not saved." })
                 } else {
-                    throw error
+                    await context.dispatch('showErrorMessage', { error })
                 }
             }
         }

@@ -200,11 +200,7 @@
                     try {
                         await this.$store.dispatch('saveActiveFileContent')
                     } catch (error) {
-                        if (error.response && error.response.status === 409) {
-                            console.log("Remote file has been changed while editing it. Results not saved.")
-                        } else {
-                            console.log(error)
-                        }
+                        await this.$store.dispatch('showErrorMessage', { error })
                     } finally {
                         this.saving = false
                     }
@@ -216,7 +212,7 @@
                     try {
                         await this.$store.dispatch('reloadActiveFile')
                     } catch (error) {
-                        console.log(error)
+                        await this.$store.dispatch('showErrorMessage', { error })
                     } finally {
                         this.reloading = false
                     }

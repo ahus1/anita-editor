@@ -38,6 +38,14 @@
                     <router-link to="/login">Please log-in to save your work</router-link>
                 </div>
             </nav>
+            <div class="z-10 fixed top-0 right-0 pt-20 pr-3" v-if="messages.length > -1">
+                <div v-for="message in messages" :key="message.id" class="relative mb-2 p-2 pr-5 rounded bg-red-400 font-bold shadow">
+                    <div class="absolute top-0 right-0 pr-1 cursor-pointer" @click="removeErrorMessage({id: message.id})">
+                        &times;
+                    </div>
+                    {{ message.message }}
+                </div>
+            </div>
         </div>
         <div id="content-wrapper" class="w-3/4 lg:w-5/6">
             <router-view></router-view>
@@ -52,7 +60,7 @@
             return {}
         },
         computed: {
-            ...mapState(["github", "workspaces"]),
+            ...mapState(["github", "workspaces", "messages"]),
             activefile() {
                 return {
                     workspaceId: this.$store.state.activeWorkspace,
@@ -61,7 +69,7 @@
             }
         },
         methods: {
-            ...mapMutations(["clearWorkspace", "clearFile", "selectFile"]),
+            ...mapMutations(["clearWorkspace", "clearFile", "selectFile", "removeErrorMessage"]),
             ...mapActions(["checkConflictActiveFile"]),
             selectFileForEditor(o) {
                 this.selectFile(o)

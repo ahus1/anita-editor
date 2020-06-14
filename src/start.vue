@@ -48,8 +48,8 @@
             } else {
                 try {
                     await this.refreshUser()
-                } catch (e) {
-                    console.log(e);
+                } catch (error) {
+                    await this.$store.dispatch('showErrorMessage', { error })
                 }
             }
         },
