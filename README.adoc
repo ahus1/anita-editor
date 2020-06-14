@@ -1,7 +1,12 @@
-= AsciiDoc Editor
+= AsciiDoc Web Editor
 
-This is a web-browser only proof-of concent for a editor.
-The editor should run in the browser and should read/write to GitHub via API.
+This is a web-browser only proof-of concent for an editor.
+The editor runs in the browser and reads/writes to GitHub via API.
+It shows all changes in a live preview.
+
+== How to use
+
+Go to https://asciidoc-editor.ahus1.de/ and follow the instructions.
 
 == How to develop
 
@@ -85,4 +90,4 @@ yarn generate
 ----
 +
 . Publish contents in _dist_ folder to a web server as static files
-. Publish contents in _lambda/dist_ as netlify lambdas as funtions on Netlify
+. Publish contents in _lambda/dist_ as lambdas functions on Netlify

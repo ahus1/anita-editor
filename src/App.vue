@@ -37,6 +37,15 @@
                 <div class="pt-4" v-else>
                     <router-link to="/login">Please log-in to save your work</router-link>
                 </div>
+                <div class="pt-10">
+                    <a href="https://github.com/ahus1/asciidoc-editor" target="_blank" rel="noopener">Source (GitHub)</a>
+                </div>
+                <div>
+                    <a href="https://www.ahus1.de/aboutme" target="_blank" rel="noopener">About me</a>
+                </div>
+                <div>
+                    <a href="https://www.ahus1.de/impressum" target="_blank" rel="noopener">Imprint</a>
+                </div>
             </nav>
             <div class="z-10 fixed top-0 right-0 pt-20 pr-3" v-if="messages.length > -1">
                 <div v-for="message in messages" :key="message.id" class="relative mb-2 p-2 pr-5 rounded bg-red-400 font-bold shadow">

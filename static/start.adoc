@@ -7,5 +7,7 @@ You can return any time after editing, your status will be saved in your local b
 
 To save your changes, you'll need to log in to GitHub with your account.
 
+This editor is available as open source. Have a look at https://github.com/ahus1/asciidoc-editor[it's GitHub repository^] to create issues and to contribute.
+
 You can pass the GitHub file URL as a parameter to this app, use: +
 `\https://\.../#/edit?file=https://github.com/<owner>/<repo>/blob/<branch>/<path>`
