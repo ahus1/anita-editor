@@ -64,11 +64,12 @@ module.exports = {
             inject: true
         }),
         new VueLoaderPlugin(),
-        new CopyWebpackPlugin([{
+        new CopyWebpackPlugin({
+            patterns: [{
             from: utils.resolve('static'),
             to: utils.resolve('dist'),
             toType: 'dir'
-        }])
+        }]})
     ],
 
 }
