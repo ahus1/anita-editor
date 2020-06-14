@@ -49,6 +49,9 @@
 <script>
     import asciidoctor from '@asciidoctor/core'
     import hljs from 'highlight.js'
+    import xss  from 'xss'
+    import { getDefaultWhiteList }  from 'xss/lib/default'
+
     // conversion will run on the client side, therefore select browser variant
     import kroki from '../node_modules/asciidoctor-kroki/dist/browser/asciidoctor-kroki'
     import {mapActions, mapState} from "vuex";
@@ -56,29 +59,34 @@
     const registry = asciidoctor().Extensions.create()
     kroki.register(registry)
 
-    const options = {
+    const asciidoctorOptions = {
         safe: "unsafe",
         extension_registry: registry,
         sourceHighlighter: "highlightjs",
         attributes: {"showtitle": "true", "icons": "font"}
     }
 
-    function b64EncodeUnicode(str) {
-        // first we use encodeURIComponent to get percent-encoded UTF-8,
-        // then we convert the percent encodings into raw bytes which
-        // can be fed into btoa.
-        return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
-            function toSolidBytes(match, p1) {
-                return String.fromCharCode('0x' + p1);
-            }));
+    const xssOptions = {
+        whiteList: getDefaultWhiteList(),
+        onIgnoreTag: function (tag, html, options) {
+            console.log('ignoring tag "' + tag + "' as it is not on the whitelist");
+        },
+        onIgnoreTagAttr: function (tag, name, value, whitelist) {
+            console.log('ignoring tag/attr "' + tag + '/' + name + '" with value "' + value + '" as it is not on the whitelist');
+        }
     }
 
-    function b64DecodeUnicode(str) {
-        // Going backwards: from bytestream, to percent-encoding, to original string.
-        return decodeURIComponent(atob(str).split('').map(function (c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(''));
-    }
+    // allow ID, title and class for all elements on the whitelist
+    Object.keys(xssOptions.whiteList).forEach(key => xssOptions.whiteList[key].push('id','title','class'))
+
+    xssOptions.whiteList['ol'].push('type')
+    xssOptions.whiteList['ul'].push('type')
+    xssOptions.whiteList['code'].push('data-lang')
+    xssOptions.whiteList['i'].push('data-value')
+    xssOptions.whiteList['a'].push('rel')
+
+    // columns have a setting of the width style, therefore allow style
+    xssOptions.whiteList['col'].push('style')
 
     export default {
         data: function () {
@@ -161,17 +169,22 @@
                 editor.setShowPrintMargin(false)
             },
             highlight() {
-                var targets = this.$el.querySelectorAll('.adoc pre.highlight code')
-                for (var i = 0; i < targets.length; i += 1) {
-                    var target = targets[i]
-                    hljs.highlightBlock(target)
-                }
+                const codeblocks = this.$el.querySelectorAll('.adoc pre.highlight code')
+                codeblocks.forEach(codeblock => hljs.highlightBlock(codeblock))
+                // all links should open in a new window to not disturb the editor
+                const linksWithTarget = this.$el.querySelectorAll('.adoc a')
+                linksWithTarget.forEach(link => {
+                    link.setAttribute('target', '_blank')
+                    link.setAttribute('rel', 'noopener')
+                })
             },
             renderContent(content) {
                 this.$nextTick(() => {
                     this.highlight()
                 })
-                return asciidoctor().convert(content, options)
+                let html = asciidoctor().convert(content, asciidoctorOptions);
+                html = xss(html, xssOptions)
+                return html
             },
             async getContent() {
                 const file = this.$route.query.file
