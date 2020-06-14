@@ -30,6 +30,12 @@
                     :disabled="reloading || (!changed && !conflicted)">
                 {{ this.reloading ? 'Reloading...' : 'Discard Changes' }}
             </button>
+            <button class="text-white font-bold py-2 px-4 rounded"
+                    @click="togglePreview"
+                    :disabled="!changed"
+                    :class="{ 'bg-gray-500': !changed, 'bg-blue-500': changed, 'hover:bg-blue-700': changed, 'cursor-default': !changed}">
+                Toggle Preview
+            </button>
             <div>
                 <div v-html="preview" class="adoc"></div>
             </div>
@@ -51,6 +57,8 @@
     import hljs from 'highlight.js'
     import xss  from 'xss'
     import { getDefaultWhiteList }  from 'xss/lib/default'
+    import {diffChars} from 'diff'
+    import HtmlDiff from 'htmldiff-js'
 
     // conversion will run on the client side, therefore select browser variant
     import kroki from '../node_modules/asciidoctor-kroki/dist/browser/asciidoctor-kroki'
@@ -91,9 +99,9 @@
     export default {
         data: function () {
             return {
-                preview: "",
                 saving: false,
-                reloading: false
+                reloading: false,
+                mode: 0
             }
         },
         mounted: function () {
@@ -112,12 +120,36 @@
             content: {
                 immediate: true,
                 handler(to) {
-                    this.preview = this.renderContent(to)
                 }
             },
         },
         computed: {
             ...mapState(["github"]),
+            preview() {
+                if (this.mode === 0 || !this.changed) {
+                    return this.renderContent(this.content);
+                } else if (this.mode === 1) {
+                    const activeFile = this.$store.getters.activeFile;
+                    return HtmlDiff.execute(this.renderContent(activeFile.original), this.renderContent(this.content))
+                } else {
+                    const activeFile = this.$store.getters.activeFile;
+                    const diff = diffChars(activeFile.original, activeFile.content, {})
+                    let diffHtml = ""
+                    diff.forEach((part) => {
+                        // green for additions, red for deletions
+                        // grey for common parts
+                        const color = part.added ? '#acf2bd' :
+                            part.removed ? '#fdb8c0' : ''
+                        if (color !== "") {
+                            part.value = part.value.replace(/\r/g, "")
+                            part.value = part.value.replace(/\n/g, "&nbsp\n")
+                        }
+                        diffHtml += `<span style="background-color: ${color}">${part.value}</span>`
+                    })
+                    diffHtml = "<pre>" + diffHtml + "</pre>"
+                    return diffHtml
+                }
+            },
             changed() {
                 let activeFile = this.$store.getters.activeFile;
                 if (activeFile === undefined) {
@@ -167,6 +199,9 @@
                 require('brace/snippets/javascript') //snippet
                 editor.setOption("wrap", true)
                 editor.setShowPrintMargin(false)
+            },
+            togglePreview() {
+                this.mode = (this.mode + 1) % 3
             },
             highlight() {
                 const codeblocks = this.$el.querySelectorAll('.adoc pre.highlight code')
