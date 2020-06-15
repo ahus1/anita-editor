@@ -163,7 +163,7 @@ export const store = new Vuex.Store({
                     return
                 }
             }
-            state.workspaces[state.activeWorkspace].files.push({path, content, original: content, sha, conflict: false})
+            state.workspaces[state.activeWorkspace].files.push({path, content, original: content, sha, conflict: false, oldShas: {}})
             state.workspaces[state.activeWorkspace].activeFile = 0
         },
         loadedRepo(state, {owner, repo, permissions}) {
@@ -309,6 +309,7 @@ export const store = new Vuex.Store({
                     m = error
                 }
                 context.commit('addErrorMessage', {message: m})
+                console.log(m, error)
             }
             const id = context.state.currentMessageId
             window.setTimeout(() => {
@@ -324,15 +325,16 @@ export const store = new Vuex.Store({
             }
             const {groups: {owner, repo, branch, path}} = regex
             // GET /repos/:owner/:repo/contents/:path
-            const responseFile = await axios.get(`https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`)
+            // adding a timestamp to avoid receiving a cached response (GitHub seems to cache up to 10 seconds)
+            const responseFile = await axios.get(`https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}&ts=${Date.now()}`)
             if (responseFile.data.encoding === 'base64') {
                 const content = b64DecodeUnicode(responseFile.data.content)
                 context.commit('loadedFile', {owner, repo, branch, path, content, sha: responseFile.data.sha})
                 if (context.state.github.user) {
-                    const responseRepo = await axios.get(`https://api.github.com/repos/${workspace.owner}/${workspace.repo}`)
+                    const responseRepo = await axios.get(`https://api.github.com/repos/${owner}/${repo}`)
                     context.commit('loadedRepo', {
-                        owner: workspace.owner,
-                        repo: workspace.repo,
+                        owner: owner,
+                        repo: repo,
                         permissions: {push: responseRepo.data.permissions.push},
                     })
                 }
