@@ -8,34 +8,61 @@
              style="min-height: 100vh; height: 100vh; max-height: 100vh;">
             <template v-if="changed && !loggedin">
                 Please log-in using the action on the toolbar on the left to be able to save your changes.
-                <br />
+                <br/>
             </template>
             <template v-else-if="!canpush && loggedin">
                 Unable to save contents as user doesn't have push permissions on this repository.
-                <br />
+                <br/>
             </template>
             <template v-else-if="conflicted">
-                Unable to save contents as remote branch has been modified. Discard local changes and reload from server.
-                <br />
+                Unable to save contents as remote branch has been modified. Discard local changes and reload from
+                server.
+                <br/>
             </template>
-            <button v-else-if="!conflicted && loggedin" class="text-white font-bold py-2 px-4 rounded"
-                    @click="save"
-                    :class="{ 'bg-gray-500': !changed, 'bg-blue-500': changed, 'hover:bg-blue-700': changed, 'cursor-wait': saving, 'cursor-default': !changed}"
-                    :disabled="saving || !changed">
+            <button v-else-if="!conflicted && loggedin" class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    @click="opensavedialog"
+                    :class="{ 'bg-white': saveDialogOpen, 'bg-gray-500': !saveDialogOpen && !changed, 'bg-blue-500': !saveDialogOpen && changed, 'hover:bg-blue-700': !saveDialogOpen && changed, 'cursor-wait': saving, 'cursor-default': !changed && !saveDialogOpen, 'cursor-auto': saveDialogOpen}"
+                    :disabled="saving || !changed || saveDialogOpen">
                 {{ this.saving ? 'Saving...' : 'Save' }}
             </button>
-            <button class="text-white font-bold py-2 px-4 rounded"
+            <button class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     @click="reload"
-                    :class="{ 'bg-gray-500': !changed, 'bg-red-500': changed || conflicted, 'hover:bg-red-700': changed || conflicted, 'cursor-wait': reloading, 'cursor-default': !changed}"
+                    :class="{ 'bg-gray-500': !changed, 'bg-red-500': changed || conflicted, 'hover:bg-red-700': changed || conflicted, 'cursor-wait': reloading, 'cursor-default': !changed }"
                     :disabled="reloading || (!changed && !conflicted)">
                 {{ this.reloading ? 'Reloading...' : 'Discard Changes' }}
             </button>
-            <button class="text-white font-bold py-2 px-4 rounded"
+            <button class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     @click="togglePreview"
                     :disabled="!changed"
                     :class="{ 'bg-gray-500': !changed, 'bg-blue-500': changed, 'hover:bg-blue-700': changed, 'cursor-default': !changed}">
                 Toggle Preview
             </button>
+            <div class="relative">
+                <form class="absolute z-10 fixed top-0 left-0 rounded p-6 border bg-white shadow" v-if="saveDialogOpen">
+                    <div class="mb-4">
+                        <p class="pb-2">Enter a commit message and press <i>Save</i> to commit your changes to GitHub.</p>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                            Commit message
+                        </label>
+                        <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username"
+                                  placeholder="Commit message"
+                                  v-model="commitMessage">
+                        </textarea>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <button class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button"
+                                :class="{ 'bg-gray-500': commitMessage.trim().length === 0, 'bg-blue-500': commitMessage.trim().length !== 0, 'hover:bg-blue-700': commitMessage.trim().length !== 0, 'cursor-not-allowed': commitMessage.trim().length === 0}"
+                                @click="save"
+                                :disabled="commitMessage.trim().length === 0">
+                            Save
+                        </button>
+                        <button class="bg-white-500 hover:bg-blue-700 border-gray-400 border text-gray-500 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button"
+                                @click="closesavedialog">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
             <div>
                 <div v-html="preview" class="adoc"></div>
             </div>
@@ -55,11 +82,10 @@
 <script>
     import asciidoctor from '@asciidoctor/core'
     import hljs from 'highlight.js'
-    import xss  from 'xss'
-    import { getDefaultWhiteList }  from 'xss/lib/default'
+    import xss from 'xss'
+    import {getDefaultWhiteList} from 'xss/lib/default'
     import {diffChars} from 'diff'
     import HtmlDiff from 'htmldiff-js'
-
     // conversion will run on the client side, therefore select browser variant
     import kroki from '../node_modules/asciidoctor-kroki/dist/browser/asciidoctor-kroki'
     import {mapActions, mapState} from "vuex";
@@ -85,7 +111,7 @@
     }
 
     // allow ID, title and class for all elements on the whitelist
-    Object.keys(xssOptions.whiteList).forEach(key => xssOptions.whiteList[key].push('id','title','class'))
+    Object.keys(xssOptions.whiteList).forEach(key => xssOptions.whiteList[key].push('id', 'title', 'class'))
 
     xssOptions.whiteList['ol'].push('type')
     xssOptions.whiteList['ul'].push('type')
@@ -100,6 +126,8 @@
         data: function () {
             return {
                 saving: false,
+                saveDialogOpen: false,
+                commitMessage: "",
                 reloading: false,
                 mode: 0
             }
@@ -175,7 +203,7 @@
                 return this.$store.state.github.user !== undefined && this.$store.state.github.user !== null;
             },
             content: {
-                get () {
+                get() {
                     let activeFile = this.$store.getters.activeFile;
                     if (activeFile) {
                         return activeFile.content
@@ -183,13 +211,19 @@
                         return ""
                     }
                 },
-                set (value) {
-                    this.$store.commit('updateActiveFileContent', { content: value })
+                set(value) {
+                    this.$store.commit('updateActiveFileContent', {content: value})
                 }
             }
         },
         methods: {
             ...mapActions(["loadFile"]),
+            opensavedialog: function() {
+                this.saveDialogOpen = true
+            },
+            closesavedialog: function() {
+                this.saveDialogOpen = false
+            },
             editorInit: function (editor) {
                 require('brace/ext/language_tools') //language extension prerequsite...
                 require('brace/mode/asciidoc')
@@ -223,19 +257,22 @@
             },
             async getContent() {
                 const file = this.$route.query.file
+                this.saveDialogOpen = false
                 if (file !== undefined) {
                     await this.loadFile({file})
-                    this.$router.replace({ name: 'edit'})
+                    this.$router.replace({name: 'edit'})
                 }
             },
             async save() {
                 // PUT /repos/:owner/:repo/contents/:path
                 if (!this.saving) {
+                    this.saveDialogOpen = false
                     this.saving = true
                     try {
-                        await this.$store.dispatch('saveActiveFileContent')
+                        await this.$store.dispatch('saveActiveFileContent', { message: this.commitMessage.trim() })
+                        this.commitMessage = ""
                     } catch (error) {
-                        await this.$store.dispatch('showErrorMessage', { error })
+                        await this.$store.dispatch('showErrorMessage', {error})
                     } finally {
                         this.saving = false
                     }
@@ -244,10 +281,11 @@
             async reload() {
                 if (!this.reloading) {
                     this.reloading = true
+                    this.saveDialogOpen = false
                     try {
                         await this.$store.dispatch('reloadActiveFile')
                     } catch (error) {
-                        await this.$store.dispatch('showErrorMessage', { error })
+                        await this.$store.dispatch('showErrorMessage', {error})
                     } finally {
                         this.reloading = false
                     }

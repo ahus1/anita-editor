@@ -392,7 +392,7 @@ export const store = new Vuex.Store({
                 })
             }
         },
-        async saveActiveFileContent(context) {
+        async saveActiveFileContent(context, { message }) {
             if (context.state.activeWorkspace === undefined) {
                 return false;
             }
@@ -405,7 +405,7 @@ export const store = new Vuex.Store({
             try {
                 const response = await axios.put(`https://api.github.com/repos/${workspace.owner}/${workspace.repo}/contents/${file.path}`,
                     {
-                        "message": "a new commit message",
+                        "message": message,
                         "content": b64EncodeUnicode(newContent),
                         "sha": file.sha
                     })
