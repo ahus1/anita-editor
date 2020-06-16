@@ -19,6 +19,12 @@
   [headers.values]
 	content-security-policy = "base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'unsafe-inline' 'self' https://fonts.googleapis.com/; connect-src 'self' https://api.github.com/; img-src 'self' https: data:; media-src 'none'; child-src 'none'; frame-src https://player.vimeo.com/ https://www.youtube.com/"
 [[headers]]
+  for = "/*"
+  [header.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "DENY"
+[[headers]]
   for = "/*.*.js"
   [headers.values]
 	cache-control = '''
