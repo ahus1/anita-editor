@@ -9,7 +9,7 @@
                 </ol>
                 <div class="pt-4" v-for="(workspace, windex) in workspaces" :key="workspace.owner + workspace.repo + workspace.branch" style="white-space: nowrap">
                     <div>
-                        <button class="font-bold rounded cursor-pointer" @click="clearWorkspace(windex)"
+                        <button class="font-bold rounded cursor-pointer" @click="clearWorkspace({ workspaceId: windex})"
                                 title="clear workspace with all files">&times;
                         </button>
                         <span :title="workspace.owner + '/' + workspace.repo + '/' + workspace.branch">{{workspace.owner}}/{{workspace.repo}}/{{workspace.branch}}</span>

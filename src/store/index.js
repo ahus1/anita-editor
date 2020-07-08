@@ -127,7 +127,7 @@ const store = new Vuex.Store({
     },
     clearWorkspace(state, { workspaceId }) {
       state.workspaces.splice(workspaceId, 1);
-      if (state.activeWorkspace > workspaceId) {
+      if (state.activeWorkspace >= workspaceId) {
         state.activeWorkspace -= 1;
       }
       if (state.workspaces.length === 0) {
