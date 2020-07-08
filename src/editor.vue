@@ -71,7 +71,8 @@
 </template>
 
 <style>
-    .ace_editor {
+    /* adding the ID here to give it higher precendence than ACE stylesheet to prevent ordering problems */
+    #content .ace_editor {
         position: relative;
         /* match font size and line height with Asciidoctor stylesheet */
         font-size: 0.9rem;
@@ -80,217 +81,210 @@
 </style>
 
 <script>
-    import asciidoctor from '@asciidoctor/core'
-    import hljs from 'highlight.js'
-    import xss from 'xss'
-    import {getDefaultWhiteList} from 'xss/lib/default'
-    import {diffChars} from 'diff'
-    import HtmlDiff from 'htmldiff-js'
-    // conversion will run on the client side, therefore select browser variant
-    import kroki from '../node_modules/asciidoctor-kroki/dist/browser/asciidoctor-kroki'
-    import {mapActions, mapState} from "vuex";
+import asciidoctor from '@asciidoctor/core';
+import hljs from 'highlight.js';
+import xss from 'xss';
+import { getDefaultWhiteList } from 'xss/lib/default';
+import { diffChars } from 'diff';
+import HtmlDiff from 'htmldiff-js';
+// conversion will run on the client side, therefore select browser variant
+import { mapActions, mapState } from 'vuex';
+import kroki from '../node_modules/asciidoctor-kroki/dist/browser/asciidoctor-kroki';
 
-    const registry = asciidoctor().Extensions.create()
-    kroki.register(registry)
+const registry = asciidoctor().Extensions.create();
+kroki.register(registry);
 
-    const asciidoctorOptions = {
-        safe: "unsafe",
-        extension_registry: registry,
-        sourceHighlighter: "highlightjs",
-        attributes: {"showtitle": "true", "icons": "font"}
-    }
+const asciidoctorOptions = {
+  safe: 'unsafe',
+  extension_registry: registry,
+  sourceHighlighter: 'highlightjs',
+  attributes: { showtitle: 'true', icons: 'font' },
+};
 
-    const xssOptions = {
-        whiteList: getDefaultWhiteList(),
-        onIgnoreTag: function (tag, html, options) {
-            console.log('ignoring tag "' + tag + "' as it is not on the whitelist");
-        },
-        onIgnoreTagAttr: function (tag, name, value, whitelist) {
-            console.log('ignoring tag/attr "' + tag + '/' + name + '" with value "' + value + '" as it is not on the whitelist');
+const xssOptions = {
+  whiteList: getDefaultWhiteList(),
+  onIgnoreTag(tag) {
+    console.log(`ignoring tag "${tag}' as it is not on the whitelist`);
+  },
+  onIgnoreTagAttr(tag, name, value) {
+    console.log(`ignoring tag/attr "${tag}/${name}" with value "${value}" as it is not on the whitelist`);
+  },
+};
+
+// allow ID, title and class for all elements on the whitelist
+Object.keys(xssOptions.whiteList).forEach((key) => xssOptions.whiteList[key].push('id', 'title', 'class'));
+
+xssOptions.whiteList.ol.push('type');
+xssOptions.whiteList.ul.push('type');
+xssOptions.whiteList.code.push('data-lang');
+xssOptions.whiteList.i.push('data-value');
+xssOptions.whiteList.a.push('rel');
+
+// columns have a setting of the width style, therefore allow style
+xssOptions.whiteList.col.push('style');
+
+export default {
+  data() {
+    return {
+      saving: false,
+      saveDialogOpen: false,
+      commitMessage: '',
+      reloading: false,
+      mode: 0,
+    };
+  },
+  mounted() {
+    this.highlight();
+  },
+  components: {
+    editor: require('vue2-ace-editor'),
+  },
+  watch: {
+    $route: {
+      immediate: true,
+      async handler() {
+        await this.getContent();
+      },
+    },
+  },
+  computed: {
+    ...mapState(['github']),
+    preview() {
+      if (this.mode === 0 || !this.changed) {
+        return this.renderContent(this.content);
+      } if (this.mode === 1) {
+        const { activeFile } = this.$store.getters;
+        return HtmlDiff.execute(this.renderContent(activeFile.original), this.renderContent(this.content));
+      }
+      const { activeFile } = this.$store.getters;
+      const diff = diffChars(activeFile.original, activeFile.content, {});
+      let diffHtml = '';
+      diff.forEach((part) => {
+        // green for additions, red for deletions
+        // grey for common parts
+        const color = part.added ? '#acf2bd'
+          : part.removed ? '#fdb8c0' : '';
+        if (color !== '') {
+          part.value = part.value.replace(/\r/g, '');
+          part.value = part.value.replace(/\n/g, '&nbsp\n');
         }
-    }
-
-    // allow ID, title and class for all elements on the whitelist
-    Object.keys(xssOptions.whiteList).forEach(key => xssOptions.whiteList[key].push('id', 'title', 'class'))
-
-    xssOptions.whiteList['ol'].push('type')
-    xssOptions.whiteList['ul'].push('type')
-    xssOptions.whiteList['code'].push('data-lang')
-    xssOptions.whiteList['i'].push('data-value')
-    xssOptions.whiteList['a'].push('rel')
-
-    // columns have a setting of the width style, therefore allow style
-    xssOptions.whiteList['col'].push('style')
-
-    export default {
-        data: function () {
-            return {
-                saving: false,
-                saveDialogOpen: false,
-                commitMessage: "",
-                reloading: false,
-                mode: 0
-            }
-        },
-        mounted: function () {
-            this.highlight()
-        },
-        components: {
-            editor: require('vue2-ace-editor'),
-        },
-        watch: {
-            $route: {
-                immediate: true,
-                async handler() {
-                    await this.getContent()
-                }
-            },
-            content: {
-                immediate: true,
-                handler(to) {
-                }
-            },
-        },
-        computed: {
-            ...mapState(["github"]),
-            preview() {
-                if (this.mode === 0 || !this.changed) {
-                    return this.renderContent(this.content);
-                } else if (this.mode === 1) {
-                    const activeFile = this.$store.getters.activeFile;
-                    return HtmlDiff.execute(this.renderContent(activeFile.original), this.renderContent(this.content))
-                } else {
-                    const activeFile = this.$store.getters.activeFile;
-                    const diff = diffChars(activeFile.original, activeFile.content, {})
-                    let diffHtml = ""
-                    diff.forEach((part) => {
-                        // green for additions, red for deletions
-                        // grey for common parts
-                        const color = part.added ? '#acf2bd' :
-                            part.removed ? '#fdb8c0' : ''
-                        if (color !== "") {
-                            part.value = part.value.replace(/\r/g, "")
-                            part.value = part.value.replace(/\n/g, "&nbsp\n")
-                        }
-                        diffHtml += `<span style="background-color: ${color}">${part.value}</span>`
-                    })
-                    diffHtml = "<pre>" + diffHtml + "</pre>"
-                    return diffHtml
-                }
-            },
-            changed() {
-                let activeFile = this.$store.getters.activeFile;
-                if (activeFile === undefined) {
-                    return false
-                }
-                return activeFile.content !== activeFile.original
-            },
-            conflicted() {
-                let activeFile = this.$store.getters.activeFile;
-                if (activeFile === undefined) {
-                    return false
-                }
-                return activeFile.conflict === true
-            },
-            canpush() {
-                let activeWorkspace = this.$store.getters.activeWorkspace;
-                if (activeWorkspace === undefined) {
-                    return false
-                }
-                return activeWorkspace.permissions.push
-            },
-            loggedin() {
-                return this.$store.state.github.user !== undefined && this.$store.state.github.user !== null;
-            },
-            content: {
-                get() {
-                    let activeFile = this.$store.getters.activeFile;
-                    if (activeFile) {
-                        return activeFile.content
-                    } else {
-                        return ""
-                    }
-                },
-                set(value) {
-                    this.$store.commit('updateActiveFileContent', {content: value})
-                }
-            }
-        },
-        methods: {
-            ...mapActions(["loadFile"]),
-            opensavedialog: function() {
-                this.saveDialogOpen = true
-            },
-            closesavedialog: function() {
-                this.saveDialogOpen = false
-            },
-            editorInit: function (editor) {
-                require('brace/ext/language_tools') //language extension prerequsite...
-                require('brace/mode/asciidoc')
-                require('brace/mode/javascript')    //language
-                require('brace/mode/less')
-                require('brace/theme/chrome')
-                require('brace/snippets/javascript') //snippet
-                editor.setOption("wrap", true)
-                editor.setShowPrintMargin(false)
-            },
-            togglePreview() {
-                this.mode = (this.mode + 1) % 3
-            },
-            highlight() {
-                const codeblocks = this.$el.querySelectorAll('.adoc pre.highlight code')
-                codeblocks.forEach(codeblock => hljs.highlightBlock(codeblock))
-                // all links should open in a new window to not disturb the editor
-                const linksWithTarget = this.$el.querySelectorAll('.adoc a')
-                linksWithTarget.forEach(link => {
-                    link.setAttribute('target', '_blank')
-                    link.setAttribute('rel', 'noopener')
-                })
-            },
-            renderContent(content) {
-                this.$nextTick(() => {
-                    this.highlight()
-                })
-                let html = asciidoctor().convert(content, asciidoctorOptions);
-                html = xss(html, xssOptions)
-                return html
-            },
-            async getContent() {
-                const file = this.$route.query.file
-                this.saveDialogOpen = false
-                if (file !== undefined) {
-                    await this.loadFile({file})
-                    this.$router.replace({name: 'edit'})
-                }
-            },
-            async save() {
-                // PUT /repos/:owner/:repo/contents/:path
-                if (!this.saving) {
-                    this.saveDialogOpen = false
-                    this.saving = true
-                    try {
-                        await this.$store.dispatch('saveActiveFileContent', { message: this.commitMessage.trim() })
-                        this.commitMessage = ""
-                    } catch (error) {
-                        await this.$store.dispatch('showErrorMessage', {error})
-                    } finally {
-                        this.saving = false
-                    }
-                }
-            },
-            async reload() {
-                if (!this.reloading) {
-                    this.reloading = true
-                    this.saveDialogOpen = false
-                    try {
-                        await this.$store.dispatch('reloadActiveFile')
-                    } catch (error) {
-                        await this.$store.dispatch('showErrorMessage', {error})
-                    } finally {
-                        this.reloading = false
-                    }
-                }
-            }
+        diffHtml += `<span style="background-color: ${color}">${part.value}</span>`;
+      });
+      diffHtml = `<pre>${diffHtml}</pre>`;
+      return diffHtml;
+    },
+    changed() {
+      const { activeFile } = this.$store.getters;
+      if (activeFile === undefined) {
+        return false;
+      }
+      return activeFile.content !== activeFile.original;
+    },
+    conflicted() {
+      const { activeFile } = this.$store.getters;
+      if (activeFile === undefined) {
+        return false;
+      }
+      return activeFile.conflict === true;
+    },
+    canpush() {
+      const { activeWorkspace } = this.$store.getters;
+      if (activeWorkspace === undefined) {
+        return false;
+      }
+      return activeWorkspace.permissions.push;
+    },
+    loggedin() {
+      return this.$store.state.github.user !== undefined && this.$store.state.github.user !== null;
+    },
+    content: {
+      get() {
+        const { activeFile } = this.$store.getters;
+        if (activeFile) {
+          return activeFile.content;
         }
-    }
+        return '';
+      },
+      set(value) {
+        this.$store.commit('updateActiveFileContent', { content: value });
+      },
+    },
+  },
+  methods: {
+    ...mapActions(['loadFile']),
+    opensavedialog() {
+      this.saveDialogOpen = true;
+    },
+    closesavedialog() {
+      this.saveDialogOpen = false;
+    },
+    editorInit(editor) {
+      require('brace/ext/language_tools'); // language extension prerequsite...
+      require('brace/mode/asciidoc');
+      require('brace/mode/javascript'); // language
+      require('brace/mode/less');
+      require('brace/theme/chrome');
+      require('brace/snippets/javascript'); // snippet
+      editor.setOption('wrap', true);
+      editor.setShowPrintMargin(false);
+    },
+    togglePreview() {
+      this.mode = (this.mode + 1) % 3;
+    },
+    highlight() {
+      const codeblocks = this.$el.querySelectorAll('.adoc pre.highlight code');
+      codeblocks.forEach((codeblock) => hljs.highlightBlock(codeblock));
+      // all links should open in a new window to not disturb the editor
+      const linksWithTarget = this.$el.querySelectorAll('.adoc a');
+      linksWithTarget.forEach((link) => {
+        link.setAttribute('target', '_blank');
+        link.setAttribute('rel', 'noopener');
+      });
+    },
+    renderContent(content) {
+      this.$nextTick(() => {
+        this.highlight();
+      });
+      let html = asciidoctor().convert(content, asciidoctorOptions);
+      html = xss(html, xssOptions);
+      return html;
+    },
+    async getContent() {
+      const { file } = this.$route.query;
+      this.saveDialogOpen = false;
+      if (file !== undefined) {
+        await this.loadFile({ file });
+        this.$router.replace({ name: 'edit' });
+      }
+    },
+    async save() {
+      // PUT /repos/:owner/:repo/contents/:path
+      if (!this.saving) {
+        this.saveDialogOpen = false;
+        this.saving = true;
+        try {
+          await this.$store.dispatch('saveActiveFileContent', { message: this.commitMessage.trim() });
+          this.commitMessage = '';
+        } catch (error) {
+          await this.$store.dispatch('showErrorMessage', { error });
+        } finally {
+          this.saving = false;
+        }
+      }
+    },
+    async reload() {
+      if (!this.reloading) {
+        this.reloading = true;
+        this.saveDialogOpen = false;
+        try {
+          await this.$store.dispatch('reloadActiveFile');
+        } catch (error) {
+          await this.$store.dispatch('showErrorMessage', { error });
+        } finally {
+          this.reloading = false;
+        }
+      }
+    },
+  },
+};
 </script>

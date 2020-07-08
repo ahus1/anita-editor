@@ -3,7 +3,7 @@ set -e
 set -x
 
 yarn install
-NODE_ENV=production yarn prod
+yarn build
 
 # preparing lambda
 cd lambda

@@ -23,7 +23,7 @@ ins.mod {
 }
 
 .router-link-exact-active {
- @apply underline;
+    @apply underline;
 }
 
 .adoc {
@@ -64,5 +64,9 @@ ins.mod {
         font-style: normal;
     }
 
-    @import "../../node_modules/@asciidoctor/core/dist/css/asciidoctor.css";
+    /* purgecss start ignore */
+    @import "../../../node_modules/@asciidoctor/core/dist/css/asciidoctor.css";
+    @import "../../../node_modules/highlight.js/styles/github.css";
+    /* purgecss end ignore */
+
 }

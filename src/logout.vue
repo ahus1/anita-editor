@@ -3,10 +3,11 @@
 </template>
 
 <script>
-    import {store} from "./store";
-    export default {
-        mounted: function () {
-            store.commit("logout")
-        }
-    }
+import store from './store';
+
+export default {
+  mounted() {
+    store.commit('logout');
+  },
+};
 </script>

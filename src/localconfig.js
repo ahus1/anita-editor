@@ -1,5 +1,4 @@
-require("dotenv").config()
+// eslint-disable-next-line import/no-extraneous-dependencies
+require('dotenv').config();
 
-module.exports = (options, loaderContext) => {
-    return { code: 'module.exports = "' + process.env.CLIENT_ID + '"'};
-};
+module.exports = () => ({ code: `module.exports = "${process.env.CLIENT_ID}"` });

@@ -40,7 +40,7 @@ Authorization callback URL:: http://localhost:8080/
 +
 ----
 yarn install
-yarn dev
+yarn serve
 ----
 +
 . Start in development mode for the backend
@@ -80,8 +80,7 @@ Optional: to enable the Netlify notifications via Telegram on deploys, add _API_
 +
 ----
 yarn install
-export NODE_ENV=production
-yarn prod
+yarn build
 ----
 +
 . Run build of Netlify lambdas:

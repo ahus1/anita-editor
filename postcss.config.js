@@ -1,11 +1,14 @@
 module.exports = {
-    plugins: [
-        require('tailwindcss'),
-        require('autoprefixer'),
-        require('precss'),
-        require('postcss-import'),
-        require('cssnano')({
-            preset: 'default',
-        })
-    ]
-}
+  plugins: {
+    tailwindcss: {},
+    'vue-cli-plugin-tailwind/purgecss': {
+      whitelistPatternsChildren: [/ace/, /fa/],
+    },
+    autoprefixer: {},
+    precss: {},
+    'postcss-import': {},
+    cssnano: {
+      preset: 'default',
+    },
+  },
+};

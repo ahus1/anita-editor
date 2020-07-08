@@ -1,12 +1,14 @@
 module.exports = {
-    purge: [
-        './src/**/*.html',
-        './src/**/*.vue'
-    ],
-    options: {
-        whitelistPatternsChildren: [/adoc$/],
-    },
-    theme: {},
-    variants: {},
-    plugins: [],
-}
+  purge: [
+    './src/**/*.html',
+    './src/**/*.vue',
+  ],
+  theme: {
+    extend: {},
+  },
+  options: {
+    whitelistPatternsChildren: [/ace/, /fa/],
+  },
+  variants: {},
+  plugins: [],
+};
