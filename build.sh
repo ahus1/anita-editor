@@ -3,13 +3,13 @@ set -e
 set -x
 
 yarn install
+yarn test:unit
+yarn test:e2e
 yarn build
 
 # preparing lambda
 cd lambda
 yarn install
-yarn test:unit
-yarn test:e2e
 yarn generate
 cd ..
 
