@@ -5,7 +5,7 @@
         <label for="url" class="block text-gray-700 text-sm font-bold mb-2">GitHub URL:</label>
         <input id="url" class="shadow appearance-none border rounded py-2 w-full px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" v-model="url" type="text"/>
         <button class="text-white font-bold mt-2 py-2 px-4 rounded bg-blue-500"
-                @click="load">
+                @click="load" id="load">
             Load
         </button>
     </div>

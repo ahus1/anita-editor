@@ -254,7 +254,7 @@ export default {
       this.saveDialogOpen = false;
       if (file !== undefined) {
         await this.loadFile({ file });
-        this.$router.replace({ name: 'edit' });
+        await this.$router.replace({ name: 'edit' });
       }
     },
     async save() {

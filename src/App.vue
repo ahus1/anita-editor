@@ -1,10 +1,10 @@
 <template>
-    <div class="flex">
+    <div class="flex" id="app">
         <div id="sidebar" class="w-1/4 lg:w-1/6 p-4 overflow-y-auto overflow-x-hidden">
             <nav>
                 <ol>
                     <li>
-                        <router-link to="/">Welcome</router-link>
+                        <router-link id="nav_welcome" to="/">Welcome</router-link>
                     </li>
                 </ol>
                 <div class="pt-4" v-for="(workspace, windex) in workspaces" :key="workspace.owner + workspace.repo + workspace.branch" style="white-space: nowrap">
