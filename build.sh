@@ -3,6 +3,7 @@ set -e
 set -x
 
 yarn install
+ls -lR node_modules/chromium
 yarn test:unit
 yarn test:e2e
 yarn build
