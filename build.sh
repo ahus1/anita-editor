@@ -4,6 +4,7 @@ set -x
 
 yarn install
 ls -lR node_modules/chromium
+PATH=~/node_modules/chromium/lib/chromium/chrome-linux:$PATH
 yarn test:unit
 yarn test:e2e
 yarn build
