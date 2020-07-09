@@ -6,6 +6,9 @@ module.exports = {
         chromeOptions: {
           args: [
             'window-size=1280,800',
+            '--headless',
+            '--disable-gpu',
+            '--no-sandbox',
           ],
         },
       },

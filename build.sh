@@ -3,8 +3,10 @@ set -e
 set -x
 
 yarn install
-ls -lR node_modules/chromium
-PATH=~/node_modules/chromium/lib/chromium/chrome-linux:$PATH
+export PATH=`pwd`/node_modules/chromium/lib/chromium/chrome-linux:$PATH
+which chrome
+# see netlify.toml for CHROMIUM_REVISION that specifies the chrome version
+node_modules/chromium/lib/chromium/chrome-linux/chrome --version
 yarn test:unit
 yarn test:e2e
 yarn build
@@ -17,7 +19,7 @@ cd ..
 
 # search engines should only index the master branch
 if [ "$BRANCH" != "master" ]; then
-cat >> _dist/_headers << EOF
+cat >> dist/_headers << EOF
 /*
   x-robots-tag: noindex
 EOF
