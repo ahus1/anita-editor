@@ -9,6 +9,10 @@ module.exports = {
   options: {
     whitelistPatternsChildren: [/ace/, /fa/],
   },
+  future: {
+    removeDeprecatedGapUtilities: true,
+    purgeLayersByDefault: true,
+  },
   variants: {},
   plugins: [],
 };
