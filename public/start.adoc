@@ -11,3 +11,5 @@ This editor is available as open source. Have a look at https://github.com/ahus1
 
 You can pass the GitHub file URL as a parameter to this app, use: +
 `\https://\.../#/edit?file=https://github.com/<owner>/<repo>/blob/<branch>/<path>`
+
+link:/#/edit?file=https://github.com/ahus1/asciidoc-editor/blob/master/public/start.adoc[Click here to open this readme in the editor]
