@@ -7,26 +7,26 @@ body {
     font-size: 1.0625rem; /* taken from AsciiDoc */
 }
 
-del {
-    text-decoration: none;
-    background-color: #fdb8c0;
-}
-
-ins {
-    text-decoration: none;
-    background-color: #acf2bd;
-}
-
-/* just formatting changes */
-ins.mod {
-    background-color: #fafaa9;
-}
-
 .router-link-exact-active {
     @apply underline;
 }
 
 .adoc {
+    del {
+        text-decoration: none;
+        background-color: #fdb8c0;
+    }
+
+    ins {
+        text-decoration: none;
+        background-color: #acf2bd;
+    }
+
+    /* just formatting changes */
+    ins.mod {
+        background-color: #fafaa9;
+    }
+
     /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
     /* Uncomment @import statement to use as custom stylesheet */
 
