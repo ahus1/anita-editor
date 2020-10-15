@@ -119,6 +119,7 @@ xssOptions.whiteList.ul.push('type');
 xssOptions.whiteList.code.push('data-lang');
 xssOptions.whiteList.i.push('data-value');
 xssOptions.whiteList.a.push('rel');
+xssOptions.whiteList.kbd = [];
 
 // columns have a setting of the width style, therefore allow style
 xssOptions.whiteList.col.push('style');
