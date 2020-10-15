@@ -2,19 +2,78 @@
     <div class="overflow-y-auto border-collapse box-border shadow-inner p-4"
          style="min-height: 100vh; height: 100vh; max-height: 100vh;">
         <div v-html="content" class="adoc"></div>
-        <label for="url" class="block text-gray-700 text-sm font-bold mb-2">GitHub URL:</label>
-        <input id="url" class="shadow appearance-none border rounded py-2 w-full px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" v-model="url" type="text"/>
-        <button class="text-white font-bold mt-2 py-2 px-4 rounded bg-blue-500"
-                @click="load" id="load">
-            Load
-        </button>
-    </div>
+    <form class="w-full" @keydown.enter="load">
+      <div class="flex flex-wrap -mx-3 mb-2">
+        <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+          <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="owner">
+            Owner
+          </label>
+          <input autocomplete="off" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="owner" type="text" placeholder="owner"
+                 v-model="owner" >
+          <div class="relative hidden" v-if="owners.length > 0">
+            <div class="absolute z-50 left-0 right-0 rounded border border-gray-100 shadow py-2 bg-white">
+              <div v-for="owner in owners" :key="owner.login" class="cursor-pointer p-2 hover:bg-gray-200 focus:bg-gray-200" @click="selectOwner(owner)">
+                <img :src="owner.avatar_url" class="rounded-full h-8 inline"> {{owner.login}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+          <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="repo">
+            Repo
+          </label>
+          <input autocomplete="off" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="repo" type="text" placeholder="repo"
+                 v-model="repo" @focus="searchRepos">
+          <div class="relative hidden" v-if="repos.length > 0">
+            <div class="absolute z-50 left-0 right-0 rounded border border-gray-100 shadow py-2 bg-white">
+              <div v-for="repo in filteredRepos" :key="repo.name" class="cursor-pointer p-2 hover:bg-gray-200 focus:bg-gray-200" @click="selectRepo(repo)">
+                {{repo.name}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+          <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="branch">
+            Branch
+          </label>
+          <input autocomplete="off" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="branch" type="text" placeholder="branch"
+                v-model="branch" @focus="searchBranches">
+          <div class="relative hidden" v-if="branches.length > 0">
+            <div class="absolute z-50 left-0 right-0 rounded border border-gray-100 shadow py-2 bg-white">
+              <div v-for="branch in filteredBranches" :key="branch.name" class="cursor-pointer p-2 hover:bg-gray-200 focus:bg-gray-200" @click="selectBranch(branch)">
+                {{branch.name}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+          <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="path">
+            Path
+          </label>
+          <input autocomplete="off" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="path" type="text" placeholder="path"
+                 v-model="path">
+        </div>
+      </div>
+      <button type="button" class="text-white font-bold mt-2 py-2 px-4 rounded"
+              :class="{ 'bg-gray-500': !inputReady, 'bg-blue-500': inputReady, 'cursor-not-allowed': !inputReady, 'cursor-default': !inputReady }"
+              :disabled="!inputReady"
+              @click="load" id="load">
+        Load
+      </button>
+    </form>
+  </div>
 </template>
+<style scoped>
+input:focus + div, input + div:hover {
+  display: block;
+}
+</style>
 
 <script>
 import asciidoctor from '@asciidoctor/core';
 // conversion will run on the client side, therefore select browser variant
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
+import axios from 'axios';
 import kroki from '../node_modules/asciidoctor-kroki/dist/browser/asciidoctor-kroki';
 
 const registry = asciidoctor().Extensions.create();
@@ -32,7 +91,16 @@ export default {
     const contents = this.getContents();
     return {
       content: this.renderContent(contents.start),
-      url: undefined,
+      owner: '',
+      owners: [],
+      ownerSearched: undefined,
+      repo: '',
+      repos: [],
+      repoOwner: undefined,
+      branch: '',
+      branches: [],
+      branchesRepo: undefined,
+      path: '',
     };
   },
   async mounted() {
@@ -54,12 +122,108 @@ export default {
       }
     }
   },
+  watch: {
+    async owner() {
+      if (!this.github.token) {
+        return;
+      }
+      // debounce
+      clearTimeout(this.ownerTimeout);
+      this.ownerTimeout = setTimeout(() => {
+        this.searchOwners();
+      }, 200);
+    },
+    async repo() {
+      if (this.github.token) {
+        await this.searchRepos();
+      }
+    },
+  },
+  computed: {
+    ...mapState(['github']),
+    filteredRepos() {
+      return this.repos.filter((repo) => repo.name.indexOf(this.repo) !== -1).slice(0, 10);
+    },
+    filteredBranches() {
+      return this.branches.filter((branch) => branch.name.indexOf(this.branch) !== -1).slice(0, 10);
+    },
+    inputReady() {
+      return this.owner !== '' && this.repo !== '' && this.branch !== '' && this.path !== '';
+    },
+  },
   methods: {
+    async searchOwners() {
+      if (this.owner.length === 0 || this.owner === this.ownerSearched) {
+        return;
+      }
+      this.ownerSearched = this.owner;
+      const myOwnerSearch = this.owner;
+      const response = await axios.get(`https://api.github.com/search/users?q=${this.owner}&per_page=10`, {
+        headers: {
+          'Content-Type': 'application/vnd.github.v3+json',
+        },
+      });
+      if (this.owner === myOwnerSearch) {
+        this.$set(this, 'owners', response.data.items);
+      }
+    },
+    selectOwner(owner) {
+      this.owner = owner.login;
+    },
+    async searchRepos() {
+      if (this.repoOwner === this.owner) {
+        return;
+      }
+      this.repoOwner = this.owner;
+      if (this.owner === '') {
+        this.$set(this, 'repos', []);
+        return;
+      }
+      const myOwner = this.owner;
+      const response = await axios.get(`https://api.github.com/users/${this.owner}/repos`, {
+        headers: {
+          'Content-Type': 'application/vnd.github.v3+json',
+        },
+      });
+      // if no-one has changed it in between
+      if (myOwner === this.repoOwner) {
+        this.$set(this, 'repos', response.data);
+      }
+    },
+    selectRepo(repo) {
+      this.repo = repo.name;
+      this.$set(this, 'branches', []);
+    },
+    async searchBranches() {
+      if (this.branchesRepo === `${this.owner}/${this.repo}`) {
+        return;
+      }
+      this.branchesRepo = `${this.owner}/${this.repo}`;
+      const myBranchesRepo = this.branchesRepo;
+      if (this.repo === '') {
+        this.$set(this, 'branches', []);
+        return;
+      }
+      const response = await axios.get(`https://api.github.com/repos/${this.owner}/${this.repo}/branches`, {
+        headers: {
+          'Content-Type': 'application/vnd.github.v3+json',
+        },
+      });
+      if (myBranchesRepo === this.branchesRepo) {
+        this.$set(this, 'branches', response.data);
+      }
+    },
+    selectBranch(branch) {
+      this.branch = branch.name;
+    },
     ...mapActions([
       'login', 'refreshUser', 'loadFile',
     ]),
     async load() {
-      await this.loadFile({ file: this.url });
+      if (!this.inputReady) {
+        return;
+      }
+      await this.loadFile({ file: `https://github.com/${this.owner}/${this.repo}/blob/${this.branch}/${this.path}` });
       this.$router.push({ name: 'edit' });
     },
     renderContent(content) {

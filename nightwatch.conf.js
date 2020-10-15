@@ -7,6 +7,7 @@ module.exports = {
           args: [
             'window-size=1280,800',
             '--headless',
+            // '--auto-open-devtools-for-tabs',
             '--disable-gpu',
             '--no-sandbox',
           ],

@@ -37,8 +37,17 @@ module.exports = {
             adoc: {
               selector: '.adoc',
             },
-            url: {
-              selector: '#url',
+            owner: {
+              selector: '#owner',
+            },
+            repo: {
+              selector: '#repo',
+            },
+            branch: {
+              selector: '#branch',
+            },
+            path: {
+              selector: '#path',
             },
             load: {
               selector: '#load',

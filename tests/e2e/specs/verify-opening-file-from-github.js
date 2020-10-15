@@ -14,9 +14,12 @@ module.exports = {
     homepage.waitForElementVisible('@appContainer');
 
     const { contentWrapper } = homepage.section.app.section;
-    contentWrapper.waitForElementPresent('@url');
-    contentWrapper.waitForElementVisible('@url');
-    contentWrapper.setValue('@url', 'https://github.com/ahus1/asciidoc-editor/blob/master/README.adoc');
+    contentWrapper.waitForElementPresent('@owner');
+    contentWrapper.waitForElementVisible('@owner');
+    contentWrapper.setValue('@owner', 'ahus1');
+    contentWrapper.setValue('@repo', 'asciidoc-editor');
+    contentWrapper.setValue('@branch', 'master');
+    contentWrapper.setValue('@path', 'README.adoc');
     contentWrapper.waitForElementPresent('@load');
     contentWrapper.waitForElementVisible('@load');
     contentWrapper.click('@load');
