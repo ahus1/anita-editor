@@ -1,6 +1,13 @@
 module.exports = {
   plugins: {
-    tailwindcss: {},
+    tailwindcss: {
+      future: {
+        defaultLineHeights: true,
+        standardFontWeights: true,
+        removeDeprecatedGapUtilities: true,
+        purgeLayersByDefault: true,
+      },
+    },
     'vue-cli-plugin-tailwind/purgecss': {
       whitelistPatternsChildren: [/ace/, /fa/, /^del$/, /^ins$/, /^ins.mod$/],
     },
