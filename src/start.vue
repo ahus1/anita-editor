@@ -8,13 +8,19 @@
           <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="owner">
             Owner
           </label>
-          <input autocomplete="off" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="owner" type="text" placeholder="owner"
-                 v-model="owner" >
-          <div class="relative hidden" v-if="owners.length > 0">
-            <div class="absolute z-50 left-0 right-0 rounded border border-gray-100 shadow py-2 bg-white">
-              <div v-for="owner in owners" :key="owner.login" class="cursor-pointer p-2 hover:bg-gray-200 focus:bg-gray-200" @click="selectOwner(owner)">
-                <img :src="owner.avatar_url" class="rounded-full h-8 inline"> {{owner.login}}
+          <div class="relative">
+            <input autocomplete="off" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="owner" type="text" placeholder="owner"
+                   v-model="owner" @keydown.down.prevent="nextOwner(1)" @keydown.up.prevent="nextOwner(-1)" @keydown.enter.prevent="owner = ownerSelected" @keydown.space.prevent="owner = ownerSelected" @keydown.tab.exact="owner = ownerSelected">
+            <div class="relative hidden" v-if="owners.length > 0">
+              <div class="absolute z-50 left-0 right-0 rounded border border-gray-100 shadow py-2 bg-white">
+                <div v-for="owner in owners" class="cursor-pointer p-2 hover:bg-gray-200 focus:bg-gray-200" @click="selectOwner(owner)" :key="owner.login"
+                  :class="{ 'bg-gray-300': ownerSelected && owner.login === ownerSelected }">
+                  <img :src="owner.avatar_url" class="rounded-full h-8 inline"> {{owner.login}}
+                </div>
               </div>
+            </div>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700" v-if="owners.length > 0">
+              <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
             </div>
           </div>
         </div>
@@ -22,13 +28,19 @@
           <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="repo">
             Repo
           </label>
-          <input autocomplete="off" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="repo" type="text" placeholder="repo"
-                 v-model="repo" @focus="searchRepos">
-          <div class="relative hidden" v-if="repos.length > 0">
-            <div class="absolute z-50 left-0 right-0 rounded border border-gray-100 shadow py-2 bg-white">
-              <div v-for="repo in filteredRepos" :key="repo.name" class="cursor-pointer p-2 hover:bg-gray-200 focus:bg-gray-200" @click="selectRepo(repo)">
-                {{repo.name}}
+          <div class="relative">
+            <input autocomplete="off" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="repo" type="text" placeholder="repo"
+                     v-model="repo" @focus="searchRepos" @keydown.down.prevent="nextRepo(1)" @keydown.up.prevent="nextRepo(-1)" @keydown.enter.prevent="repo = repoSelected" @keydown.space.prevent="repo = repoSelected" @keydown.tab.exact="repo = repoSelected">
+            <div class="relative hidden" v-if="repos.length > 0">
+              <div class="absolute z-50 left-0 right-0 rounded border border-gray-100 shadow py-2 bg-white">
+                <div v-for="repo in filteredRepos" :key="repo.name" class="cursor-pointer p-2 hover:bg-gray-200 focus:bg-gray-200" @click="selectRepo(repo)"
+                     :class="{ 'bg-gray-300': repoSelected && repo.name === repoSelected }">
+                  {{repo.name}}
+                </div>
               </div>
+            </div>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700" v-if="repos.length > 0">
+              <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
             </div>
           </div>
         </div>
@@ -36,13 +48,19 @@
           <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="branch">
             Branch
           </label>
-          <input autocomplete="off" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="branch" type="text" placeholder="branch"
-                v-model="branch" @focus="searchBranches">
-          <div class="relative hidden" v-if="branches.length > 0">
-            <div class="absolute z-50 left-0 right-0 rounded border border-gray-100 shadow py-2 bg-white">
-              <div v-for="branch in filteredBranches" :key="branch.name" class="cursor-pointer p-2 hover:bg-gray-200 focus:bg-gray-200" @click="selectBranch(branch)">
-                {{branch.name}}
+            <div class="relative">
+            <input autocomplete="off" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="branch" type="text" placeholder="branch"
+                  v-model="branch" @focus="searchBranches"  @keydown.down.prevent="nextBranch(1)" @keydown.up.prevent="nextBranch(-1)" @keydown.enter.prevent="branch = branchSelected" @keydown.space.prevent="branch = branchSelected" @keydown.tab.exact="branch = branchSelected">
+            <div class="relative hidden" v-if="branches.length > 0">
+              <div class="absolute z-50 left-0 right-0 rounded border border-gray-100 shadow py-2 bg-white">
+                <div v-for="branch in filteredBranches" :key="branch.name" class="cursor-pointer p-2 hover:bg-gray-200 focus:bg-gray-200" @click="selectBranch(branch)"
+                     :class="{ 'bg-gray-300': branchSelected && branch.name === branchSelected }">
+                  {{branch.name}}
+                </div>
               </div>
+            </div>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700" v-if="branches.length > 0">
+              <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
             </div>
           </div>
         </div>
@@ -94,12 +112,15 @@ export default {
       owner: '',
       owners: [],
       ownerSearched: undefined,
+      ownerSelected: undefined,
       repo: '',
       repos: [],
+      repoSelected: undefined,
       repoOwner: undefined,
       branch: '',
       branches: [],
       branchesRepo: undefined,
+      branchSelected: undefined,
       path: '',
     };
   },
@@ -169,6 +190,54 @@ export default {
     },
     selectOwner(owner) {
       this.owner = owner.login;
+    },
+    nextOwner(direction) {
+      let pos = -1;
+      for (let i = 0; i < this.owners.length; ++i) {
+        if (this.owners[i].login === this.ownerSelected) {
+          pos = i;
+          break;
+        }
+      }
+      if (pos === -1 && this.owners.length > 0) {
+        this.ownerSelected = this.owners[0].login;
+      } else if (direction > 0 && pos !== -1 && this.owners.length > pos + direction) {
+        this.ownerSelected = this.owners[pos + direction].login;
+      } else if (direction < 0 && pos > 0) {
+        this.ownerSelected = this.owners[pos + direction].login;
+      }
+    },
+    nextRepo(direction) {
+      let pos = -1;
+      for (let i = 0; i < this.filteredRepos.length; ++i) {
+        if (this.filteredRepos[i].name === this.repoSelected) {
+          pos = i;
+          break;
+        }
+      }
+      if (pos === -1 && this.filteredRepos.length > 0) {
+        this.repoSelected = this.filteredRepos[0].name;
+      } else if (direction > 0 && pos !== -1 && this.filteredRepos.length > pos + direction) {
+        this.repoSelected = this.filteredRepos[pos + direction].name;
+      } else if (direction < 0 && pos > 0) {
+        this.repoSelected = this.filteredRepos[pos + direction].name;
+      }
+    },
+    nextBranch(direction) {
+      let pos = -1;
+      for (let i = 0; i < this.filteredBranches.length; ++i) {
+        if (this.filteredBranches[i].name === this.branchSelected) {
+          pos = i;
+          break;
+        }
+      }
+      if (pos === -1 && this.filteredBranches.length > 0) {
+        this.branchSelected = this.filteredBranches[0].name;
+      } else if (direction > 0 && pos !== -1 && this.filteredBranches.length > pos + direction) {
+        this.branchSelected = this.filteredBranches[pos + direction].name;
+      } else if (direction < 0 && pos > 0) {
+        this.branchSelected = this.filteredBranches[pos + direction].name;
+      }
     },
     async searchRepos() {
       if (this.repoOwner === this.owner) {
