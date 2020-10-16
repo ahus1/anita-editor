@@ -10,7 +10,7 @@
           </label>
           <div class="relative">
             <input autocomplete="off" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="owner" type="text" placeholder="owner"
-                   v-model="owner" @keydown.down.prevent="nextOwner(1)" @keydown.up.prevent="nextOwner(-1)" @keydown.enter.prevent="owner = ownerSelected" @keydown.space.prevent="owner = ownerSelected" @keydown.tab.exact="owner = ownerSelected">
+                   v-model="owner" @keydown.down.prevent="nextOwner(1)" @keydown.up.prevent="nextOwner(-1)" @keydown.enter.prevent="useSelectedOwner" @keydown.space.prevent="useSelectedOwner" @keydown.tab.exact="useSelectedOwner">
             <div class="relative hidden" v-if="owners.length > 0">
               <div class="absolute z-50 left-0 right-0 rounded border border-gray-100 shadow py-2 bg-white">
                 <div v-for="owner in owners" class="cursor-pointer p-2 hover:bg-gray-200 focus:bg-gray-200" @click="selectOwner(owner)" :key="owner.login"
@@ -30,7 +30,7 @@
           </label>
           <div class="relative">
             <input autocomplete="off" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="repo" type="text" placeholder="repo"
-                     v-model="repo" @focus="searchRepos" @keydown.down.prevent="nextRepo(1)" @keydown.up.prevent="nextRepo(-1)" @keydown.enter.prevent="repo = repoSelected" @keydown.space.prevent="repo = repoSelected" @keydown.tab.exact="repo = repoSelected">
+                     v-model="repo" @focus="searchRepos" @keydown.down.prevent="nextRepo(1)" @keydown.up.prevent="nextRepo(-1)" @keydown.enter.prevent="useSelectedRepo" @keydown.space.prevent="useSelectedRepo" @keydown.tab.exact="useSelectedRepo">
             <div class="relative hidden" v-if="repos.length > 0">
               <div class="absolute z-50 left-0 right-0 rounded border border-gray-100 shadow py-2 bg-white">
                 <div v-for="repo in filteredRepos" :key="repo.name" class="cursor-pointer p-2 hover:bg-gray-200 focus:bg-gray-200" @click="selectRepo(repo)"
@@ -50,7 +50,7 @@
           </label>
             <div class="relative">
             <input autocomplete="off" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="branch" type="text" placeholder="branch"
-                  v-model="branch" @focus="searchBranches"  @keydown.down.prevent="nextBranch(1)" @keydown.up.prevent="nextBranch(-1)" @keydown.enter.prevent="branch = branchSelected" @keydown.space.prevent="branch = branchSelected" @keydown.tab.exact="branch = branchSelected">
+                  v-model="branch" @focus="searchBranches"  @keydown.down.prevent="nextBranch(1)" @keydown.up.prevent="nextBranch(-1)" @keydown.enter.prevent="useSelectedBranch" @keydown.space.prevent="useSelectedBranch" @keydown.tab.exact="useSelectedBranch">
             <div class="relative hidden" v-if="branches.length > 0">
               <div class="absolute z-50 left-0 right-0 rounded border border-gray-100 shadow py-2 bg-white">
                 <div v-for="branch in filteredBranches" :key="branch.name" class="cursor-pointer p-2 hover:bg-gray-200 focus:bg-gray-200" @click="selectBranch(branch)"
@@ -145,6 +145,7 @@ export default {
   },
   watch: {
     async owner() {
+      this.ownerSelected = undefined;
       if (!this.github.token) {
         return;
       }
@@ -155,9 +156,10 @@ export default {
       }, 200);
     },
     async repo() {
-      if (this.github.token) {
-        await this.searchRepos();
-      }
+      this.repoSelected = undefined;
+    },
+    async branch() {
+      this.branchSelected = undefined;
     },
   },
   computed: {
@@ -205,6 +207,42 @@ export default {
         this.ownerSelected = this.owners[pos + direction].login;
       } else if (direction < 0 && pos > 0) {
         this.ownerSelected = this.owners[pos + direction].login;
+      }
+    },
+    useSelectedOwner() {
+      let pos = -1;
+      for (let i = 0; i < this.owners.length; ++i) {
+        if (this.owners[i].login === this.ownerSelected) {
+          pos = i;
+          break;
+        }
+      }
+      if (this.ownerSelected && pos !== -1) {
+        this.owner = this.ownerSelected;
+      }
+    },
+    useSelectedRepo() {
+      let pos = -1;
+      for (let i = 0; i < this.filteredRepos.length; ++i) {
+        if (this.filteredRepos[i].name === this.repoSelected) {
+          pos = i;
+          break;
+        }
+      }
+      if (this.repoSelected && pos !== -1) {
+        this.repo = this.repoSelected;
+      }
+    },
+    useSelectedBranch() {
+      let pos = -1;
+      for (let i = 0; i < this.filteredBranches.length; ++i) {
+        if (this.filteredBranches[i].name === this.branchSelected) {
+          pos = i;
+          break;
+        }
+      }
+      if (this.branchSelected && pos !== -1) {
+        this.branch = this.branchSelected;
       }
     },
     nextRepo(direction) {
