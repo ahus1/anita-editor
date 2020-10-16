@@ -61,7 +61,7 @@
     </div>
 </template>
 <script>
-import { mapMutations, mapState, mapActions } from 'vuex';
+import { mapActions, mapMutations, mapState } from 'vuex';
 
 export default {
   data() {
@@ -74,6 +74,17 @@ export default {
         workspaceId: this.$store.state.activeWorkspace,
         fileId: this.$store.state.workspaces[this.$store.state.activeWorkspace].activeFile,
       };
+    },
+  },
+  watch: {
+    $route: {
+      immediate: true,
+      handler(to) {
+        console.log(to);
+        if (to.path.startsWith('/http')) {
+          this.$router.push({ name: 'edit', query: { file: to.path.substr(1) } });
+        }
+      },
     },
   },
   methods: {
