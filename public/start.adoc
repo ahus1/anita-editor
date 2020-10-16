@@ -13,3 +13,5 @@ You can pass the GitHub file URL as a parameter to this app, use: +
 `++https://asciidoc-editor.ahus1.de#https://github.com/<owner>/<repo>/blob/<branch>/<path>++`
 
 link:/#/https://github.com/ahus1/asciidoc-editor/blob/master/public/start.adoc[Click here to open this readme in the editor]
+
+link:/#/https://github.com/asciidoctor/asciidoctor.org/blob/master/docs/_includes/asciidoc-article-template.adoc[Click here to open an AsciiDoc article template]

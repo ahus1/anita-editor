@@ -17,6 +17,11 @@
   to = "/"
   status = 301
   force = false
+[[redirects]]
+from = "/article"
+to = "/#https://github.com/asciidoctor/asciidoctor.org/blob/master/docs/_includes/asciidoc-article-template.adoc"
+status = 301
+force = false
 [[headers]]
   for = "/"
   [headers.values]
