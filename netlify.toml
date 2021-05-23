@@ -19,7 +19,7 @@
   force = false
 [[redirects]]
 from = "/article"
-to = "/#https://github.com/asciidoctor/asciidoctor.org/blob/master/docs/_includes/asciidoc-article-template.adoc"
+to = "/#https://github.com/asciidoctor/asciidoctor.org/blob/main/docs/_includes/asciidoc-article-template.adoc"
 status = 301
 force = false
 [[headers]]
