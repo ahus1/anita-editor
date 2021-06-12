@@ -46,7 +46,7 @@
     "cssnano": "^4.1.10",
     "dotenv": "^8.2.0",
     "eslint": "^7.9.0",
-    "eslint-plugin-vue": "^7.0.1",
+    "eslint-plugin-vue": "^7.11.0",
     "file-loader": "^6.0.0",
     "geckodriver": "^1.19.1",
     "html-loader": "^1.1.0",
