@@ -2,7 +2,7 @@
     <div class="grid grid-cols-2" id="content">
         <div class="overflow-y-auto relative border-collapse box-border shadow-inner"
              style="min-height: 100vh; height: 100vh; max-height: 100vh;">
-            <editor v-model="content" @init="editorInit" lang="asciidoc" theme="chrome"></editor>
+          <codemirror v-model="content" :options="cmOptions" />
         </div>
         <div class="overflow-y-auto relative border-collapse box-border shadow-inner p-4"
              style="min-height: 100vh; height: 100vh; max-height: 100vh;">
@@ -71,17 +71,15 @@
 </template>
 
 <style>
-    /* adding the ID here to give it higher precendence than ACE stylesheet to prevent ordering problems */
-    #content .ace_editor {
-        position: relative;
-        /* match font size and line height with Asciidoctor stylesheet */
-        font-size: 0.9rem;
-        line-height: 1.6;
+    #content .CodeMirror {
+      height: 100%; /* use full height for editor */
     }
 </style>
 
 <script>
 import asciidoctor from '@asciidoctor/core';
+import { codemirror } from 'vue-codemirror';
+import 'codemirror/lib/codemirror.css';
 import hljs from 'highlight.js';
 import xss from 'xss';
 import { getDefaultWhiteList } from 'xss/lib/default';
@@ -90,6 +88,8 @@ import HtmlDiff from 'htmldiff-js';
 // conversion will run on the client side, therefore select browser variant
 import { mapActions, mapState } from 'vuex';
 import kroki from '../node_modules/asciidoctor-kroki/dist/browser/asciidoctor-kroki';
+
+require('codemirror-asciidoc');
 
 const registry = asciidoctor().Extensions.create();
 kroki.register(registry);
@@ -132,13 +132,18 @@ export default {
       commitMessage: '',
       reloading: false,
       mode: 0,
+      cmOptions: {
+        lineWrapping: true,
+        lineNumbers: true,
+        mode: 'asciidoc',
+      },
     };
   },
   mounted() {
     this.highlight();
   },
   components: {
-    editor: require('vue2-ace-editor'),
+    codemirror,
   },
   watch: {
     $route: {
@@ -218,16 +223,6 @@ export default {
     },
     closesavedialog() {
       this.saveDialogOpen = false;
-    },
-    editorInit(editor) {
-      require('brace/ext/language_tools'); // language extension prerequsite...
-      require('brace/mode/asciidoc');
-      require('brace/mode/javascript'); // language
-      require('brace/mode/less');
-      require('brace/theme/chrome');
-      require('brace/snippets/javascript'); // snippet
-      editor.setOption('wrap', true);
-      editor.setShowPrintMargin(false);
     },
     togglePreview() {
       this.mode = (this.mode + 1) % 3;
