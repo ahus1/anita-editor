@@ -1,7 +1,7 @@
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
 import { mount, createLocalVue } from '@vue/test-utils';
-import scratch from '../../src/scratch.vue';
+import editor from '../../src/editor.vue';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -23,13 +23,14 @@ const router = new VueRouter({
   ],
 });
 
-describe('scratch.vue', () => {
+describe('editor.vue', () => {
   it('renders props.msg when passed', () => {
-    const wrapper = mount(scratch, {
+    const wrapper = mount(editor, {
       store,
       router,
       localVue,
     });
-    expect(wrapper.text()).toContain('');
+    expect(wrapper.text()).toContain('Discard Changes');
+    expect(wrapper.text()).toContain('Toggle Preview');
   });
 });

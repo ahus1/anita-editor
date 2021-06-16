@@ -53,7 +53,7 @@ module.exports = {
               selector: '#load',
             },
             editor: {
-              selector: '.ace_editor',
+              selector: '.CodeMirror',
             },
           },
         },

@@ -1,6 +1,6 @@
 <template>
     <div class="flex" id="app">
-        <div id="sidebar" class="w-1/4 lg:w-1/6 p-4 overflow-y-auto overflow-x-hidden">
+        <div id="sidebar" class="w-48 p-4 overflow-y-auto overflow-x-hidden">
             <nav>
                 <ol>
                     <li>
@@ -20,12 +20,23 @@
                         </button>
                         <a class="cursor-pointer"
                            :class="{
-                            'router-link-exact-active': activefile.workspaceId === windex && activefile.fileId === findex && $route.name === 'edit',
+                            'router-link-exact-active': activefile && activefile.workspaceId === windex && activefile.fileId === findex && $route.name === 'edit',
                             'italic': file.content !== file.original
                            }"
                            @click="selectFileForEditor({workspaceId: windex, fileId: findex})" :title="file.path">{{file.path}}</a><br>
                     </div>
                 </div>
+              <div class="pt-4" v-for="(scratch, sindex) in scratches" :key="scratch.name" style="white-space: nowrap">
+                <button class="font-bold rounded cursor-pointer" @click="leaveScratch({ scratchId: sindex})"
+                        title="leave scratch">&times;
+                </button>
+                <a class="cursor-pointer"
+                   :class="{
+                            'router-link-exact-active': activeScratch && activeScratch === scratch && $route.name === 'scratch'
+                           }"
+                   :title="scratch.name"
+                   @click="selectScratchForEditor({scratchId: sindex})">{{scratch.name}}</a><br>
+              </div>
                 <div class="pt-4" v-if="github.user">
                     User:
                     {{github.user.login}}
@@ -34,7 +45,7 @@
                     <router-link to="/logout">Logout</router-link>
                 </div>
                 <div class="pt-4" v-else>
-                    <router-link to="/login">Please log-in to save your work</router-link>
+                    <router-link to="/login" v-show="workspaces.length > 0">Please log-in to save your work</router-link>
                 </div>
                 <div class="pt-10">
                     <a href="https://github.com/ahus1/asciidoc-editor" target="_blank" rel="noopener">Source (GitHub)</a>
@@ -61,15 +72,24 @@
     </div>
 </template>
 <script>
-import { mapActions, mapMutations, mapState } from 'vuex';
+import {
+  mapActions, mapGetters, mapMutations, mapState,
+} from 'vuex';
 
 export default {
   data() {
     return {};
   },
   computed: {
-    ...mapState(['github', 'workspaces', 'messages']),
+    ...mapState(['github', 'workspaces', 'messages', 'scratches']),
+    ...mapGetters(['activeScratch']),
     activefile() {
+      if (this.$store.state.activeWorkspace === undefined) {
+        return undefined;
+      }
+      if (this.$store.state.activeWorkspace >= this.$store.state.workspaces.length) {
+        return undefined;
+      }
       return {
         workspaceId: this.$store.state.activeWorkspace,
         fileId: this.$store.state.workspaces[this.$store.state.activeWorkspace].activeFile,
@@ -88,7 +108,7 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(['clearWorkspace', 'clearFile', 'selectFile', 'removeErrorMessage']),
+    ...mapMutations(['clearWorkspace', 'clearFile', 'selectFile', 'selectScratch', 'removeErrorMessage', 'leaveScratch']),
     ...mapActions(['checkConflictActiveFile']),
     selectFileForEditor(o) {
       this.selectFile(o);
@@ -96,6 +116,12 @@ export default {
         this.$router.push({ name: 'edit' });
       }
       this.checkConflictActiveFile();
+    },
+    selectScratchForEditor(scratchId) {
+      this.selectScratch(scratchId);
+      if (this.$route.name !== 'scratch') {
+        this.$router.push({ name: 'scratch' });
+      }
     },
   },
 };

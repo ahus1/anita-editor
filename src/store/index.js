@@ -37,6 +37,8 @@ const store = new Vuex.Store({
     currentMessageId: 0,
     activeWorkspace: 0,
     workspaces: [],
+    scratches: [],
+    activeScratch: 0,
   },
   getters: {
     activeFile(state) {
@@ -54,6 +56,15 @@ const store = new Vuex.Store({
         return undefined;
       }
       return workspace.files[workspace.activeFile];
+    },
+    activeScratch(state) {
+      if (state.scratches.length === 0) {
+        return undefined;
+      }
+      if (state.activeScratch === undefined) {
+        return undefined;
+      }
+      return state.scratches[state.activeScratch];
     },
     activeWorkspace(state) {
       if (state.workspaces.length === 0) {
@@ -144,9 +155,21 @@ const store = new Vuex.Store({
         workspace.activeFile = undefined;
       }
     },
+    leaveScratch(state, { scratchId }) {
+      const room = `yjs-${state.scratches[scratchId].name}`.replace(/\s/g, '').toLowerCase();
+      indexedDB.deleteDatabase(room);
+      state.scratches.splice(scratchId, 1);
+      if (state.activeScratch >= state.scratches.length) {
+        state.activeScratch = state.scratches.length - 1;
+      }
+      console.log(state.activeScratch);
+    },
     selectFile(state, { workspaceId, fileId }) {
       state.activeWorkspace = workspaceId;
       state.workspaces[workspaceId].activeFile = fileId;
+    },
+    selectScratch(state, { scratchId }) {
+      state.activeScratch = scratchId;
     },
     loadedFile(state, {
       owner, repo, branch, path, content, sha,
@@ -261,6 +284,9 @@ const store = new Vuex.Store({
         }
       }
     },
+    addScratch(state, { name }) {
+      state.activeScratch = state.scratches.push({ name }) - 1;
+    },
   },
   actions: {
     async login(context, { code, state }) {
@@ -303,6 +329,10 @@ const store = new Vuex.Store({
         const user = await axios.get('https://api.github.com/user');
         context.commit('githubUser', user.data);
       }
+    },
+    addScratch(context, { name }) {
+      console.log(name);
+      context.commit('addScratch', { name });
     },
     showErrorMessage(context, { message, error }) {
       if (message !== undefined) {
@@ -456,7 +486,7 @@ const store = new Vuex.Store({
   },
   plugins: [
     createPersistedState({
-      paths: ['activeWorkspace', 'workspaces'],
+      paths: ['activeWorkspace', 'workspaces', 'activeScratch', 'scratches'],
       rehydrated: (s) => {
         // state "schema" migration to clean out old contents and set defaults for old properties
         s.state.workspaces.forEach((workspace) => {

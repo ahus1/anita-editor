@@ -79,7 +79,6 @@
 <script>
 import asciidoctor from '@asciidoctor/core';
 import { codemirror } from 'vue-codemirror';
-import 'codemirror/lib/codemirror.css';
 import hljs from 'highlight.js';
 import xss from 'xss';
 import { getDefaultWhiteList } from 'xss/lib/default';
@@ -147,6 +146,12 @@ export default {
   },
   watch: {
     $route: {
+      immediate: true,
+      async handler() {
+        await this.getContent();
+      },
+    },
+    '$store.getters.activeFile': {
       immediate: true,
       async handler() {
         await this.getContent();
@@ -248,9 +253,14 @@ export default {
     async getContent() {
       const { file } = this.$route.query;
       this.saveDialogOpen = false;
+      const { activeFile } = this.$store.getters;
+      console.log('x', activeFile);
+      console.log(this.$route.name);
       if (file !== undefined) {
         await this.loadFile({ file });
         await this.$router.replace({ name: 'edit' });
+      } else if (activeFile === undefined && this.$route.name === 'edit') {
+        await this.$router.replace({ name: 'welcome' });
       }
     },
     async save() {

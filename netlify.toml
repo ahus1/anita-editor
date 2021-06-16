@@ -4,7 +4,8 @@
   functions = "lambda/dist"
 [build.environment]
   # maybe look at https://github.com/puppeteer/puppeteer/releases to find out which release matches with revision
-  NODE_CHROMIUM_REVISION = "800071"
+  NODE_CHROMIUM_REVISION = "869685"
+  NODE_VERSION = "v14.16.0"
 [[headers]]
   for = "/static/fonts/*.*.*"
   [headers.values]
@@ -25,7 +26,7 @@ force = false
 [[headers]]
   for = "/"
   [headers.values]
-	content-security-policy = "base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'unsafe-inline' 'self' https://fonts.googleapis.com/; connect-src 'self' https://api.github.com/; img-src 'self' https: data:; media-src 'none'; child-src 'none'; frame-src https://player.vimeo.com/ https://www.youtube.com/"
+	content-security-policy = "base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'unsafe-inline' 'self' https://fonts.googleapis.com/; connect-src 'self' https://api.github.com/ wss://signaling.yjs.dev wss://y-webrtc-signaling-eu.herokuapp.com wss://y-webrtc-signaling-us.herokuapp.com; img-src 'self' https: data:; media-src 'none'; child-src 'none'; frame-src https://player.vimeo.com/ https://www.youtube.com/"
 [[headers]]
   for = "/*"
   [header.values]

@@ -2,7 +2,43 @@
     <div class="overflow-y-auto border-collapse box-border shadow-inner p-4"
          style="min-height: 100vh; height: 100vh; max-height: 100vh;">
         <div v-html="content" class="adoc"></div>
-    <form class="w-full" @keydown.enter="load">
+      <form class="w-full border-2 p-4 rounded mb-6" @keydown.enter.capture="joinScratch">
+        <div class="adoc">
+          <div class="paragraph">
+            <p>Enter the name of a scratch file you'll be able to edit collaboratively.
+              You're changes will be stored locally <b>AND</b> will be transmitted to all users that are online at the same time editing a scratch with the same name.
+              This will share also your editing history, therefore please choose a unique name, or edit only public content.
+              Use this for a collaborative editing session.
+            </p>
+          </div>
+        </div>
+        <div class="mb-2">
+            <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="owner">
+              Scratch Name
+            </label>
+            <div class="relative">
+              <input autocomplete="off" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="scratch" type="text" placeholder="scratch name"
+                     v-model="scratch" :title="scratch">
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700" v-if="owners.length > 0">
+                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+              </div>
+          </div>
+        </div>
+        <button type="button" class="text-white font-bold mt-2 py-2 px-4 rounded"
+                :class="{ 'bg-gray-500': !inputScratchReady, 'bg-blue-500': inputScratchReady, 'cursor-not-allowed': !inputScratchReady, 'cursor-default': !inputScratchReady }"
+                :disabled="!inputScratchReady"
+                @click="joinScratch" id="joinScratch">
+          Join
+        </button>
+      </form>
+    <form class="w-full border-2 p-4 rounded" @keydown.enter.capture="loadGithub">
+      <div class="adoc">
+        <div class="paragraph">
+          <p>Enter details of a GitHub repo to edit an AsciiDoc file in that repo.
+            You're changes will be stored locally. If you have push permissions on that repo, you'll be able to commit your changes.
+          </p>
+        </div>
+      </div>
       <div class="flex flex-wrap -mx-3 mb-2">
         <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
           <label class="block tracking-wide text-gray-700 text-xs font-bold mb-2" for="owner">
@@ -73,9 +109,9 @@
         </div>
       </div>
       <button type="button" class="text-white font-bold mt-2 py-2 px-4 rounded"
-              :class="{ 'bg-gray-500': !inputReady, 'bg-blue-500': inputReady, 'cursor-not-allowed': !inputReady, 'cursor-default': !inputReady }"
-              :disabled="!inputReady"
-              @click="load" id="load">
+              :class="{ 'bg-gray-500': !inputGithubReady, 'bg-blue-500': inputGithubReady, 'cursor-not-allowed': !inputGithubReady, 'cursor-default': !inputGithubReady }"
+              :disabled="!inputGithubReady"
+              @click="loadGithub" id="load">
         Load
       </button>
     </form>
@@ -109,6 +145,7 @@ export default {
     const contents = this.getContents();
     return {
       content: this.renderContent(contents.start),
+      scratch: '',
       owner: '',
       owners: [],
       ownerSearched: undefined,
@@ -170,7 +207,10 @@ export default {
     filteredBranches() {
       return this.branches.filter((branch) => branch.name.indexOf(this.branch) !== -1).slice(0, 10);
     },
-    inputReady() {
+    inputScratchReady() {
+      return this.scratch !== '';
+    },
+    inputGithubReady() {
       return this.owner !== '' && this.repo !== '' && this.branch !== '' && this.path !== '';
     },
   },
@@ -324,14 +364,25 @@ export default {
       this.branch = branch.name;
     },
     ...mapActions([
-      'login', 'refreshUser', 'loadFile',
+      'login', 'refreshUser', 'loadFile', 'addScratch',
     ]),
-    async load() {
-      if (!this.inputReady) {
+    async loadGithub() {
+      if (!this.inputGithubReady) {
         return;
       }
       await this.loadFile({ file: `https://github.com/${this.owner}/${this.repo}/blob/${this.branch}/${this.path}` });
-      this.$router.push({ name: 'edit' });
+      if (this.$route.name !== 'edit') {
+        await this.$router.push({ name: 'edit' });
+      }
+    },
+    async joinScratch() {
+      if (!this.inputScratchReady) {
+        return;
+      }
+      await this.addScratch({ name: this.scratch });
+      if (this.$route.name !== 'scratch') {
+        await this.$router.push({ name: 'scratch' });
+      }
     },
     renderContent(content) {
       return asciidoctor().convert(content, options);
