@@ -43,7 +43,7 @@
     "@vue/cli-plugin-unit-jest": "~4.5.6",
     "@vue/cli-plugin-vuex": "~4.5.6",
     "@vue/cli-service": "~4.5.13",
-    "@vue/eslint-config-airbnb": "^5.0.2",
+    "@vue/eslint-config-airbnb": "^5.3.0",
     "@vue/test-utils": "^1.0.3",
     "babel-eslint": "^10.1.0",
     "chromedriver": "91.0.1",
