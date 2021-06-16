@@ -49,7 +49,7 @@
     "eslint-plugin-vue": "^7.11.0",
     "file-loader": "^6.0.0",
     "geckodriver": "^1.19.1",
-    "html-loader": "^1.1.0",
+    "html-loader": "^2.1.2",
     "html-webpack-plugin": "^4.3.0",
     "http-server": "^0.12.3",
     "mini-css-extract-plugin": "^1.6.0",
