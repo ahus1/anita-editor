@@ -79,25 +79,25 @@
 <script>
 import asciidoctor from '@asciidoctor/core';
 import { codemirror } from 'vue-codemirror';
-import hljs from 'highlight.js';
 import xss from 'xss';
 import { getDefaultWhiteList } from 'xss/lib/default';
 import { diffChars } from 'diff';
 import HtmlDiff from 'htmldiff-js';
 // conversion will run on the client side, therefore select browser variant
 import { mapActions, mapState } from 'vuex';
+import highlightJsExt from 'asciidoctor-highlight.js';
 import kroki from '../node_modules/asciidoctor-kroki/dist/browser/asciidoctor-kroki';
 
 require('codemirror-asciidoc');
 
 const registry = asciidoctor().Extensions.create();
+highlightJsExt.register(registry);
 kroki.register(registry);
 
 const asciidoctorOptions = {
   safe: 'unsafe',
   extension_registry: registry,
-  sourceHighlighter: 'highlightjs',
-  attributes: { showtitle: 'true', icons: 'font' },
+  attributes: { showtitle: 'true', icons: 'font', 'source-highlighter': 'highlightjs-ext' },
 };
 
 const xssOptions = {
@@ -233,8 +233,6 @@ export default {
       this.mode = (this.mode + 1) % 3;
     },
     highlight() {
-      const codeblocks = this.$el.querySelectorAll('.adoc pre.highlight code');
-      codeblocks.forEach((codeblock) => hljs.highlightBlock(codeblock));
       // all links should open in a new window to not disturb the editor
       const linksWithTarget = this.$el.querySelectorAll('.adoc a');
       linksWithTarget.forEach((link) => {
@@ -254,8 +252,6 @@ export default {
       const { file } = this.$route.query;
       this.saveDialogOpen = false;
       const { activeFile } = this.$store.getters;
-      console.log('x', activeFile);
-      console.log(this.$route.name);
       if (file !== undefined) {
         await this.loadFile({ file });
         await this.$router.replace({ name: 'edit' });

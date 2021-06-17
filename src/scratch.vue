@@ -43,7 +43,6 @@
 <script>
 import asciidoctor from '@asciidoctor/core';
 import { codemirror } from 'vue-codemirror';
-import hljs from 'highlight.js';
 import xss from 'xss';
 import { getDefaultWhiteList } from 'xss/lib/default';
 // conversion will run on the client side, therefore select browser variant
@@ -52,18 +51,19 @@ import * as Y from 'yjs';
 import { CodemirrorBinding } from 'y-codemirror';
 import { WebrtcProvider } from 'y-webrtc';
 import { IndexeddbPersistence } from 'y-indexeddb';
+import highlightJsExt from 'asciidoctor-highlight.js';
 import kroki from '../node_modules/asciidoctor-kroki/dist/browser/asciidoctor-kroki';
 
 require('codemirror-asciidoc');
 
 const registry = asciidoctor().Extensions.create();
+highlightJsExt.register(registry);
 kroki.register(registry);
 
 const asciidoctorOptions = {
   safe: 'unsafe',
   extension_registry: registry,
-  sourceHighlighter: 'highlightjs',
-  attributes: { showtitle: 'true', icons: 'font' },
+  attributes: { showtitle: 'true', icons: 'font', 'source-highlighter': 'highlightjs-ext' },
 };
 
 const xssOptions = {
@@ -132,8 +132,6 @@ export default {
     ...mapActions(['loadFile']),
     ...mapMutations(['addScratch']),
     highlight() {
-      const codeblocks = this.$el.querySelectorAll('.adoc pre.highlight code');
-      codeblocks.forEach((codeblock) => hljs.highlightBlock(codeblock));
       // all links should open in a new window to not disturb the editor
       const linksWithTarget = this.$el.querySelectorAll('.adoc a');
       linksWithTarget.forEach((link) => {
@@ -189,11 +187,11 @@ export default {
           const ydoc = new Y.Doc();
           this.yjsWebrtcProvider = new WebrtcProvider(room, ydoc);
           this.yjsWebrtcProvider.once('synced', () => {
-            console.log('syncted webrtc');
+            // console.log('syncted webrtc');
           });
           this.yjsIndexdbProvider = new IndexeddbPersistence(room, ydoc);
           this.yjsIndexdbProvider.once('synced', () => {
-            console.log('synced indexdb');
+            // console.log('synced indexdb');
           });
 
           const yText = ydoc.getText('codemirror');
