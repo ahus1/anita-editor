@@ -11,17 +11,17 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
-      component: () => import(/* webpackChunkName: "start" */ '../start'),
+      component: () => import(/* webpackChunkName: "start" */ '../start.vue'),
       name: 'welcome',
     },
     {
       path: '/edit',
-      component: () => import(/* webpackChunkName: "editor" */ '../editor'),
+      component: () => import(/* webpackChunkName: "editor" */ '../editor.vue'),
       name: 'edit',
     },
     {
       path: '/scratch',
-      component: () => import(/* webpackChunkName: "editor" */ '../scratch'),
+      component: () => import(/* webpackChunkName: "editor" */ '../scratch.vue'),
       name: 'scratch',
     },
     { path: '/login', component: Login },
