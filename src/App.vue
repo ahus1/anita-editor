@@ -9,13 +9,13 @@
                 </ol>
                 <div class="pt-4" v-for="(workspace, windex) in workspaces" :key="workspace.owner + workspace.repo + workspace.branch" style="white-space: nowrap">
                     <div>
-                        <button class="font-bold rounded cursor-pointer" @click="clearWorkspace({ workspaceId: windex})"
+                        <button class="font-bold rounded cursor-pointer pr-1" @click="clearWorkspace({ workspaceId: windex})"
                                 title="clear workspace with all files">&times;
                         </button>
                         <span :title="workspace.owner + '/' + workspace.repo + '/' + workspace.branch">{{workspace.owner}}/{{workspace.repo}}/{{workspace.branch}}</span>
                     </div>
                     <div class="px-4" v-for="(file, findex) in workspace.files" :key="file.path">
-                        <button class="font-bold rounded" @click="clearFile({workspaceId: windex, fileId: findex})"
+                        <button class="font-bold rounded pr-1" @click="clearFile({workspaceId: windex, fileId: findex})"
                                 title="clear file">&times;
                         </button>
                         <a class="cursor-pointer"
@@ -27,7 +27,7 @@
                     </div>
                 </div>
               <div class="pt-4" v-for="(scratch, sindex) in scratches" :key="scratch.name" style="white-space: nowrap">
-                <button class="font-bold rounded cursor-pointer" @click="leaveScratch({ scratchId: sindex})"
+                <button class="font-bold rounded cursor-pointer pr-1" @click="leaveScratch({ scratchId: sindex})"
                         title="leave scratch">&times;
                 </button>
                 <a class="cursor-pointer"

@@ -66,6 +66,7 @@ const store = new Vuex.Store({
     activeWorkspace: 0,
     workspaces: [],
     scratches: [],
+    docs: [],
     activeScratch: 0,
   },
   getters: {
