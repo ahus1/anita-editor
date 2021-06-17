@@ -100,7 +100,7 @@ export default {
     $route: {
       immediate: true,
       handler(to) {
-        console.log(to);
+        // console.log(to);
         if (to.path.startsWith('/http')) {
           this.$router.push({ name: 'edit', query: { file: to.path.substr(1) } });
         }
