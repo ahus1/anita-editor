@@ -4,6 +4,9 @@ import createPersistedState from 'vuex-persistedstate';
 import axios from 'axios';
 import * as Cookies from 'js-cookie';
 import merge from 'three-way-merge';
+import * as Y from 'yjs';
+import { WebrtcProvider } from 'y-webrtc';
+import { IndexeddbPersistence } from 'y-indexeddb';
 
 Vue.use(Vuex);
 
@@ -18,6 +21,31 @@ function b64EncodeUnicode(str) {
 function b64DecodeUnicode(str) {
   // Going backwards: from bytestream, to percent-encoding, to original string.
   return decodeURIComponent(atob(str).split('').map((c) => `%${(`00${c.charCodeAt(0).toString(16)}`).slice(-2)}`).join(''));
+}
+
+function roomFromName(str) {
+  return `yjs-${str}`.replace(/\s/g, '').toLowerCase();
+}
+
+function initRoom(room) {
+  const ydoc = new Y.Doc();
+  const yjsWebrtcProvider = new WebrtcProvider(room, ydoc);
+  yjsWebrtcProvider.once('synced', () => {
+    console.log(`syncted webrtc ${room}`);
+  });
+  const yjsIndexdbProvider = new IndexeddbPersistence(room, ydoc);
+  yjsIndexdbProvider.once('synced', () => {
+    console.log(`synced indexdb ${room}`);
+  });
+  const yText = ydoc.getText('codemirror');
+  const yjsUndoManager = new Y.UndoManager(yText);
+  return {
+    ydoc,
+    yjsWebrtcProvider,
+    yjsIndexdbProvider,
+    yjsUndoManager,
+    yText,
+  };
 }
 
 const store = new Vuex.Store({
@@ -65,6 +93,15 @@ const store = new Vuex.Store({
         return undefined;
       }
       return state.scratches[state.activeScratch];
+    },
+    activeScratchDoc(state) {
+      if (state.scratches.length === 0) {
+        return undefined;
+      }
+      if (state.activeScratch === undefined) {
+        return undefined;
+      }
+      return state.docs[state.activeScratch];
     },
     activeWorkspace(state) {
       if (state.workspaces.length === 0) {
@@ -156,13 +193,16 @@ const store = new Vuex.Store({
       }
     },
     leaveScratch(state, { scratchId }) {
-      const room = `yjs-${state.scratches[scratchId].name}`.replace(/\s/g, '').toLowerCase();
-      indexedDB.deleteDatabase(room);
+      const { room } = state.scratches[scratchId];
       state.scratches.splice(scratchId, 1);
+      state.docs[scratchId].yjsWebrtcProvider.destroy();
+      state.docs[scratchId].yjsIndexdbProvider.destroy();
+      state.docs[scratchId].yjsUndoManager.destroy();
+      state.docs.splice(scratchId, 1);
+      indexedDB.deleteDatabase(room);
       if (state.activeScratch >= state.scratches.length) {
         state.activeScratch = state.scratches.length - 1;
       }
-      console.log(state.activeScratch);
     },
     selectFile(state, { workspaceId, fileId }) {
       state.activeWorkspace = workspaceId;
@@ -285,7 +325,11 @@ const store = new Vuex.Store({
       }
     },
     addScratch(state, { name }) {
-      state.activeScratch = state.scratches.push({ name }) - 1;
+      state.activeScratch = state.scratches.push({
+        name,
+        room: roomFromName(name),
+      }) - 1;
+      state.docs.push(initRoom(roomFromName(name)));
     },
   },
   actions: {
@@ -331,7 +375,6 @@ const store = new Vuex.Store({
       }
     },
     addScratch(context, { name }) {
-      console.log(name);
       context.commit('addScratch', { name });
     },
     showErrorMessage(context, { message, error }) {
@@ -501,6 +544,13 @@ const store = new Vuex.Store({
               Vue.delete(file, 'lastReadSha');
             }
           });
+        });
+        s.state.docs = [];
+        s.state.scratches.forEach((scratch) => {
+          if (scratch.room === undefined) {
+            Vue.set(scratch, 'room', roomFromName(scratch.name));
+          }
+          s.state.docs.push(initRoom(scratch.room));
         });
       },
     }),

@@ -47,10 +47,7 @@ import xss from 'xss';
 import { getDefaultWhiteList } from 'xss/lib/default';
 // conversion will run on the client side, therefore select browser variant
 import { mapActions, mapMutations } from 'vuex';
-import * as Y from 'yjs';
 import { CodemirrorBinding } from 'y-codemirror';
-import { WebrtcProvider } from 'y-webrtc';
-import { IndexeddbPersistence } from 'y-indexeddb';
 import highlightJsExt from 'asciidoctor-highlight.js';
 import kroki from '../node_modules/asciidoctor-kroki/dist/browser/asciidoctor-kroki';
 
@@ -159,14 +156,6 @@ export default {
         this.yjsBinding.destroy();
         this.yjsBinding = null;
       }
-      if (this.yjsWebrtcProvider) {
-        this.yjsWebrtcProvider.destroy();
-        this.yjsWebrtcProvider = null;
-      }
-      if (this.yjsUndoManager) {
-        this.yjsUndoManager.destroy();
-        this.yjsUndoManager = null;
-      }
     },
     async getContent() {
       const { name } = this.$route.query;
@@ -182,24 +171,10 @@ export default {
       }
       if (this.cm && name === undefined) {
         this.closeYjs();
-        if (activeScratch) {
-          const room = `yjs-${activeScratch.name}`.replace(/\s/g, '').toLowerCase();
-          const ydoc = new Y.Doc();
-          this.yjsWebrtcProvider = new WebrtcProvider(room, ydoc);
-          this.yjsWebrtcProvider.once('synced', () => {
-            // console.log('syncted webrtc');
-          });
-          this.yjsIndexdbProvider = new IndexeddbPersistence(room, ydoc);
-          this.yjsIndexdbProvider.once('synced', () => {
-            // console.log('synced indexdb');
-          });
-
-          const yText = ydoc.getText('codemirror');
-          const yjsUndoManager = new Y.UndoManager(yText);
-          this.yjsUndoManager = yjsUndoManager;
-
-          this.yjsBinding = new CodemirrorBinding(yText, this.cm, this.yjsWebrtcProvider.awareness, {
-            yUndoManager: yjsUndoManager,
+        const { activeScratchDoc } = this.$store.getters;
+        if (activeScratchDoc) {
+          this.yjsBinding = new CodemirrorBinding(activeScratchDoc.yText, this.cm, activeScratchDoc.yjsWebrtcProvider.awareness, {
+            yUndoManager: activeScratchDoc.yjsUndoManager,
           });
         }
       }
