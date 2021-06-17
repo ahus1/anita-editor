@@ -326,9 +326,16 @@ const store = new Vuex.Store({
       }
     },
     addScratch(state, { name }) {
+      const room = roomFromName(name);
+      for (let i = 0; i < state.scratches.length; ++i) {
+        if (state.scratches[i].room === room) {
+          state.activeScratch = i;
+          return;
+        }
+      }
       state.activeScratch = state.scratches.push({
         name,
-        room: roomFromName(name),
+        room,
       }) - 1;
       state.docs.push(initRoom(roomFromName(name)));
     },

@@ -110,7 +110,13 @@ export default {
     $route: {
       immediate: true,
       async handler() {
-        await this.getContent();
+        const { name } = this.$route.query;
+        if (name !== undefined) {
+          await this.addScratch({ name });
+          if (this.$route.query !== undefined) {
+            await this.$router.replace({ query: {} });
+          }
+        }
       },
     },
     '$store.getters.activeScratch': {
@@ -158,18 +164,15 @@ export default {
       }
     },
     async getContent() {
-      const { name } = this.$route.query;
       const { activeScratch } = this.$store.getters;
-      if (name !== undefined) {
-        if (!activeScratch || activeScratch.name !== name) {
-          await this.addScratch({ name });
-          await this.$router.replace({ name: 'scratch', query: {} });
+      // return to welcome page when no scratch is available
+      if (activeScratch === undefined && this.$route.name === 'scratch') {
+        if (this.$store.getters.name !== undefined) {
+          await this.$router.replace({ name: 'welcome' });
+          return;
         }
-      } else if (activeScratch === undefined && this.$route.name === 'scratch') {
-        await this.$router.replace({ name: 'welcome' });
-        return;
       }
-      if (this.cm && name === undefined) {
+      if (this.cm) {
         this.closeYjs();
         const { activeScratchDoc } = this.$store.getters;
         if (activeScratchDoc) {
