@@ -27,7 +27,19 @@ function roomFromName(str) {
   return `yjs-${str}`.replace(/\s/g, '').toLowerCase();
 }
 
-function initRoom(room) {
+function getRandomColor() {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+// initialize color once per browser, so that the color stays the same after name changes
+const myColor = getRandomColor();
+
+function initRoom(room, user) {
   const ydoc = new Y.Doc();
   const yjsWebrtcProvider = new WebrtcProvider(room, ydoc);
   yjsWebrtcProvider.once('synced', () => {
@@ -39,6 +51,12 @@ function initRoom(room) {
   });
   const yText = ydoc.getText('codemirror');
   const yjsUndoManager = new Y.UndoManager(yText);
+  if (user && user !== '') {
+    yjsWebrtcProvider.awareness.setLocalStateField('user', {
+      name: user,
+      color: getRandomColor(),
+    });
+  }
   return {
     ydoc,
     yjsWebrtcProvider,
@@ -68,6 +86,7 @@ const store = new Vuex.Store({
     scratches: [],
     docs: [],
     activeScratch: 0,
+    scratchUserName: '',
   },
   getters: {
     activeFile(state) {
@@ -337,7 +356,16 @@ const store = new Vuex.Store({
         name,
         room,
       }) - 1;
-      state.docs.push(initRoom(roomFromName(name)));
+      state.docs.push(initRoom(roomFromName(name), state.scratchUserName));
+    },
+    setScratchUser(state, { name }) {
+      state.scratchUserName = name;
+      for (let i = 0; i < state.docs.length; ++i) {
+        state.docs[i].yjsWebrtcProvider.awareness.setLocalStateField('user', {
+          name,
+          color: myColor,
+        });
+      }
     },
   },
   actions: {
@@ -537,7 +565,7 @@ const store = new Vuex.Store({
   },
   plugins: [
     createPersistedState({
-      paths: ['activeWorkspace', 'workspaces', 'activeScratch', 'scratches'],
+      paths: ['activeWorkspace', 'workspaces', 'activeScratch', 'scratches', 'scratchUserName'],
       rehydrated: (s) => {
         // state "schema" migration to clean out old contents and set defaults for old properties
         s.state.workspaces.forEach((workspace) => {
@@ -558,7 +586,7 @@ const store = new Vuex.Store({
           if (scratch.room === undefined) {
             Vue.set(scratch, 'room', roomFromName(scratch.name));
           }
-          s.state.docs.push(initRoom(scratch.room));
+          s.state.docs.push(initRoom(scratch.room, s.state.scratchUserName));
         });
       },
     }),

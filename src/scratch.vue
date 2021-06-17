@@ -167,10 +167,8 @@ export default {
       const { activeScratch } = this.$store.getters;
       // return to welcome page when no scratch is available
       if (activeScratch === undefined && this.$route.name === 'scratch') {
-        if (this.$store.getters.name !== undefined) {
-          await this.$router.replace({ name: 'welcome' });
-          return;
-        }
+        await this.$router.replace({ name: 'welcome' });
+        return;
       }
       if (this.cm) {
         this.closeYjs();
