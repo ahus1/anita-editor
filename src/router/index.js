@@ -20,7 +20,7 @@ const router = new VueRouter({
       name: 'edit',
     },
     {
-      path: '/scratch',
+      path: '/scratch/:name',
       component: () => import(/* webpackChunkName: "editor" */ '../scratch.vue'),
       name: 'scratch',
     },

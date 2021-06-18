@@ -379,9 +379,8 @@ export default {
       if (!this.inputScratchReady) {
         return;
       }
-      await this.addScratch({ name: this.scratch });
       if (this.$route.name !== 'scratch') {
-        await this.$router.push({ name: 'scratch' });
+        await this.$router.push({ name: 'scratch', params: { name: this.scratch } });
       }
     },
     renderContent(content) {

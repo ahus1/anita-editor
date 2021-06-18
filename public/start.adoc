@@ -16,4 +16,4 @@ link:/#/https://github.com/ahus1/asciidoc-editor/blob/master/public/start.adoc[C
 
 link:/#/https://github.com/asciidoctor/asciidoctor.org/blob/main/docs/_includes/asciidoc-article-template.adoc[Click here to open an AsciiDoc article template]
 
-link:/#/scratch?name=general[Click here for a general collaboration session]
+link:/#/scratch/general[Click here for a general collaboration session]

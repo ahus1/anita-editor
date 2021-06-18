@@ -35,7 +35,7 @@
                             'router-link-exact-active': activeScratch && activeScratch === scratch && $route.name === 'scratch'
                            }"
                    :title="scratch.name"
-                   @click="selectScratchForEditor({scratchId: sindex})">{{scratch.name}}</a><br>
+                   @click="selectScratchForEditor(scratch.name)">{{scratch.name}}</a><br>
               </div>
               <div @click="openUserNameDialog" class="cursor-pointer pt-2" v-if="scratches.length > 0">User: <span v-if="scratchUserName !== ''">{{scratchUserName}}</span><span v-else>??</span></div>
               <div class="relative">
@@ -145,10 +145,9 @@ export default {
       }
       this.checkConflictActiveFile();
     },
-    selectScratchForEditor(scratchId) {
-      this.selectScratch(scratchId);
-      if (this.$route.name !== 'scratch') {
-        this.$router.push({ name: 'scratch' });
+    selectScratchForEditor(scratchName) {
+      if (this.$route.name !== 'scratch' || this.$route.params.name !== scratchName) {
+        this.$router.push({ name: 'scratch', params: { name: scratchName } });
       }
     },
     save() {

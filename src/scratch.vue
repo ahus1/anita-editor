@@ -46,7 +46,7 @@ import { codemirror } from 'vue-codemirror';
 import xss from 'xss';
 import { getDefaultWhiteList } from 'xss/lib/default';
 // conversion will run on the client side, therefore select browser variant
-import { mapActions, mapMutations } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 import { CodemirrorBinding } from 'y-codemirror';
 import highlightJsExt from 'asciidoctor-highlight.js';
 import kroki from '../node_modules/asciidoctor-kroki/dist/browser/asciidoctor-kroki';
@@ -110,12 +110,9 @@ export default {
     $route: {
       immediate: true,
       async handler() {
-        const { name } = this.$route.query;
-        if (name !== undefined) {
+        const { name } = this.$route.params;
+        if (name !== undefined && (this.activeScratch === undefined || this.activeScratch.name !== name)) {
           await this.addScratch({ name });
-          if (this.$route.query !== undefined) {
-            await this.$router.replace({ query: {} });
-          }
         }
       },
     },
@@ -127,6 +124,7 @@ export default {
     },
   },
   computed: {
+    ...mapGetters(['activeScratch']),
     preview() {
       return this.renderContent(this.content);
     },
@@ -164,9 +162,7 @@ export default {
       }
     },
     async getContent() {
-      const { activeScratch } = this.$store.getters;
-      // return to welcome page when no scratch is available
-      if (activeScratch === undefined && this.$route.name === 'scratch') {
+      if (this.activeScratch === undefined && this.$route.name === 'scratch') {
         await this.$router.replace({ name: 'welcome' });
         return;
       }
