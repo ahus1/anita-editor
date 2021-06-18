@@ -26,7 +26,7 @@ force = false
 [[headers]]
   for = "/"
   [headers.values]
-	content-security-policy = "base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'unsafe-inline' 'self' https://fonts.googleapis.com/; connect-src 'self' https://api.github.com/ wss://signaling.yjs.dev wss://y-webrtc-signaling-eu.herokuapp.com wss://y-webrtc-signaling-us.herokuapp.com; img-src 'self' https: data:; media-src 'none'; child-src 'none'; frame-src https://player.vimeo.com/ https://www.youtube.com/"
+	content-security-policy = "base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'unsafe-inline' 'self' https://fonts.googleapis.com/; connect-src 'self' https://api.github.com/ wss://signaling.yjs.dev wss://y-webrtc-signaling-eu.herokuapp.com wss://y-webrtc-signaling-us.herokuapp.com wss://asciidoc-editor-eu.herokuapp.com/; img-src 'self' https: data:; media-src 'none'; child-src 'none'; frame-src https://player.vimeo.com/ https://www.youtube.com/"
 [[headers]]
   for = "/*"
   [header.values]

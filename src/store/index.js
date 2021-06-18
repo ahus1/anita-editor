@@ -6,6 +6,7 @@ import * as Cookies from 'js-cookie';
 import merge from 'three-way-merge';
 import * as Y from 'yjs';
 import { WebrtcProvider } from 'y-webrtc';
+import { WebsocketProvider } from 'y-websocket';
 import { IndexeddbPersistence } from 'y-indexeddb';
 
 Vue.use(Vuex);
@@ -41,10 +42,21 @@ const myColor = getRandomColor();
 
 function initRoom(room, user) {
   const ydoc = new Y.Doc();
-  const yjsWebrtcProvider = new WebrtcProvider(room, ydoc);
-  yjsWebrtcProvider.once('synced', () => {
-    console.log(`syncted webrtc ${room}`);
+  let yjsWebrtcProvider;
+  // use websocket provider to better support VPNs and mobile devices
+  const yjsWsProvider = new WebsocketProvider('wss://asciidoc-editor-eu.herokuapp.com/', room, ydoc);
+  yjsWsProvider.on('status', (event) => {
+    console.log(`ws status ${room}: ${event.status}`); // logs "connected" or "disconnected"
   });
+  if (true) {
+    yjsWebrtcProvider = new WebrtcProvider(room, ydoc, { awareness: yjsWsProvider.awareness });
+    yjsWebrtcProvider.once('synced', () => {
+      console.log(`syncted webrtc ${room}`);
+    });
+    yjsWebrtcProvider.on('status', (event) => {
+      console.log(`webrtc ${room}: ${event.status}`);
+    });
+  }
   const yjsIndexdbProvider = new IndexeddbPersistence(room, ydoc);
   yjsIndexdbProvider.once('synced', () => {
     console.log(`synced indexdb ${room}`);
@@ -52,7 +64,13 @@ function initRoom(room, user) {
   const yText = ydoc.getText('codemirror');
   const yjsUndoManager = new Y.UndoManager(yText);
   if (user && user !== '') {
-    yjsWebrtcProvider.awareness.setLocalStateField('user', {
+    if (yjsWebrtcProvider) {
+      yjsWebrtcProvider.awareness.setLocalStateField('user', {
+        name: user,
+        color: getRandomColor(),
+      });
+    }
+    yjsWsProvider.awareness.setLocalStateField('user', {
       name: user,
       color: getRandomColor(),
     });
@@ -60,6 +78,7 @@ function initRoom(room, user) {
   return {
     ydoc,
     yjsWebrtcProvider,
+    yjsWsProvider,
     yjsIndexdbProvider,
     yjsUndoManager,
     yText,
@@ -215,7 +234,10 @@ const store = new Vuex.Store({
     leaveScratch(state, { scratchId }) {
       const { room } = state.scratches[scratchId];
       state.scratches.splice(scratchId, 1);
-      state.docs[scratchId].yjsWebrtcProvider.destroy();
+      if (state.docs[scratchId].yjsWebrtcProvider) {
+        state.docs[scratchId].yjsWebrtcProvider.destroy();
+      }
+      state.docs[scratchId].yjsWsProvider.destroy();
       state.docs[scratchId].yjsIndexdbProvider.destroy();
       state.docs[scratchId].yjsUndoManager.destroy();
       state.docs.splice(scratchId, 1);
@@ -364,9 +386,15 @@ const store = new Vuex.Store({
     setScratchUser(state, { name }) {
       state.scratchUserName = name;
       for (let i = 0; i < state.docs.length; ++i) {
-        state.docs[i].yjsWebrtcProvider.awareness.setLocalStateField('user', {
+        if (state.docs[i].yjsWebrtcProvider) {
+          state.docs[i].yjsWebrtcProvider.awareness.setLocalStateField('user', {
+            name,
+            color: myColor,
+          });
+        }
+        state.docs[i].yjsWsProvider.awareness.setLocalStateField('user', {
           name,
-          color: myColor,
+          color: getRandomColor(),
         });
       }
     },

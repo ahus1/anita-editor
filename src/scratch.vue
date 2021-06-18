@@ -170,7 +170,13 @@ export default {
         this.closeYjs();
         const { activeScratchDoc } = this.$store.getters;
         if (activeScratchDoc) {
-          this.yjsBinding = new CodemirrorBinding(activeScratchDoc.yText, this.cm, activeScratchDoc.yjsWebrtcProvider.awareness, {
+          let awareness;
+          if (activeScratchDoc.yjsWsProvider) {
+            awareness = activeScratchDoc.yjsWsProvider.awareness;
+          } else {
+            awareness = activeScratchDoc.yjsWebrtcProvider.awareness;
+          }
+          this.yjsBinding = new CodemirrorBinding(activeScratchDoc.yText, this.cm, awareness, {
             yUndoManager: activeScratchDoc.yjsUndoManager,
           });
         }
