@@ -26,7 +26,7 @@ const router = new VueRouter({
     },
     {
       path: '/scratch/:name',
-      component: () => import(/* webpackChunkName: "editor" */ '../scratch.vue'),
+      component: () => import(/* webpackChunkName: "scratch" */ '../scratch.vue'),
       name: 'scratch',
     },
     { path: '/login', component: Login },
