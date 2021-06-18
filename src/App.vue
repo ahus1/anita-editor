@@ -88,7 +88,7 @@
                 </div>
             </div>
         </div>
-        <div id="content-wrapper" class="w-3/4 lg:w-5/6">
+        <div id="content-wrapper" class="w-full">
             <router-view></router-view>
         </div>
     </div>
