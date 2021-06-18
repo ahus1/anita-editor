@@ -170,6 +170,8 @@ export default {
       history.replaceState(null, '', href);
       if (this.$store.getters.activeFile) {
         await this.$router.push({ name: 'edit' });
+      } else if (this.$store.getters.activeScratch) {
+        await this.$router.push({ name: 'scratch', params: { name: this.$store.getters.activeScratch.name } });
       }
       await this.login(result.groups);
     } else {

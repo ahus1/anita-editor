@@ -81,11 +81,11 @@ const store = new Vuex.Store({
       // {id: 0, message: "xxx"}
     ],
     currentMessageId: 0,
-    activeWorkspace: 0,
+    activeWorkspace: -1,
     workspaces: [],
     scratches: [],
     docs: [],
-    activeScratch: 0,
+    activeScratch: -1,
     scratchUserName: '',
   },
   getters: {
@@ -230,6 +230,7 @@ const store = new Vuex.Store({
     },
     selectScratch(state, { scratchId }) {
       state.activeScratch = scratchId;
+      state.activeWorkspace = -1;
     },
     loadedFile(state, {
       owner, repo, branch, path, content, sha,
@@ -349,6 +350,7 @@ const store = new Vuex.Store({
       for (let i = 0; i < state.scratches.length; ++i) {
         if (state.scratches[i].room === room) {
           state.activeScratch = i;
+          state.activeWorkspace = -1;
           return;
         }
       }
@@ -356,6 +358,7 @@ const store = new Vuex.Store({
         name,
         room,
       }) - 1;
+      state.activeWorkspace = -1;
       state.docs.push(initRoom(roomFromName(name), state.scratchUserName));
     },
     setScratchUser(state, { name }) {

@@ -15,6 +15,11 @@ const router = new VueRouter({
       name: 'welcome',
     },
     {
+      path: '/restore',
+      component: () => import(/* webpackChunkName: "restore" */ '../restore.vue'),
+      name: 'restore',
+    },
+    {
       path: '/edit',
       component: () => import(/* webpackChunkName: "editor" */ '../editor.vue'),
       name: 'edit',
