@@ -17,7 +17,7 @@
     "axios": "^0.21.1",
     "codemirror": "^5.61.1",
     "codemirror-asciidoc": "^1.0.4",
-    "core-js": "^3.6.5",
+    "core-js": "^3.15.0",
     "diff": "^5.0.0",
     "font-awesome": "^4.7.0",
     "htmldiff-js": "^1.0.5",
