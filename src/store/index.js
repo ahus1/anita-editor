@@ -11,6 +11,8 @@ import { IndexeddbPersistence } from 'y-indexeddb';
 
 Vue.use(Vuex);
 
+const WEBRTC_ENABLED = true;
+
 function b64EncodeUnicode(str) {
   // first we use encodeURIComponent to get percent-encoded UTF-8,
   // then we convert the percent encodings into raw bytes which
@@ -48,7 +50,7 @@ function initRoom(room, user) {
   yjsWsProvider.on('status', (event) => {
     console.log(`ws status ${room}: ${event.status}`); // logs "connected" or "disconnected"
   });
-  if (true) {
+  if (WEBRTC_ENABLED) {
     yjsWebrtcProvider = new WebrtcProvider(room, ydoc, { awareness: yjsWsProvider.awareness });
     yjsWebrtcProvider.once('synced', () => {
       console.log(`syncted webrtc ${room}`);

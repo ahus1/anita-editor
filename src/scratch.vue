@@ -153,7 +153,22 @@ export default {
       this.getContent();
     },
     onCmCodeChange(content) {
-      this.content = content;
+      // this will debounce changes in the editor for the preview
+      // the first character will render immediately, the next character will be delayed for some milliseconds
+      if (this.content !== content || this.delay) {
+        if (this.delay) {
+          this.delayedContent = content;
+        } else {
+          this.content = content;
+          this.delay = window.setTimeout(() => {
+            if (this.delayedContent && this.delayedContent !== this.content) {
+              this.content = this.delayedContent;
+              this.delayedContent = undefined;
+            }
+            this.delay = undefined;
+          }, 200);
+        }
+      }
     },
     closeYjs() {
       if (this.yjsBinding) {
