@@ -15,6 +15,9 @@ const store = new Vuex.Store({
     activeFile() {
       return undefined;
     },
+    activeScratch() {
+      return undefined;
+    },
   },
 });
 
