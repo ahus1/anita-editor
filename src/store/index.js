@@ -102,11 +102,11 @@ const store = new Vuex.Store({
       // {id: 0, message: "xxx"}
     ],
     currentMessageId: 0,
-    activeWorkspace: -1,
+    activeWorkspace: undefined,
     workspaces: [],
     scratches: [],
     docs: [],
-    activeScratch: -1,
+    activeScratch: undefined,
     scratchUserName: '',
   },
   getters: {
@@ -130,7 +130,7 @@ const store = new Vuex.Store({
       if (state.scratches.length === 0) {
         return undefined;
       }
-      if (state.activeScratch === undefined) {
+      if (state.activeScratch === undefined || state.activeScratch >= state.scratches.length) {
         return undefined;
       }
       return state.scratches[state.activeScratch];
