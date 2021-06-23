@@ -91,7 +91,7 @@ require('codemirror-asciidoc');
 
 const registry = asciidoctor().Extensions.create();
 highlightJsExt.register(registry);
-if (navigator.userAgent.toLowerCase().indexOf('safari') === -1) {
+if (navigator.userAgent.toLowerCase().indexOf('safari') === -1 || navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
   const kroki = require('../node_modules/asciidoctor-kroki/dist/browser/asciidoctor-kroki');
   kroki.register(registry);
 }
