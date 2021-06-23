@@ -128,10 +128,12 @@ import asciidoctor from '@asciidoctor/core';
 // conversion will run on the client side, therefore select browser variant
 import { mapActions, mapState } from 'vuex';
 import axios from 'axios';
-import kroki from '../node_modules/asciidoctor-kroki/dist/browser/asciidoctor-kroki';
 
 const registry = asciidoctor().Extensions.create();
-kroki.register(registry);
+if (navigator.userAgent.toLowerCase().indexOf('safari') === -1) {
+  const kroki = require('../node_modules/asciidoctor-kroki/dist/browser/asciidoctor-kroki');
+  kroki.register(registry);
+}
 
 const options = {
   safe: 'unsafe',
