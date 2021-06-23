@@ -7,12 +7,12 @@ You can return any time after editing, your status will be saved in your local b
 
 To save your changes, you'll need to log in to GitHub with your account.
 
-This editor is available as open source. Have a look at https://github.com/ahus1/asciidoc-editor[it's GitHub repository^] to create issues and to contribute.
+This editor is available as open source. Have a look at https://github.com/ahus1/anita-editor[it's GitHub repository^] to create issues and to contribute.
 
 You can pass the GitHub file URL as a parameter to this app, use: +
-`++https://asciidoc-editor.ahus1.de#https://github.com/<owner>/<repo>/blob/<branch>/<path>++`
+`++https://anita-editor.ahus1.de#https://github.com/<owner>/<repo>/blob/<branch>/<path>++`
 
-link:/#/https://github.com/ahus1/asciidoc-editor/blob/master/public/start.adoc[Click here to open this readme in the editor]
+link:/#/https://github.com/ahus1/anita-editor/blob/master/public/start.adoc[Click here to open this readme in the editor]
 
 link:/#/https://github.com/asciidoctor/asciidoctor.org/blob/main/docs/_includes/asciidoc-article-template.adoc[Click here to open an AsciiDoc article template]
 

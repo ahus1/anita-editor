@@ -1,14 +1,16 @@
-= AsciiDoc Web Editor
+= Anita: Web Editor for AsciiDoc
 
-This is a web-browser only proof-of concent for an editor.
+This is a web-browser only proof-of concept for an editor.
 The editor runs in the browser and reads/writes to GitHub via API.
 It shows all changes in a live preview.
 
 **Future Goal of this editor:** Guide users to make changes to the documentation up to the point where they create a pull request.
 
+The name of this editor is inspired by the writer Anita Brenner.
+
 == How to use
 
-Go to https://asciidoc-editor.ahus1.de/ and follow the instructions.
+Go to https://anita-editor.ahus1.de/ and follow the instructions.
 
 == How to develop
 

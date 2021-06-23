@@ -70,7 +70,7 @@
                     <router-link to="/login" v-show="workspaces.length > 0">Please log-in to save your work</router-link>
                 </div>
                 <div class="pt-10">
-                    <a href="https://github.com/ahus1/asciidoc-editor" target="_blank" rel="noopener">Source (GitHub)</a>
+                    <a href="https://github.com/ahus1/anita-editor" target="_blank" rel="noopener">Source (GitHub)</a>
                 </div>
                 <div>
                     <a href="https://www.ahus1.de/aboutme" target="_blank" rel="noopener">About me</a>

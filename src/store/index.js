@@ -46,7 +46,7 @@ function initRoom(room, user) {
   const ydoc = new Y.Doc();
   let yjsWebrtcProvider;
   // use websocket provider to better support VPNs and mobile devices
-  const yjsWsProvider = new WebsocketProvider('wss://asciidoc-editor-eu.herokuapp.com/', room, ydoc);
+  const yjsWsProvider = new WebsocketProvider('wss://anita-editor-eu.herokuapp.com/', room, ydoc);
   yjsWsProvider.on('status', (event) => {
     console.log(`ws status ${room}: ${event.status}`); // logs "connected" or "disconnected"
   });

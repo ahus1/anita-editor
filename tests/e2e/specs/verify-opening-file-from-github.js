@@ -17,7 +17,7 @@ module.exports = {
     contentWrapper.waitForElementPresent('@owner');
     contentWrapper.waitForElementVisible('@owner');
     contentWrapper.setValue('@owner', 'ahus1');
-    contentWrapper.setValue('@repo', 'asciidoc-editor');
+    contentWrapper.setValue('@repo', 'anita-editor');
     contentWrapper.setValue('@branch', 'master');
     contentWrapper.setValue('@path', 'README.adoc');
     contentWrapper.waitForElementPresent('@load');
@@ -25,8 +25,8 @@ module.exports = {
     contentWrapper.click('@load');
 
     contentWrapper.expect.element('@editor').to.be.visible;
-    contentWrapper.expect.element('@editor').text.to.contain('= AsciiDoc Web Editor');
-    contentWrapper.expect.element('@adoc').text.to.contain('This is a web-browser only proof-of concent for an editor.');
+    contentWrapper.expect.element('@editor').text.to.contain('= Anita: Web Editor for AsciiDoc');
+    contentWrapper.expect.element('@adoc').text.to.contain('This is a web-browser only proof-of concept for an editor.');
 
     browser.end();
   },
