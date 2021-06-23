@@ -109,7 +109,8 @@ export default {
     ...mapState(['github', 'workspaces', 'messages', 'scratches', 'scratchUserName']),
     ...mapGetters(['activeScratch']),
     activefile() {
-      if (this.$store.state.activeWorkspace === undefined || this.$store.state.activeWorkspace >= this.$store.state.workspaces.length) {
+      if (this.$store.state.activeWorkspace === undefined || this.$store.state.activeWorkspace >= this.$store.state.workspaces.length
+          || this.$store.state.activeWorkspace < 0) {
         return undefined;
       }
       if (this.$store.state.activeWorkspace >= this.$store.state.workspaces.length) {
