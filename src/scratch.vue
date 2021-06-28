@@ -44,11 +44,11 @@
 import asciidoctor from '@asciidoctor/core';
 import { codemirror } from 'vue-codemirror';
 import xss from 'xss';
-import { getDefaultWhiteList } from 'xss/lib/default';
 // conversion will run on the client side, therefore select browser variant
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 import { CodemirrorBinding } from 'y-codemirror';
 import highlightJsExt from 'asciidoctor-highlight.js';
+import xssOptions from './whitelist';
 
 require('codemirror-asciidoc');
 
@@ -64,29 +64,6 @@ const asciidoctorOptions = {
   extension_registry: registry,
   attributes: { showtitle: 'true', icons: 'font', 'source-highlighter': 'highlightjs-ext' },
 };
-
-const xssOptions = {
-  whiteList: getDefaultWhiteList(),
-  onIgnoreTag(tag) {
-    console.log(`ignoring tag "${tag}' as it is not on the whitelist`);
-  },
-  onIgnoreTagAttr(tag, name, value) {
-    console.log(`ignoring tag/attr "${tag}/${name}" with value "${value}" as it is not on the whitelist`);
-  },
-};
-
-// allow ID, title and class for all elements on the whitelist
-Object.keys(xssOptions.whiteList).forEach((key) => xssOptions.whiteList[key].push('id', 'title', 'class'));
-
-xssOptions.whiteList.ol.push('type');
-xssOptions.whiteList.ul.push('type');
-xssOptions.whiteList.code.push('data-lang');
-xssOptions.whiteList.i.push('data-value');
-xssOptions.whiteList.a.push('rel');
-xssOptions.whiteList.kbd = [];
-
-// columns have a setting of the width style, therefore allow style
-xssOptions.whiteList.col.push('style');
 
 export default {
   data() {
