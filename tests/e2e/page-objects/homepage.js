@@ -37,6 +37,12 @@ module.exports = {
             adoc: {
               selector: '.adoc',
             },
+            scratch: {
+              selector: '#scratch',
+            },
+            join: {
+              selector: '#joinScratch',
+            },
             owner: {
               selector: '#owner',
             },
@@ -54,6 +60,9 @@ module.exports = {
             },
             editor: {
               selector: '.CodeMirror',
+            },
+            editorTextarea: {
+              selector: '.CodeMirror textarea',
             },
           },
         },
