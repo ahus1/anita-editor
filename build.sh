@@ -2,7 +2,11 @@
 set -e
 set -x
 
-yarn install
+if [ ! -e /opt/build/repo/node_modules/chromium/lib/chromium/chrome-linux ]; then
+  rm -rf `pwd`/node_modules/chromium
+  rm -rf `pwd`/node_modules/.yarn-integrity
+  yarn install
+fi
 export PATH=`pwd`/node_modules/chromium/lib/chromium/chrome-linux:$PATH
 which chrome
 # see netlify.toml for CHROMIUM_REVISION that specifies the chrome version
