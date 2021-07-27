@@ -62,7 +62,7 @@ if (navigator.userAgent.toLowerCase().indexOf('safari') === -1 || navigator.user
 const asciidoctorOptions = {
   safe: 'unsafe',
   extension_registry: registry,
-  attributes: { showtitle: 'true', icons: 'font', 'source-highlighter': 'highlightjs-ext' },
+  attributes: { showtitle: 'true', icons: 'font@', 'source-highlighter': 'highlightjs-ext' },
 };
 
 export default {
