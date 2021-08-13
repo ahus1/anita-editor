@@ -13,7 +13,7 @@
   "dependencies": {
     "@asciidoctor/core": "^2.2.5",
     "asciidoctor-highlight.js": "^0.3.0",
-    "asciidoctor-kroki": "^0.13.0",
+    "asciidoctor-kroki": "^0.14.0",
     "axios": "^0.21.1",
     "codemirror": "^5.61.1",
     "codemirror-asciidoc": "^1.0.4",
