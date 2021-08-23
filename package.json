@@ -57,7 +57,7 @@
     "geckodriver": "^2.0.3",
     "html-loader": "^1.1.0",
     "html-webpack-plugin": "^4.3.0",
-    "http-server": "^13.0.0",
+    "http-server": "^13.0.1",
     "mini-css-extract-plugin": "^1.6.2",
     "postcss-import": "^12.0.1",
     "postcss-loader": "^4.0.2",
