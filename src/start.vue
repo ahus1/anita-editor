@@ -130,10 +130,6 @@ import { mapActions, mapState } from 'vuex';
 import axios from 'axios';
 
 const registry = asciidoctor().Extensions.create();
-if (navigator.userAgent.toLowerCase().indexOf('safari') === -1 || navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
-  import(/* webpackChunkName: "kroki" */ '../node_modules/asciidoctor-kroki/dist/browser/asciidoctor-kroki')
-    .then((value) => value.register(registry));
-}
 
 const options = {
   safe: 'unsafe',

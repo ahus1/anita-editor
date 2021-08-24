@@ -86,15 +86,13 @@ import HtmlDiff from 'htmldiff-js';
 import { mapActions, mapState } from 'vuex';
 import highlightJsExt from 'asciidoctor-highlight.js';
 import xssOptions from './whitelist';
+import kroki from '../node_modules/asciidoctor-kroki/dist/browser/asciidoctor-kroki';
 
 require('codemirror-asciidoc');
 
 const registry = asciidoctor().Extensions.create();
 highlightJsExt.register(registry);
-if (navigator.userAgent.toLowerCase().indexOf('safari') === -1 || navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
-  import(/* webpackChunkName: "kroki" */ '../node_modules/asciidoctor-kroki/dist/browser/asciidoctor-kroki')
-    .then((value) => value.register(registry));
-}
+kroki.register(registry);
 
 const asciidoctorOptions = {
   safe: 'unsafe',
