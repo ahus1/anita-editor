@@ -644,7 +644,9 @@ const store = new Vuex.Store({
 let unload = false;
 
 window.addEventListener('storage', (event) => {
-  if (event.key === 'vuex') {
+  // when using Safari, the current window receives its own events (as opposed to Chrome and Firefox)
+  // therefore check this windows is in the background (doesn't have focus) before unloading)
+  if (event.key === 'vuex' && !document.hasFocus()) {
     unload = true;
     window.location.href = '/changed.html';
   }
