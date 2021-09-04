@@ -18,7 +18,7 @@ module.exports = {
     contentWrapper.waitForElementVisible('@owner');
     contentWrapper.setValue('@owner', 'ahus1');
     contentWrapper.setValue('@repo', 'anita-editor');
-    contentWrapper.setValue('@branch', 'master');
+    contentWrapper.setValue('@branch', 'main');
     contentWrapper.setValue('@path', 'README.adoc');
     contentWrapper.waitForElementPresent('@load');
     contentWrapper.waitForElementVisible('@load');
