@@ -12731,13 +12731,10 @@ v8-compile-cache@^2.0.3, v8-compile-cache@^2.2.0:
   resolved "https://registry.yarnpkg.com/v8-compile-cache/-/v8-compile-cache-2.3.0.tgz#2de19618c66dc247dcfb6f99338035d8245a2cee"
   integrity sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==
 
-val-loader@^2.1.1:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/val-loader/-/val-loader-2.1.2.tgz#3f2efaed5791791727df62858ccaa07fc27579e7"
-  integrity sha512-slp7F4QaEE3h2dCKb28ulCkgVYqpbTcx9u/8or+lpWGOn5v7+hrQXZ+dGbblrIf2LBkVZBCiinLh7DgYO4Ds5g==
-  dependencies:
-    loader-utils "^2.0.0"
-    schema-utils "^3.0.0"
+val-loader@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/val-loader/-/val-loader-3.0.0.tgz#fd4683a748257b65b15d0cc7b9deda8e0d2fb133"
+  integrity sha512-bzoJAdCCjrh3nK61djE9/d717oCDyxKaHQhKpW8muop64MvKk0TLYOGgn1ZdNduYdplNtInynZ0cdzDifpLzZw==
 
 validate-npm-package-license@^3.0.1:
   version "3.0.4"
