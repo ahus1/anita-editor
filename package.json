@@ -62,7 +62,7 @@
     "postcss-loader": "^4.0.2",
     "precss": "^4.0.0",
     "raw-loader": "^4.0.1",
-    "tailwindcss": "^1.4.4",
+    "tailwindcss": "^2.0.4",
     "url-loader": "^4.1.0",
     "val-loader": "^2.1.1",
     "vue-cli-plugin-tailwind": "~1.5.0",
