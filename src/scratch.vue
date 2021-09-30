@@ -42,8 +42,9 @@
 
 <script>
 import asciidoctor from '@asciidoctor/core';
-import { codemirror } from 'vue-codemirror';
+import 'codemirror';
 import 'codemirror-asciidoc';
+import { codemirror } from 'vue-codemirror';
 import xss from 'xss';
 // conversion will run on the client side, therefore select browser variant
 import { mapActions, mapGetters, mapMutations } from 'vuex';

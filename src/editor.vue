@@ -78,8 +78,9 @@
 
 <script>
 import asciidoctor from '@asciidoctor/core';
-import { codemirror } from 'vue-codemirror';
+import 'codemirror';
 import 'codemirror-asciidoc';
+import { codemirror } from 'vue-codemirror';
 import xss from 'xss';
 import { diffChars } from 'diff';
 import HtmlDiff from 'htmldiff-js';
