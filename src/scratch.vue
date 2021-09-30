@@ -43,6 +43,7 @@
 <script>
 import asciidoctor from '@asciidoctor/core';
 import { codemirror } from 'vue-codemirror';
+import 'codemirror-asciidoc';
 import xss from 'xss';
 // conversion will run on the client side, therefore select browser variant
 import { mapActions, mapGetters, mapMutations } from 'vuex';
@@ -50,8 +51,6 @@ import { CodemirrorBinding } from 'y-codemirror';
 import highlightJsExt from 'asciidoctor-highlight.js';
 import xssOptions from './whitelist';
 import kroki from '../node_modules/asciidoctor-kroki/dist/browser/asciidoctor-kroki';
-
-require('codemirror-asciidoc');
 
 const registry = asciidoctor().Extensions.create();
 highlightJsExt.register(registry);
