@@ -53,7 +53,7 @@ function initRoom(room, user) {
   if (WEBRTC_ENABLED) {
     yjsWebrtcProvider = new WebrtcProvider(room, ydoc, { awareness: yjsWsProvider.awareness });
     yjsWebrtcProvider.once('synced', () => {
-      console.log(`syncted webrtc ${room}`);
+      console.log(`synced webrtc ${room}`);
     });
     yjsWebrtcProvider.on('status', (event) => {
       console.log(`webrtc ${room}: ${event.status}`);
