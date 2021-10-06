@@ -16,7 +16,7 @@
     "asciidoctor-kroki": "^0.14.0",
     "axios": "^0.22.0",
     "codemirror-asciidoc": "^1.0.4",
-    "core-js": "^3.18.1",
+    "core-js": "^3.18.2",
     "diff": "^5.0.0",
     "font-awesome": "^4.7.0",
     "htmldiff-js": "^1.0.5",
