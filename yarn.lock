@@ -1711,12 +1711,12 @@
     thread-loader "^2.1.3"
     webpack "^4.0.0"
 
-"@vue/cli-plugin-e2e-nightwatch@~4.5.6":
-  version "4.5.13"
-  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-e2e-nightwatch/-/cli-plugin-e2e-nightwatch-4.5.13.tgz#7e9e3f9f42feda49506960f57dd71ae14ddb6bab"
-  integrity sha512-ICsj6eMoUqJIrqRD1kgAv8IuDiXcCjBZ87yoeGMZkELj8Dkv0Z9KHQA8xq5KCLM/8SeNp9SH9ntNSce0Q1B1pg==
+"@vue/cli-plugin-e2e-nightwatch@~4.5.14":
+  version "4.5.14"
+  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-e2e-nightwatch/-/cli-plugin-e2e-nightwatch-4.5.14.tgz#732120c4f9e40eb31f2f3b123575f38e556c9f7f"
+  integrity sha512-nCoTaHipT61M2CP5xK7HJUAoGH+jqOCCjJs98XklLbZ92tkSaW3Ce327YMor5dltdvk/oZgepJYIoC2CC3m1rw==
   dependencies:
-    "@vue/cli-shared-utils" "^4.5.13"
+    "@vue/cli-shared-utils" "^4.5.14"
     deepmerge "^4.2.2"
     nightwatch "^1.3.5"
 
@@ -1739,15 +1739,15 @@
   dependencies:
     "@vue/cli-shared-utils" "^4.5.13"
 
-"@vue/cli-plugin-unit-jest@~4.5.6":
-  version "4.5.13"
-  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-unit-jest/-/cli-plugin-unit-jest-4.5.13.tgz#6aca031452a5883f39580ec50ea926c982e1d138"
-  integrity sha512-8t7QIihJWB9Kv85FamrEzWbJnvsLhQdyXHl3h+qhAihrZdLL+9mj905y88cBCq+i2PqqZ/qAoabbpf4DxDAb7g==
+"@vue/cli-plugin-unit-jest@~4.5.14":
+  version "4.5.14"
+  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-unit-jest/-/cli-plugin-unit-jest-4.5.14.tgz#27ffe12e8e973cda4f5c718a3338f874e29d7015"
+  integrity sha512-vv2qPnJxBaRh7aGhYNsCYIq0QFBKrRIRNytat7gLtUo9BlA8n+4RN2O8LOikO8qrSDE3HGTRvJnrYQrNG/xA2Q==
   dependencies:
     "@babel/core" "^7.11.0"
     "@babel/plugin-transform-modules-commonjs" "^7.9.6"
     "@types/jest" "^24.0.19"
-    "@vue/cli-shared-utils" "^4.5.13"
+    "@vue/cli-shared-utils" "^4.5.14"
     babel-core "^7.0.0-bridge.0"
     babel-jest "^24.9.0"
     babel-plugin-transform-es2015-modules-commonjs "^6.26.2"
@@ -1828,10 +1828,10 @@
   optionalDependencies:
     vue-loader-v16 "npm:vue-loader@^16.1.0"
 
-"@vue/cli-shared-utils@^4.5.13":
-  version "4.5.13"
-  resolved "https://registry.yarnpkg.com/@vue/cli-shared-utils/-/cli-shared-utils-4.5.13.tgz#acd40f31b4790f1634292bdaa5fca95dc1e0ff50"
-  integrity sha512-HpnOrkLg42RFUsQGMJv26oTG3J3FmKtO2WSRhKIIL+1ok3w9OjGCtA3nMMXN27f9eX14TqO64M36DaiSZ1fSiw==
+"@vue/cli-shared-utils@^4.5.13", "@vue/cli-shared-utils@^4.5.14":
+  version "4.5.14"
+  resolved "https://registry.yarnpkg.com/@vue/cli-shared-utils/-/cli-shared-utils-4.5.14.tgz#4cdc98544205795144fa1a712966a33450d9a4c7"
+  integrity sha512-OJeabPep8yvQ7n2lgbsw6lzBXmjaBHlCt7k9wnsPiXKtNAnHsv40ejARRnj4HTOuMaW6i1QQ17X3WaozI0zaMw==
   dependencies:
     "@hapi/joi" "^15.0.1"
     chalk "^2.4.2"
@@ -13502,12 +13502,12 @@ yauzl@^2.10.0:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.1.0"
 
-yjs@^13.5.13:
-  version "13.5.13"
-  resolved "https://registry.yarnpkg.com/yjs/-/yjs-13.5.13.tgz#0bf4d415938fd57212805ba942a5d18ec77fb537"
-  integrity sha512-5vDcT2ZY8USY6jfwGU1xWcyLz4UwOZH9ue5Ri/G9qv3u4rD7bhKeZhtQM+92/7ft6T2fnZf6roVhDvCx7ixf7g==
+yjs@^13.5.14:
+  version "13.5.14"
+  resolved "https://registry.yarnpkg.com/yjs/-/yjs-13.5.14.tgz#6ceb85ca3af6135cdf0f0c0c4ef6c0018cfdd29c"
+  integrity sha512-yQHtn7UQJTOTA20EiLQNGB6AYrk1RjrBdN+TzoIB7sWhJrXofDaF8Q4rQufmpJTu0W4tSq30iLSnjp478VAY3Q==
   dependencies:
-    lib0 "^0.2.41"
+    lib0 "^0.2.42"
 
 yocto-queue@^0.1.0:
   version "0.1.0"
