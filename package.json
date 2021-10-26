@@ -14,7 +14,7 @@
     "@asciidoctor/core": "^2.2.5",
     "asciidoctor-highlight.js": "https://github.com/ahus1/asciidoctor-highlight.js.git#c1cf0d6f12bae07cbf254a818669cd8d726c1875",
     "asciidoctor-kroki": "^0.14.0",
-    "axios": "^0.23.0",
+    "axios": "^0.24.0",
     "codemirror-asciidoc": "^1.0.4",
     "core-js": "^3.18.3",
     "diff": "^5.0.0",
