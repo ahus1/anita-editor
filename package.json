@@ -36,7 +36,7 @@
     "yjs": "^13.5.16"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.14",
+    "@vue/cli-plugin-babel": "~4.5.15",
     "@vue/cli-plugin-e2e-nightwatch": "~4.5.15",
     "@vue/cli-plugin-eslint": "~4.5.15",
     "@vue/cli-plugin-router": "~4.5.15",
