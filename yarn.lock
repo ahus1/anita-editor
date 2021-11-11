@@ -13403,10 +13403,10 @@ y-protocols@^1.0.5:
   dependencies:
     lib0 "^0.2.42"
 
-y-webrtc@^10.2.0:
-  version "10.2.0"
-  resolved "https://registry.yarnpkg.com/y-webrtc/-/y-webrtc-10.2.0.tgz#dae1460a9f3ae677c072fedff783864452fac1be"
-  integrity sha512-YhHXJx46zc8En8Jpy5FUpAksAAndTV0dXbEKxJw/Zb8+Y6xVGaeB4+x44k0xo5i+SgZ00OjlXAQXgkJQesLc4Q==
+y-webrtc@^10.2.2:
+  version "10.2.2"
+  resolved "https://registry.yarnpkg.com/y-webrtc/-/y-webrtc-10.2.2.tgz#9a44bb3d88fa4b70d45a23f4766e2d168325745c"
+  integrity sha512-RoN7FXbE90X2/sJhcExsqPTu9p5pPwQAD3u+LWyGo7bAd4vEezyTDDcXWD4lpl17klXokLwY+37wjXZ9VZglxw==
   dependencies:
     lib0 "^0.2.42"
     simple-peer "^9.11.0"
