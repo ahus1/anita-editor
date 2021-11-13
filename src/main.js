@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import axios from 'axios';
-import App from './App.vue';
+import App from './AnitaApp.vue';
 import './assets/css/styles.pcss';
 import 'font-awesome/css/font-awesome.css';
 import store from './store';

@@ -230,7 +230,9 @@ export default {
       const { activeFile } = this.$store.getters;
       if (file !== undefined) {
         await this.loadFile({ file });
-        await this.$router.replace({ name: 'edit' });
+        if (Object.keys(this.$route.query).length !== 0) {
+          await this.$router.replace({ name: 'edit' });
+        }
       } else if (activeFile === undefined && this.$route.name === 'edit') {
         await this.$router.replace({ name: 'welcome' });
       }

@@ -142,7 +142,7 @@ export default {
   data() {
     const contents = this.getContents();
     return {
-      content: this.renderContent(contents.start),
+      content: this.renderContent(contents.anitaStart),
       scratch: '',
       owner: '',
       owners: [],
@@ -387,13 +387,13 @@ export default {
       return asciidoctor().convert(content, options);
     },
     getContents() {
-      let start = '';
+      let anitaStart = '';
       try {
-        start = require('../public/start.adoc').default;
+        anitaStart = require('../public/start.adoc').default;
       } catch (e) {
-        start = 'Unable to load start.adoc';
+        anitaStart = 'Unable to load start.adoc';
       }
-      return { start };
+      return { anitaStart };
     },
   },
 };

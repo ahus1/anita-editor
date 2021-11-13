@@ -1,7 +1,7 @@
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
 import { mount, createLocalVue } from '@vue/test-utils';
-import editor from '../../src/editor.vue';
+import editor from '../../src/AnitaEditor.vue';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -23,7 +23,7 @@ const router = new VueRouter({
   ],
 });
 
-describe('editor.vue', () => {
+describe('AnitaEditor.vue', () => {
   it('renders props.msg when passed', () => {
     const wrapper = mount(editor, {
       store,
