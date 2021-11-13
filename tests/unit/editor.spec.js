@@ -1,7 +1,7 @@
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
 import { mount, createLocalVue } from '@vue/test-utils';
-import scratch from '../../src/scratch.vue';
+import scratch from '../../src/AnitaScratch.vue';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -26,7 +26,7 @@ const router = new VueRouter({
   ],
 });
 
-describe('scratch.vue', () => {
+describe('AnitaScratch.vue', () => {
   it('renders props.msg when passed', () => {
     const wrapper = mount(scratch, {
       store,
