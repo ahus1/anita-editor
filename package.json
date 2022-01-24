@@ -11,7 +11,7 @@
     "http": "http-server dist -p 5000 -a 127.0.0.1"
   },
   "dependencies": {
-    "@asciidoctor/core": "^2.2.5",
+    "@asciidoctor/core": "^2.2.6",
     "asciidoctor-highlight.js": "^0.4.0",
     "asciidoctor-kroki": "^0.15.4",
     "axios": "^0.25.0",
