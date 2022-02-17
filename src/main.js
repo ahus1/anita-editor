@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import { createApp } from 'vue';
 import axios from 'axios';
 import App from './AnitaApp.vue';
 import './assets/css/styles.pcss';
@@ -24,12 +24,14 @@ axios.interceptors.response.use((response) => {
     // X-Ratelimit-Limit: 60
     // X-Ratelimit-Remaining: 53
     // X-Ratelimit-Reset: 1590137466
-    store.commit('ratelimit',
+    store.commit(
+      'ratelimit',
       {
         limit: response.headers['x-ratelimit-limit'],
         remaining: response.headers['x-ratelimit-remaining'],
         reset: response.headers['x-ratelimit-reset'],
-      });
+      },
+    );
   }
   // Do something with response data
   return response;
@@ -44,8 +46,9 @@ axios.interceptors.response.use((response) => {
   return Promise.reject(error);
 });
 
-new Vue({
-  router,
-  store,
-  render: (h) => h(App),
-}).$mount('#app');
+const app = createApp(App);
+
+app.use(router);
+app.use(store);
+
+router.isReady().then(() => app.mount('#app'));

@@ -1,13 +1,9 @@
-import VueRouter from 'vue-router';
-import Vue from 'vue';
+import { createRouter, createWebHistory } from 'vue-router';
 import Login from '../AnitaLogin.vue';
 import Logout from '../AnitaLogout.vue';
 
-Vue.config.productionTip = false;
-
-Vue.use(VueRouter);
-
-const router = new VueRouter({
+const router = createRouter({
+  history: createWebHistory(),
   routes: [
     {
       path: '/',

@@ -1,13 +1,9 @@
-import VueRouter from 'vue-router';
-import Vuex from 'vuex';
-import { mount, createLocalVue } from '@vue/test-utils';
+import { createRouter } from 'vue-router';
+import { createStore } from 'vuex';
+import { mount } from '@vue/test-utils';
 import editor from '../../src/AnitaEditor.vue';
 
-const localVue = createLocalVue();
-localVue.use(Vuex);
-localVue.use(VueRouter);
-
-const store = new Vuex.Store({
+const store = createStore({
   state: {
     github: {},
   },
@@ -18,7 +14,7 @@ const store = new Vuex.Store({
   },
 });
 
-const router = new VueRouter({
+const router = createRouter({
   routes: [
   ],
 });
@@ -26,9 +22,9 @@ const router = new VueRouter({
 describe('AnitaEditor.vue', () => {
   it('renders props.msg when passed', () => {
     const wrapper = mount(editor, {
-      store,
-      router,
-      localVue,
+      global: {
+        plugins: [store, router],
+      },
     });
     expect(wrapper.text()).toContain('Discard Changes');
     expect(wrapper.text()).toContain('Toggle Preview');

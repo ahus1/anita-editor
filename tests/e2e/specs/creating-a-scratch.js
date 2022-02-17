@@ -21,7 +21,11 @@ module.exports = {
     contentWrapper.click('@join');
 
     contentWrapper.waitForElementVisible('@editor');
-    browser.click('.CodeMirror').keys('Hello world!');
+    browser.execute((text) => {
+      document.getElementsByClassName('CodeMirror')[0].CodeMirror.setValue(text);
+    }, ['Hello world!']);
+    // the following used to work with Vue2
+    // browser.click('.CodeMirror').keys('Hello world!');
     contentWrapper.expect.element('@adoc').text.to.contain('Hello world!');
 
     browser.end();

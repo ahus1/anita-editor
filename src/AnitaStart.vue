@@ -51,7 +51,7 @@
               <div class="absolute z-50 left-0 right-0 rounded border border-gray-100 shadow py-2 bg-white">
                 <div v-for="owner in owners" class="cursor-pointer p-2 hover:bg-gray-200 focus:bg-gray-200" @click="selectOwner(owner)" :key="owner.login"
                   :class="{ 'bg-gray-300': ownerSelected && owner.login === ownerSelected }">
-                  <img :src="owner.avatar_url" class="rounded-full h-8 inline"> {{owner.login}}
+                <img :src="owner.avatar_url" alt="avatar" class="rounded-full h-8 inline"> {{owner.login}}
                 </div>
               </div>
             </div>
@@ -125,7 +125,6 @@ input:focus + div, input + div:hover {
 
 <script>
 import asciidoctor from '@asciidoctor/core';
-// conversion will run on the client side, therefore select browser variant
 import { mapActions, mapState } from 'vuex';
 import axios from 'axios';
 
@@ -161,6 +160,7 @@ export default {
   },
   async mounted() {
     let { href } = window.location;
+    // eslint-disable-next-line prefer-regex-literals
     const result = new RegExp('code=(?<code>[^/][0-9a-z]*).*state=(?<state>[^/][0-9a-z]*)').exec(href);
     if (result) {
       href = href.replace(/\?code=[0-9a-z]*&state=[0-9a-z]*/, '');
@@ -227,7 +227,7 @@ export default {
         },
       });
       if (this.owner === myOwnerSearch) {
-        this.$set(this, 'owners', response.data.items);
+        this.owners = response.data.items;
       }
     },
     selectOwner(owner) {
@@ -323,7 +323,7 @@ export default {
       }
       this.repoOwner = this.owner;
       if (this.owner === '') {
-        this.$set(this, 'repos', []);
+        this.repos = [];
         return;
       }
       const myOwner = this.owner;
@@ -334,12 +334,12 @@ export default {
       });
       // if no-one has changed it in between
       if (myOwner === this.repoOwner) {
-        this.$set(this, 'repos', response.data);
+        this.repos = response.data;
       }
     },
     selectRepo(repo) {
       this.repo = repo.name;
-      this.$set(this, 'branches', []);
+      this.branches = [];
     },
     async searchBranches() {
       if (this.branchesRepo === `${this.owner}/${this.repo}`) {
@@ -348,7 +348,7 @@ export default {
       this.branchesRepo = `${this.owner}/${this.repo}`;
       const myBranchesRepo = this.branchesRepo;
       if (this.repo === '') {
-        this.$set(this, 'branches', []);
+        this.branches = [];
         return;
       }
       const response = await axios.get(`https://api.github.com/repos/${this.owner}/${this.repo}/branches`, {
@@ -357,7 +357,7 @@ export default {
         },
       });
       if (myBranchesRepo === this.branchesRepo) {
-        this.$set(this, 'branches', response.data);
+        this.branches = response.data;
       }
     },
     selectBranch(branch) {

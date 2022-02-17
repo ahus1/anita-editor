@@ -2,7 +2,8 @@
     <div class="grid grid-cols-2" id="content">
         <div class="overflow-y-auto relative border-collapse box-border shadow-inner"
              style="min-height: 100vh; height: 100vh; max-height: 100vh;">
-          <codemirror v-model="content" :options="cmOptions" />
+          <!-- eslint-disable-next-line -->
+          <codemirror v-model:value="content" :options="cmOptions" />
         </div>
         <div class="overflow-y-auto relative border-collapse box-border shadow-inner p-4"
              style="min-height: 100vh; height: 100vh; max-height: 100vh;">
@@ -71,27 +72,29 @@
 </template>
 
 <style>
-    #content .CodeMirror {
-      height: 100%; /* use full height for editor */
+    #content .codemirror-container.height-auto {
+      height: calc(100% - 10px); /* use full height for editor, but avoid vertical scrollbar */
+    }
+    #content .codemirror-container {
+      font-size: 17px;
     }
 </style>
 
 <script>
 import asciidoctor from '@asciidoctor/core';
-import { codemirror } from 'vue-codemirror';
+import codemirror from 'codemirror-editor-vue3';
 import 'codemirror-asciidoc';
 import xss from 'xss';
 import { diffChars } from 'diff';
 import HtmlDiff from 'htmldiff-js';
-// conversion will run on the client side, therefore select browser variant
 import { mapActions, mapState } from 'vuex';
 import highlightJsExt from 'asciidoctor-highlight.js';
 import xssOptions from './whitelist';
-import kroki from '../node_modules/asciidoctor-kroki/dist/browser/asciidoctor-kroki';
 
 const registry = asciidoctor().Extensions.create();
 highlightJsExt.register(registry);
-kroki.register(registry);
+// eslint-disable-next-line no-undef
+AsciidoctorKroki.register(registry);
 
 const asciidoctorOptions = {
   safe: 'unsafe',

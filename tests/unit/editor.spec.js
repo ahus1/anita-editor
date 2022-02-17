@@ -1,13 +1,10 @@
-import VueRouter from 'vue-router';
-import Vuex from 'vuex';
-import { mount, createLocalVue } from '@vue/test-utils';
+/* eslint-disable import/newline-after-import,import/first */
+import { createRouter } from 'vue-router';
+import { createStore } from 'vuex';
+import { shallowMount } from '@vue/test-utils';
 import scratch from '../../src/AnitaScratch.vue';
 
-const localVue = createLocalVue();
-localVue.use(Vuex);
-localVue.use(VueRouter);
-
-const store = new Vuex.Store({
+const store = createStore({
   state: {
     github: {},
   },
@@ -21,17 +18,17 @@ const store = new Vuex.Store({
   },
 });
 
-const router = new VueRouter({
+const router = createRouter({
   routes: [
   ],
 });
 
 describe('AnitaScratch.vue', () => {
   it('renders props.msg when passed', () => {
-    const wrapper = mount(scratch, {
-      store,
-      router,
-      localVue,
+    const wrapper = shallowMount(scratch, {
+      global: {
+        plugins: [store, router],
+      },
     });
     expect(wrapper.text()).toContain('');
   });

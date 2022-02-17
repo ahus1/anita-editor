@@ -15,15 +15,17 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'linebreak-style': 'off',
     'no-restricted-syntax': 'off',
-    'no-restricted-globals': ["error", "history"],
+    'no-restricted-globals': ['error', 'history'],
     'no-labels': 'off',
     'global-require': 'off',
-    'no-param-reassign': ["error", { "props": false }],
+    'no-param-reassign': ['error', { props: false }],
     'no-continue': 'off',
     'no-await-in-loop': 'off',
     'max-len': 'off',
     'no-nested-ternary': 'off',
-    'no-plusplus': ["error", { "allowForLoopAfterthoughts": true }]
+    'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
+    'vuejs-accessibility/click-events-have-key-events': 'off',
+    'vuejs-accessibility/label-has-for': 'off',
   },
   overrides: [
     {

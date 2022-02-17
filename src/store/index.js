@@ -1,15 +1,12 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import { createStore } from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
 import axios from 'axios';
-import * as Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 import merge from 'three-way-merge';
 import * as Y from 'yjs';
 import { WebrtcProvider } from 'y-webrtc';
 import { WebsocketProvider } from 'y-websocket';
 import { IndexeddbPersistence } from 'y-indexeddb';
-
-Vue.use(Vuex);
 
 const WEBRTC_ENABLED = true;
 
@@ -17,8 +14,10 @@ function b64EncodeUnicode(str) {
   // first we use encodeURIComponent to get percent-encoded UTF-8,
   // then we convert the percent encodings into raw bytes which
   // can be fed into btoa.
-  return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
-    (match, p1) => String.fromCharCode(`0x${p1}`)));
+  return btoa(encodeURIComponent(str).replace(
+    /%([0-9A-F]{2})/g,
+    (match, p1) => String.fromCharCode(`0x${p1}`),
+  ));
 }
 
 function b64DecodeUnicode(str) {
@@ -87,7 +86,7 @@ function initRoom(room, user) {
   };
 }
 
-const store = new Vuex.Store({
+const store = createStore({
   state: {
     github: {
       oauthState: undefined,
@@ -171,7 +170,7 @@ const store = new Vuex.Store({
   },
   mutations: {
     loggedIn(state, token) {
-      Vue.set(state.github, 'token', token);
+      state.github.token = token;
     },
     ratelimit(state, limit) {
       state.github.ratelimit.limit = limit.limit;
@@ -179,15 +178,15 @@ const store = new Vuex.Store({
       state.github.ratelimit.reset = limit.reset;
     },
     githubUser(state, user) {
-      Vue.set(state.github, 'user', user);
+      state.github.user = user;
     },
     invalidCredentials(state) {
-      Vue.set(state.github, 'token', null);
-      Vue.set(state.github, 'user', null);
+      state.github.token = null;
+      state.github.use = null;
     },
     logout(state) {
-      Vue.set(state.github, 'token', null);
-      Vue.set(state.github, 'user', null);
+      state.github.token = null;
+      state.github.user = null;
     },
     prepareOauthState(state) {
       let key = '';
@@ -293,7 +292,7 @@ const store = new Vuex.Store({
         return;
       }
       const file = workspace.files[workspace.activeFile];
-      Vue.set(file, 'content', content);
+      file.content = content;
     },
     saveConflict(state, {
       owner, repo, branch, path, sha, content, conflict,
@@ -406,11 +405,13 @@ const store = new Vuex.Store({
       if (context.state.github.oauthState !== state) {
         throw new Error("unable to authenticate, auth state doesn't match");
       }
-      const token = await axios.post('.netlify/functions/token',
+      const token = await axios.post(
+        '.netlify/functions/token',
         {
           code,
           state,
-        });
+        },
+      );
       context.commit('discardOauthState');
       if (token.data.access_token && token.data.token_type) {
         context.commit('loggedIn', {
@@ -471,6 +472,7 @@ const store = new Vuex.Store({
     async loadFile(context, { file }) {
       // https://github.com/ahus1/asciidoctor-deepdive/blob/master/README.adoc
       // https://github.com/asciidoctor/asciidoctor-intellij-plugin/edit/master/doc/users-guide/modules/ROOT/pages/index.adoc
+      // eslint-disable-next-line prefer-regex-literals
       const regex = new RegExp('https://github.com/(?<owner>[^/]*)/(?<repo>[^/]*)/(blob|edit)/(?<branch>[^/]*)/(?<path>.*)').exec(file);
       if (!regex) {
         return;
@@ -564,12 +566,14 @@ const store = new Vuex.Store({
       const file = workspace.files[workspace.activeFile];
       const newContent = file.content;
       try {
-        const response = await axios.put(`https://api.github.com/repos/${workspace.owner}/${workspace.repo}/contents/${file.path}`,
+        const response = await axios.put(
+          `https://api.github.com/repos/${workspace.owner}/${workspace.repo}/contents/${file.path}`,
           {
             message,
             content: b64EncodeUnicode(newContent),
             sha: file.sha,
-          });
+          },
+        );
         context.commit('saveComplete', {
           owner: workspace.owner,
           repo: workspace.repo,
@@ -603,21 +607,21 @@ const store = new Vuex.Store({
         // state "schema" migration to clean out old contents and set defaults for old properties
         s.state.workspaces.forEach((workspace) => {
           if (workspace.permissions === undefined) {
-            Vue.set(workspace, 'permissions', {});
+            workspace.permissions = {};
           }
           workspace.files.forEach((file) => {
             if (file.oldShas === undefined) {
-              Vue.set(file, 'oldShas', {});
+              file.oldShas = {};
             }
             if (file.lastReadSha !== undefined) {
-              Vue.delete(file, 'lastReadSha');
+              file.lastReadSha = undefined;
             }
           });
         });
         s.state.docs = [];
         s.state.scratches.forEach((scratch) => {
           if (scratch.room === undefined) {
-            Vue.set(scratch, 'room', roomFromName(scratch.name));
+            scratch.room = roomFromName(scratch.name);
           }
           s.state.docs.push(initRoom(scratch.room, s.state.scratchUserName));
         });

@@ -14,8 +14,11 @@
 </template>
 
 <style>
-    #content .CodeMirror {
-      height: 100%; /* use full height for editor */
+    #content .codemirror-container.height-auto {
+      height: calc(100% - 10px); /* use full height for editor, but avoid vertical scrollbar */
+    }
+    #content .codemirror-container {
+      font-size: 17px;
     }
     .remote-caret {
       position: absolute;
@@ -42,19 +45,18 @@
 
 <script>
 import asciidoctor from '@asciidoctor/core';
-import { codemirror } from 'vue-codemirror';
+import codemirror from 'codemirror-editor-vue3';
 import 'codemirror-asciidoc';
 import xss from 'xss';
-// conversion will run on the client side, therefore select browser variant
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 import { CodemirrorBinding } from 'y-codemirror';
 import highlightJsExt from 'asciidoctor-highlight.js';
 import xssOptions from './whitelist';
-import kroki from '../node_modules/asciidoctor-kroki/dist/browser/asciidoctor-kroki';
 
 const registry = asciidoctor().Extensions.create();
 highlightJsExt.register(registry);
-kroki.register(registry);
+// eslint-disable-next-line no-undef
+AsciidoctorKroki.register(registry);
 
 const asciidoctorOptions = {
   safe: 'unsafe',
@@ -96,6 +98,7 @@ export default {
       immediate: true,
       async handler() {
         await this.getContent();
+        this.cm.focus();
       },
     },
   },
@@ -126,6 +129,8 @@ export default {
     },
     onCmReady(cm) {
       this.cm = cm;
+      console.log('ready');
+      this.cm.focus();
       this.getContent();
     },
     onCmCodeChange(content) {
