@@ -3,7 +3,7 @@ module.exports = {
   test_settings: {
     default: {
       desiredCapabilities: {
-        chromeOptions: {
+        'goog:chromeOptions': {
           args: [
             'window-size=1280,800',
             '--headless',

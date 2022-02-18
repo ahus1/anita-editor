@@ -47,7 +47,7 @@
     "@vue/test-utils": "^2.0.0-rc.17",
     "@vue/vue3-jest": "^27.0.0-alpha.4",
     "babel-eslint": "^10.1.0",
-    "chromedriver": "97.0.4",
+    "chromedriver": "98.0.1",
     "chromium": "^3.0.3",
     "cssnano": "^4.1.11",
     "dotenv": "^16.0.0",
