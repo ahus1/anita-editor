@@ -3590,10 +3590,10 @@ coa@^2.0.2:
     chalk "^2.4.1"
     q "^1.1.2"
 
-codemirror-asciidoc@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/codemirror-asciidoc/-/codemirror-asciidoc-1.0.4.tgz#7439fcc38f30f1408ab144d156bf398ed35b2cc0"
-  integrity sha1-dDn8w48w8UCKsUTRVr85jtNbLMA=
+codemirror-asciidoc@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/codemirror-asciidoc/-/codemirror-asciidoc-2.0.0.tgz#286877501663f5535cd2fd0464c4040c300a61cf"
+  integrity sha512-FX+3ube2WySVuEbpBE2iObTDYYCu1HVBFgcwEsTNDGZdlk7pSLZdRCg05Un2LrzwHWN/iAowmjvQ6rXfUej36w==
 
 codemirror-editor-vue3@^1.0.1:
   version "1.0.1"
