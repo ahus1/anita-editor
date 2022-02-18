@@ -113,7 +113,7 @@ const store = createStore({
       if (state.workspaces.length === 0) {
         return undefined;
       }
-      if (state.activeWorkspace === undefined) {
+      if (state.activeWorkspace === undefined || state.activeWorkspace === -1) {
         return undefined;
       }
       const workspace = state.workspaces[state.activeWorkspace];
