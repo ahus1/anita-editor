@@ -29,7 +29,7 @@
     "vuex": "^4.0.2",
     "vuex-persistedstate": "^4.1.0",
     "xss": "^1.0.10",
-    "y-codemirror": "^2.1.1",
+    "y-codemirror": "^3.0.1",
     "y-indexeddb": "^9.0.7",
     "y-webrtc": "^10.2.2",
     "y-websocket": "^1.3.18",
