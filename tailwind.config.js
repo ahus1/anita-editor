@@ -1,18 +1,16 @@
 module.exports = {
-  purge: [
-    './src/**/*.html',
-    './src/**/*.vue',
-  ],
+  purge: {
+    content: ['./public/**/*.html', './src/**/*.{vue,js}'],
+    options: {
+      safelist: [],
+    },
+  },
+  darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},
   },
-  options: {
-    whitelistPatternsChildren: [/ace/, /fa/],
+  variants: {
+    extend: {},
   },
-  future: {
-    removeDeprecatedGapUtilities: true,
-    purgeLayersByDefault: true,
-  },
-  variants: {},
   plugins: [],
 };
