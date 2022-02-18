@@ -12,8 +12,8 @@ This editor is available as open source. Have a look at https://github.com/ahus1
 You can pass the GitHub file URL as a parameter to this app, use: +
 `++https://anita-editor.ahus1.de#https://github.com/<owner>/<repo>/blob/<branch>/<path>++`
 
-link:/https://github.com/ahus1/anita-editor/blob/main/public/start.adoc[Click here to open this readme in the editor]
+link:/#https://github.com/ahus1/anita-editor/blob/main/public/start.adoc[Click here to open this readme in the editor]
 
-link:/https://github.com/asciidoctor/asciidoctor.org/blob/main/docs/_includes/asciidoc-article-template.adoc[Click here to open an AsciiDoc article template]
+link:/#https://github.com/asciidoctor/asciidoctor.org/blob/main/docs/_includes/asciidoc-article-template.adoc[Click here to open an AsciiDoc article template]
 
-link:/scratch/general[Click here for a general collaboration session]
+link:/#/scratch/general[Click here for a general collaboration session]

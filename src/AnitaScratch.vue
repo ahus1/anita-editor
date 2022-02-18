@@ -129,7 +129,6 @@ export default {
     },
     onCmReady(cm) {
       this.cm = cm;
-      console.log('ready');
       this.cm.focus();
       this.getContent();
     },
