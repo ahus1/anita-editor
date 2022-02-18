@@ -51,6 +51,10 @@ import xss from 'xss';
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 import { CodemirrorBinding } from 'y-codemirror';
 import highlightJsExt from 'asciidoctor-highlight.js';
+// static import due to https://github.com/Mogztter/asciidoctor-kroki/issues/317
+// import AsciidoctorKroki from 'asciidoctor-kroki';
+// eslint-disable-next-line import/no-relative-packages
+// import AsciidoctorKroki from '../node_modules/asciidoctor-kroki/dist/browser/asciidoctor-kroki';
 import xssOptions from './whitelist';
 
 const registry = asciidoctor().Extensions.create();
