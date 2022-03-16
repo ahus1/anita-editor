@@ -1791,12 +1791,12 @@
     thread-loader "^3.0.0"
     webpack "^5.54.0"
 
-"@vue/cli-plugin-e2e-nightwatch@~5.0.1":
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-e2e-nightwatch/-/cli-plugin-e2e-nightwatch-5.0.1.tgz#625cccd7fa3a1a89b8f799647bc9ec6bdfc71828"
-  integrity sha512-MlHdzGqNXH+kIlSH4w13HU5NFQNac0gUvABq9zni2s7R5BO5Ob9gUSPMiBc9t3Wp3iwIoRbSQDUuFQni2no4+A==
+"@vue/cli-plugin-e2e-nightwatch@~5.0.3":
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-e2e-nightwatch/-/cli-plugin-e2e-nightwatch-5.0.3.tgz#f254c898e8dc62d9b4529afaa05e131504c20576"
+  integrity sha512-HLXrnG2Fz8eC/bL82G9X/w7q/FUNuLAeeRXIxjeN1BknCsi2cyhFl3uC84vW/A84D5UQdrkEJ5VkQJA2EhYb0w==
   dependencies:
-    "@vue/cli-shared-utils" "^5.0.1"
+    "@vue/cli-shared-utils" "^5.0.3"
     deepmerge "^4.2.2"
     nightwatch "^2.0.5"
 
@@ -1900,10 +1900,10 @@
     webpack-virtual-modules "^0.4.2"
     whatwg-fetch "^3.6.2"
 
-"@vue/cli-shared-utils@^5.0.1":
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/@vue/cli-shared-utils/-/cli-shared-utils-5.0.1.tgz#9e33cacefad427bbf8939f953204373ad107fbee"
-  integrity sha512-oL164c3yDhdLHgiFvSkXuP7z0eEY8gqTYzHHbvQJCIBtRZ/0H9Q7xICpAeMZ63lJvS2+fA5bQfv+kPII/kcjmQ==
+"@vue/cli-shared-utils@^5.0.1", "@vue/cli-shared-utils@^5.0.3":
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/@vue/cli-shared-utils/-/cli-shared-utils-5.0.3.tgz#e8facc759f4e2ceed4a26f33943c0005a834e4af"
+  integrity sha512-xAHxFDYVohHWXOLdmGvka3ffQcRgKdACempFQkGJX74Q7OBf0zPf5WH+vQXhlR17eA3LmWdY+Nv8OfsIGim6Fg==
   dependencies:
     chalk "^4.1.2"
     execa "^1.0.0"
@@ -1911,7 +1911,7 @@
     launch-editor "^2.2.1"
     lru-cache "^6.0.0"
     node-fetch "^2.6.7"
-    node-ipc "^9.1.1"
+    node-ipc "9.2.1"
     open "^8.0.2"
     ora "^5.3.0"
     read-pkg "^5.1.1"
@@ -7159,7 +7159,7 @@ node-int64@^0.4.0:
   resolved "https://registry.yarnpkg.com/node-int64/-/node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b"
   integrity sha1-h6kGXNs1XTGC2PlM4RGIuCXGijs=
 
-node-ipc@^9.1.1:
+node-ipc@9.2.1:
   version "9.2.1"
   resolved "https://registry.yarnpkg.com/node-ipc/-/node-ipc-9.2.1.tgz#b32f66115f9d6ce841dc4ec2009d6a733f98bb6b"
   integrity sha512-mJzaM6O3xHf9VT8BULvJSbdVbmHUKRNOH7zDDkCrA1/T+CVjq2WVIDfLt0azZRXpgArJtl3rtmEozrbXPZ9GaQ==
