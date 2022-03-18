@@ -3218,18 +3218,18 @@ codemirror-asciidoc@^1.0.4:
   resolved "https://registry.yarnpkg.com/codemirror-asciidoc/-/codemirror-asciidoc-1.0.4.tgz#7439fcc38f30f1408ab144d156bf398ed35b2cc0"
   integrity sha1-dDn8w48w8UCKsUTRVr85jtNbLMA=
 
-codemirror-editor-vue3@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/codemirror-editor-vue3/-/codemirror-editor-vue3-1.0.1.tgz#e653ca33f585b275c9c23a567f561044f7230b91"
-  integrity sha512-cozVmrnQu+my+m7q9H1JLvdqZpvEBFns7AjmaMkojK1U7ljKFlPway1S/d4yQcGPqvQWnnsk51gb4VG37Xju3Q==
+codemirror-editor-vue3@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/codemirror-editor-vue3/-/codemirror-editor-vue3-2.0.4.tgz#73f02a38ecb7e1c3118b3f5ad0a1284227159fa1"
+  integrity sha512-RMNUoLUHsOMcdDZfZKzCq5xsyLANOUm3rKyZh9mfyrGpE8oNdPkR2qHOpEbfWf4JhTpdeLDl87qFf3BsSWzTXw==
   dependencies:
-    codemirror "^5.62.3"
+    codemirror "^5.64.0"
     diff-match-patch "^1.0.5"
 
-codemirror@^5.62.3:
-  version "5.65.1"
-  resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.65.1.tgz#5988a812c974c467f964bcc1a00c944e373de502"
-  integrity sha512-s6aac+DD+4O2u1aBmdxhB7yz2XU7tG3snOyQ05Kxifahz7hoxnfxIRHxiCSEv3TUC38dIVH8G+lZH9UWSfGQxA==
+codemirror@^5.64.0:
+  version "5.65.2"
+  resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.65.2.tgz#5799a70cb3d706e10f60e267245e3a75205d3dd9"
+  integrity sha512-SZM4Zq7XEC8Fhroqe3LxbEEX1zUPWH1wMr5zxiBuiUF64iYOUH/JI88v4tBag8MiBS8B8gRv8O1pPXGYXQ4ErA==
 
 collect-v8-coverage@^1.0.0:
   version "1.0.1"
