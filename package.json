@@ -16,7 +16,7 @@
     "axios": "^0.26.1",
     "codemirror-asciidoc": "^1.0.4",
     "codemirror-editor-vue3": "^2.0.6",
-    "core-js": "^3.21.1",
+    "core-js": "^3.22.0",
     "diff": "^5.0.0",
     "font-awesome": "^4.7.0",
     "htmldiff-js": "^1.0.5",
@@ -31,12 +31,12 @@
     "y-codemirror": "^2.1.1",
     "y-indexeddb": "^9.0.7",
     "y-webrtc": "^10.2.2",
-    "y-websocket": "^1.4.0",
-    "yjs": "^13.5.32"
+    "y-websocket": "^1.4.1",
+    "yjs": "^13.5.34"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~5.0.4",
-    "@vue/cli-plugin-e2e-nightwatch": "~5.0.3",
+    "@vue/cli-plugin-e2e-nightwatch": "~5.0.4",
     "@vue/cli-plugin-eslint": "~5.0.4",
     "@vue/cli-plugin-router": "~5.0.4",
     "@vue/cli-plugin-unit-jest": "~5.0.4",
@@ -52,7 +52,7 @@
     "chromium": "^3.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^8.5.0",
+    "eslint-plugin-vue": "^8.6.0",
     "eslint-plugin-vuejs-accessibility": "^1.1.1",
     "file-loader": "^6.0.0",
     "html-loader": "^3.0.1",
@@ -69,10 +69,10 @@
     "val-loader": "^2.1.1",
     "vue-cli-plugin-tailwind": "~2.2.18",
     "vue-template-compiler": "^2.6.14",
-    "webpack": "^5.69.1",
+    "webpack": "^5.72.0",
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.7.4",
+    "webpack-dev-server": "^4.8.1",
     "webpack-merge": "^5.1.4"
   }
 }
