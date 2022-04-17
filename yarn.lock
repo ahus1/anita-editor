@@ -1816,12 +1816,12 @@
     deepmerge "^4.2.2"
     nightwatch "^2.0.5"
 
-"@vue/cli-plugin-eslint@~5.0.3":
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-eslint/-/cli-plugin-eslint-5.0.3.tgz#47f00fea50205513f1908fbb1f93420760f6091c"
-  integrity sha512-gp2UdXYp3ofXndD2vKWQ56e6GXwCkrkS5yBzfM6T9aKFS9+3TV5FipQGQf4O2V3rhlCjWulUV4i3uaQMRems6g==
+"@vue/cli-plugin-eslint@~5.0.4":
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-eslint/-/cli-plugin-eslint-5.0.4.tgz#33ee3e971d8ee1664d55ffd15b2af548af66fef8"
+  integrity sha512-NLBEKFTFJhYHMzQ3z+sb6xlkcNaN/RcbZ3hiCY72aJe4YOO8jEAp0XkPzlHd4xYkMW7jrmOwwLOPw+3BJ4b77Q==
   dependencies:
-    "@vue/cli-shared-utils" "^5.0.3"
+    "@vue/cli-shared-utils" "^5.0.4"
     eslint-webpack-plugin "^3.1.0"
     globby "^11.0.2"
     webpack "^5.54.0"
@@ -1834,15 +1834,15 @@
   dependencies:
     "@vue/cli-shared-utils" "^5.0.4"
 
-"@vue/cli-plugin-unit-jest@~5.0.3":
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-unit-jest/-/cli-plugin-unit-jest-5.0.3.tgz#0d0663889b89b80345edbd669e2dc2341504096d"
-  integrity sha512-gpBFjlTRdZPQT7UZ9j4D9kGBNR+htLhKbyYO6IlClnOW/SXL98gmcaQV3bXv7sDjAj/Foh/PtB7Ob9FXgrbx3Q==
+"@vue/cli-plugin-unit-jest@~5.0.4":
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-unit-jest/-/cli-plugin-unit-jest-5.0.4.tgz#32c0ec4b151e025f33edc237ceb0cdd70ae44270"
+  integrity sha512-M4Vuh9j/PUzuuSl5RfVElAGzVlZ8oaOZr6AlWV5IdQJRdFMN5WzbqYrjzu2cpNwmjfvp0F7MXnJxyFq1SY8lmQ==
   dependencies:
     "@babel/core" "^7.12.16"
     "@babel/plugin-transform-modules-commonjs" "^7.15.0"
     "@types/jest" "^27.0.1"
-    "@vue/cli-shared-utils" "^5.0.3"
+    "@vue/cli-shared-utils" "^5.0.4"
     babel-jest "^27.1.0"
     deepmerge "^4.2.2"
     jest "^27.1.0"
