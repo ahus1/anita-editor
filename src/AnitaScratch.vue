@@ -59,8 +59,9 @@ import xssOptions from './whitelist';
 
 const registry = asciidoctor().Extensions.create();
 highlightJsExt.register(registry);
-// eslint-disable-next-line no-undef
-AsciidoctorKroki.register(registry);
+if (window.AsciidoctorKroki) {
+  window.AsciidoctorKroki.register(registry);
+}
 
 const asciidoctorOptions = {
   safe: 'unsafe',
@@ -102,7 +103,9 @@ export default {
       immediate: true,
       async handler() {
         await this.getContent();
-        this.cm.focus();
+        if (this.cm) {
+          this.cm.focus();
+        }
       },
     },
   },

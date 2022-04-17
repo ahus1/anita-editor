@@ -1,4 +1,4 @@
-import { createRouter } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import { createStore } from 'vuex';
 import { mount } from '@vue/test-utils';
 import editor from '../../src/AnitaEditor.vue';
@@ -15,6 +15,7 @@ const store = createStore({
 });
 
 const router = createRouter({
+  history: createWebHistory(),
   routes: [
   ],
 });

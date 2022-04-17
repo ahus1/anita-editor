@@ -1,5 +1,5 @@
 /* eslint-disable import/newline-after-import,import/first */
-import { createRouter } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import { createStore } from 'vuex';
 import { shallowMount } from '@vue/test-utils';
 import scratch from '../../src/AnitaScratch.vue';
@@ -19,6 +19,7 @@ const store = createStore({
 });
 
 const router = createRouter({
+  history: createWebHistory(),
   routes: [
   ],
 });
