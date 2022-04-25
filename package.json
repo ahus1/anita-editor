@@ -31,7 +31,7 @@
     "y-codemirror": "^2.1.1",
     "y-indexeddb": "^9.0.7",
     "y-webrtc": "^10.2.3",
-    "y-websocket": "^1.4.2",
+    "y-websocket": "^1.4.3",
     "yjs": "^13.5.34"
   },
   "devDependencies": {
@@ -44,7 +44,7 @@
     "@vue/cli-service": "~5.0.4",
     "@vue/eslint-config-airbnb": "^6.0.0",
     "@vue/test-utils": "^2.0.0-rc.17",
-    "@vue/vue3-jest": "^27.0.0-alpha.4",
+    "@vue/vue3-jest": "^27.0.0",
     "asciidoctor-kroki": "^0.15.4",
     "autoprefixer": "^9",
     "babel-eslint": "^10.1.0",
