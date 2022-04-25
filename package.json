@@ -44,7 +44,7 @@
     "@vue/cli-service": "~5.0.4",
     "@vue/eslint-config-airbnb": "^6.0.0",
     "@vue/test-utils": "^2.0.0-rc.17",
-    "@vue/vue3-jest": "^27.0.0-alpha.4",
+    "@vue/vue3-jest": "^27.0.0",
     "asciidoctor-kroki": "^0.15.4",
     "autoprefixer": "^9",
     "babel-eslint": "^10.1.0",
