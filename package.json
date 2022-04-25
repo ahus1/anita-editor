@@ -43,7 +43,7 @@
     "@vue/cli-plugin-vuex": "~5.0.4",
     "@vue/cli-service": "~5.0.4",
     "@vue/eslint-config-airbnb": "^6.0.0",
-    "@vue/test-utils": "^2.0.0-rc.17",
+    "@vue/test-utils": "^2.0.0-rc.21",
     "@vue/vue3-jest": "^27.0.0",
     "asciidoctor-kroki": "^0.15.4",
     "autoprefixer": "^9",
