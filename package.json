@@ -32,7 +32,7 @@
     "y-indexeddb": "^9.0.7",
     "y-webrtc": "^10.2.3",
     "y-websocket": "^1.4.3",
-    "yjs": "^13.5.34"
+    "yjs": "^13.5.36"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~5.0.4",
@@ -50,7 +50,7 @@
     "babel-eslint": "^10.1.0",
     "chromedriver": "98.0.1",
     "chromium": "^3.0.3",
-    "dotenv": "^16.0.0",
+    "dotenv": "^16.0.1",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.6.0",
     "eslint-plugin-vuejs-accessibility": "^1.1.1",
