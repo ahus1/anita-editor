@@ -9901,13 +9901,10 @@ v8-to-istanbul@^8.1.0:
     convert-source-map "^1.6.0"
     source-map "^0.7.3"
 
-val-loader@^2.1.1:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/val-loader/-/val-loader-2.1.2.tgz#3f2efaed5791791727df62858ccaa07fc27579e7"
-  integrity sha512-slp7F4QaEE3h2dCKb28ulCkgVYqpbTcx9u/8or+lpWGOn5v7+hrQXZ+dGbblrIf2LBkVZBCiinLh7DgYO4Ds5g==
-  dependencies:
-    loader-utils "^2.0.0"
-    schema-utils "^3.0.0"
+val-loader@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/val-loader/-/val-loader-5.0.0.tgz#1b7e45c5df207203a4b3f1c45cbc82b018b505b7"
+  integrity sha512-N766NTSjQGVxl/kQ7LRmdnPy3f8ylBx1SxgY/ZfZVnguaHK72uI5koTMMA72wQ8sxLK9TuRxBPd47w58ZI4QBA==
 
 validate-npm-package-license@^3.0.1:
   version "3.0.4"
