@@ -22,7 +22,7 @@
     "htmldiff-js": "^1.0.5",
     "js-cookie": "^3.0.0",
     "three-way-merge": "^0.1.0",
-    "vue": "^3.2.34",
+    "vue": "^3.2.36",
     "vue-axios": "^3.4.1",
     "vue-router": "^4.0.15",
     "vuex": "^4.0.2",
@@ -32,7 +32,7 @@
     "y-indexeddb": "^9.0.7",
     "y-webrtc": "^10.2.3",
     "y-websocket": "^1.4.3",
-    "yjs": "^13.5.36"
+    "yjs": "^13.5.38"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~5.0.4",
