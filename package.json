@@ -16,7 +16,7 @@
     "axios": "^0.26.1",
     "codemirror-asciidoc": "^1.0.4",
     "codemirror-editor-vue3": "^2.1.3",
-    "core-js": "^3.22.4",
+    "core-js": "^3.22.8",
     "diff": "^5.0.0",
     "font-awesome": "^4.7.0",
     "htmldiff-js": "^1.0.5",
