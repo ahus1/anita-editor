@@ -3452,10 +3452,10 @@ core-js-compat@^3.20.2, core-js-compat@^3.21.0, core-js-compat@^3.8.3:
     browserslist "^4.19.1"
     semver "7.0.0"
 
-core-js@^3.22.4, core-js@^3.8.3:
-  version "3.22.4"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.22.4.tgz#f4b3f108d45736935aa028444a69397e40d8c531"
-  integrity sha512-1uLykR+iOfYja+6Jn/57743gc9n73EWiOnSJJ4ba3B4fOEYDBv25MagmEZBxTp5cWq4b/KPx/l77zgsp28ju4w==
+core-js@^3.22.8, core-js@^3.8.3:
+  version "3.22.8"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.22.8.tgz#23f860b1fe60797cc4f704d76c93fea8a2f60631"
+  integrity sha512-UoGQ/cfzGYIuiq6Z7vWL1HfkE9U9IZ4Ub+0XSiJTCzvbZzgPA69oDF2f+lgJ6dFFLEdjW5O6svvoKzXX23xFkA==
 
 core-util-is@~1.0.0:
   version "1.0.3"
@@ -4298,10 +4298,10 @@ eslint-plugin-import@^2.25.3:
     resolve "^1.20.0"
     tsconfig-paths "^3.12.0"
 
-eslint-plugin-vue@^9.0.1:
-  version "9.0.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-9.0.1.tgz#66ba4a6e4085a26a724adcde06eaf72b178285c9"
-  integrity sha512-/w/9/vzz+4bSYtp5UqXgJ0CfycXTMtpp6lkz7/fMp0CcJxPWyRP6Pr88ihhrsNEcVt2ZweMupWRNYa+5Md41LQ==
+eslint-plugin-vue@^9.1.0:
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-9.1.0.tgz#b528941325e26a24bc5d5c5030c0a8996c36659c"
+  integrity sha512-EPCeInPicQ/YyfOWJDr1yfEeSNoFCMzUus107lZyYi37xejdOolNzS5MXGXp8+9bkoKZMdv/1AcZzQebME6r+g==
   dependencies:
     eslint-utils "^3.0.0"
     natural-compare "^1.4.0"
