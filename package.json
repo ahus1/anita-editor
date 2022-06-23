@@ -22,7 +22,7 @@
     "htmldiff-js": "^1.0.5",
     "js-cookie": "^3.0.0",
     "three-way-merge": "^0.1.0",
-    "vue": "^3.2.36",
+    "vue": "^3.2.37",
     "vue-axios": "^3.4.1",
     "vue-router": "^4.0.15",
     "vuex": "^4.0.2",
