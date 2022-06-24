@@ -27,7 +27,7 @@
     "vue-router": "^4.0.15",
     "vuex": "^4.0.2",
     "vuex-persistedstate": "^4.1.0",
-    "xss": "^1.0.11",
+    "xss": "^1.0.13",
     "y-codemirror": "^2.1.1",
     "y-indexeddb": "^9.0.8",
     "y-webrtc": "^10.2.3",
