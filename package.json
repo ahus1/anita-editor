@@ -24,7 +24,7 @@
     "three-way-merge": "^0.1.0",
     "vue": "^3.2.37",
     "vue-axios": "^3.4.1",
-    "vue-router": "^4.0.15",
+    "vue-router": "^4.0.16",
     "vuex": "^4.0.2",
     "vuex-persistedstate": "^4.1.0",
     "xss": "^1.0.11",
@@ -35,7 +35,7 @@
     "yjs": "^13.5.38"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~5.0.4",
+    "@vue/cli-plugin-babel": "~5.0.6",
     "@vue/cli-plugin-e2e-nightwatch": "~5.0.6",
     "@vue/cli-plugin-eslint": "~5.0.6",
     "@vue/cli-plugin-router": "~5.0.4",
@@ -48,7 +48,7 @@
     "asciidoctor-kroki": "^0.15.4",
     "autoprefixer": "^9",
     "babel-eslint": "^10.1.0",
-    "chromedriver": "98.0.1",
+    "chromedriver": "103.0.0",
     "chromium": "^3.0.3",
     "dotenv": "^16.0.1",
     "eslint": "^7.32.0",
