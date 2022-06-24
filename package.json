@@ -32,7 +32,7 @@
     "y-indexeddb": "^9.0.8",
     "y-webrtc": "^10.2.3",
     "y-websocket": "^1.4.3",
-    "yjs": "^13.5.38"
+    "yjs": "^13.5.39"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~5.0.6",
