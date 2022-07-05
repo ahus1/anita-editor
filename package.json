@@ -24,7 +24,7 @@
     "three-way-merge": "^0.1.0",
     "vue": "^3.2.37",
     "vue-axios": "^3.4.1",
-    "vue-router": "^4.0.16",
+    "vue-router": "^4.1.0",
     "vuex": "^4.0.2",
     "vuex-persistedstate": "^4.1.0",
     "xss": "^1.0.13",
