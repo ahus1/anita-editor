@@ -1860,10 +1860,10 @@
     jest-transform-stub "^2.0.0"
     jest-watch-typeahead "^1.0.0"
 
-"@vue/cli-plugin-vuex@^5.0.6", "@vue/cli-plugin-vuex@~5.0.4":
-  version "5.0.6"
-  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-vuex/-/cli-plugin-vuex-5.0.6.tgz#177bb2904ea57d606b8a3cad0147379fcc304174"
-  integrity sha512-9bwkaLxGqqrD5FPN7iNsIe5x60P0nScioMQvHf2ZIIoFAiM5yuTgOQkdSKGBhn0YG4IjYd1tnlVY4Q/P4ZHaTA==
+"@vue/cli-plugin-vuex@^5.0.6", "@vue/cli-plugin-vuex@~5.0.7":
+  version "5.0.7"
+  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-vuex/-/cli-plugin-vuex-5.0.7.tgz#0535cc77c3c71e7db6d89a4f03fa47c7a9408428"
+  integrity sha512-X8RbsUDE/4K32LGd91RgqDnjOYxVQlLU0J40dtHJJv/z3IwFD5vTZBT8a8s7bf3KD3YvYPisZjymUJnMObEhEg==
 
 "@vue/cli-service@~5.0.6":
   version "5.0.6"
@@ -4304,10 +4304,10 @@ eslint-plugin-import@^2.25.3:
     resolve "^1.20.0"
     tsconfig-paths "^3.12.0"
 
-eslint-plugin-vue@^9.1.1:
-  version "9.1.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-9.1.1.tgz#341f7533cb041958455138834341d5be01f9f327"
-  integrity sha512-W9n5PB1X2jzC7CK6riG0oAcxjmKrjTF6+keL1rni8n57DZeilx/Fulz+IRJK3lYseLNAygN0I62L7DvioW40Tw==
+eslint-plugin-vue@^9.2.0:
+  version "9.2.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-9.2.0.tgz#b7ca02b2ce8218b7586346440fc61c2655db353a"
+  integrity sha512-W2hc+NUXoce8sZtWgZ45miQTy6jNyuSdub5aZ1IBune4JDeAyzucYX0TzkrQ1jMO52sNUDYlCIHDoaNePe0p5g==
   dependencies:
     eslint-utils "^3.0.0"
     natural-compare "^1.4.0"
