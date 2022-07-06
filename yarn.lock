@@ -1860,10 +1860,10 @@
     jest-transform-stub "^2.0.0"
     jest-watch-typeahead "^1.0.0"
 
-"@vue/cli-plugin-vuex@^5.0.6", "@vue/cli-plugin-vuex@~5.0.4":
-  version "5.0.6"
-  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-vuex/-/cli-plugin-vuex-5.0.6.tgz#177bb2904ea57d606b8a3cad0147379fcc304174"
-  integrity sha512-9bwkaLxGqqrD5FPN7iNsIe5x60P0nScioMQvHf2ZIIoFAiM5yuTgOQkdSKGBhn0YG4IjYd1tnlVY4Q/P4ZHaTA==
+"@vue/cli-plugin-vuex@^5.0.6", "@vue/cli-plugin-vuex@~5.0.7":
+  version "5.0.7"
+  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-vuex/-/cli-plugin-vuex-5.0.7.tgz#0535cc77c3c71e7db6d89a4f03fa47c7a9408428"
+  integrity sha512-X8RbsUDE/4K32LGd91RgqDnjOYxVQlLU0J40dtHJJv/z3IwFD5vTZBT8a8s7bf3KD3YvYPisZjymUJnMObEhEg==
 
 "@vue/cli-service@~5.0.6":
   version "5.0.6"
@@ -9861,10 +9861,10 @@ vue-loader@^17.0.0:
     hash-sum "^2.0.0"
     loader-utils "^2.0.0"
 
-vue-router@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-4.1.0.tgz#3029bf815885954ec02330e5f6fa8a00a7e5f53c"
-  integrity sha512-A+dYO0ZXLJFZ40ebW3XtqehCW0Wv2xNH4lFddOByDja4NtItEdyirrShTlvD3UA4xc5a5mG2RRI30BusYpOb9g==
+vue-router@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-4.1.1.tgz#90cc533efafdcf90d157bdc20a376760cdb59c10"
+  integrity sha512-Wp1mEf2xCwT0ez7o9JvgpfBp9JGnVb+dPERzXDbugTatzJAJ60VWOhJKifQty85k+jOreoFHER4r5fu062PhPw==
   dependencies:
     "@vue/devtools-api" "^6.1.4"
 
