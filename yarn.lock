@@ -1817,32 +1817,32 @@
     thread-loader "^3.0.0"
     webpack "^5.54.0"
 
-"@vue/cli-plugin-e2e-nightwatch@~5.0.6":
-  version "5.0.6"
-  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-e2e-nightwatch/-/cli-plugin-e2e-nightwatch-5.0.6.tgz#798793ac0ddd6acbfa5fe37e1634fb661da5dd8a"
-  integrity sha512-nNn12gtHuiTvJmp1fcXoM6WTvybCK7XNnGAEwk7f2wweyQnUod8F26vsWRA7BCVsYHqLv57+2s8rrKp6Gw4SMA==
+"@vue/cli-plugin-e2e-nightwatch@~5.0.7":
+  version "5.0.7"
+  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-e2e-nightwatch/-/cli-plugin-e2e-nightwatch-5.0.7.tgz#08a184079ee61a63ba767310f8aa4a92dceb6c9e"
+  integrity sha512-RbDowRYZGZPeTYOjy8wlglVDhXCu+2HuAVKfGV3Q5qrUTPW+p2uYi5CIgE3DQI4bd1uiLwZ71ZVcSu0c929Evg==
   dependencies:
-    "@vue/cli-shared-utils" "^5.0.6"
+    "@vue/cli-shared-utils" "^5.0.7"
     deepmerge "^4.2.2"
     nightwatch "^2.0.5"
 
-"@vue/cli-plugin-eslint@~5.0.6":
-  version "5.0.6"
-  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-eslint/-/cli-plugin-eslint-5.0.6.tgz#63688b6366feb0e4949a23453dbd4984996c6092"
-  integrity sha512-fuc8w2IujzoenA/cdr/QYYMq2yaI1fYr0Fqom/M55B+DmW19GIuIRxYQvh0CEeCbFB2hAl3Flrazfx96/nAaQA==
+"@vue/cli-plugin-eslint@~5.0.7":
+  version "5.0.7"
+  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-eslint/-/cli-plugin-eslint-5.0.7.tgz#078d3c7fb8c31023fd0dcc38558fb385a0235912"
+  integrity sha512-KOiMq+zcMkKC1oUpPWHGYd4g+7ehCx2/NJqqA3Ds2wsLSNPZCJWGTfzK1p1j87kDVgM3zTPXxRCBFHa2lZW8eg==
   dependencies:
-    "@vue/cli-shared-utils" "^5.0.6"
+    "@vue/cli-shared-utils" "^5.0.7"
     eslint-webpack-plugin "^3.1.0"
     globby "^11.0.2"
     webpack "^5.54.0"
     yorkie "^2.0.0"
 
-"@vue/cli-plugin-router@^5.0.6", "@vue/cli-plugin-router@~5.0.4":
-  version "5.0.6"
-  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-router/-/cli-plugin-router-5.0.6.tgz#b65d39845a8a53dc51b9c263bf75bdd24a53d8be"
-  integrity sha512-5ikUdfsSoKqpBhB5GhGYijH6mJnU+ZGqDv3QBf0brDeeh7PhClntxNAOLkB73c+LNxjBrlNCTkItuByF+AD29w==
+"@vue/cli-plugin-router@^5.0.6", "@vue/cli-plugin-router@~5.0.7":
+  version "5.0.7"
+  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-router/-/cli-plugin-router-5.0.7.tgz#0cb102d5e96e640c7d1bac4a331d6a3452058430"
+  integrity sha512-DarQql1AYvmC0qnfOPtlFR0EKnWpVVbmuIyjoAxu9Ki4PQI/mFUa7PL286ntVxmVCvLY8YXIJMCtG1MqBSayuw==
   dependencies:
-    "@vue/cli-shared-utils" "^5.0.6"
+    "@vue/cli-shared-utils" "^5.0.7"
 
 "@vue/cli-plugin-unit-jest@~5.0.6":
   version "5.0.6"
@@ -1926,10 +1926,10 @@
     webpack-virtual-modules "^0.4.2"
     whatwg-fetch "^3.6.2"
 
-"@vue/cli-shared-utils@^5.0.6":
-  version "5.0.6"
-  resolved "https://registry.yarnpkg.com/@vue/cli-shared-utils/-/cli-shared-utils-5.0.6.tgz#f47202d68dfd4c2e41160c63721263b39cd97d1e"
-  integrity sha512-5HmlRtMByOCFO0P3mMUx8dVruTRhZ3pqQ0f1cCH9TmAoDjetmD/Ib7yx/5KxTHV8QY3xZJxYvgAmOU5C49K5xA==
+"@vue/cli-shared-utils@^5.0.6", "@vue/cli-shared-utils@^5.0.7":
+  version "5.0.7"
+  resolved "https://registry.yarnpkg.com/@vue/cli-shared-utils/-/cli-shared-utils-5.0.7.tgz#c6774573ea2e8106e11d3d6df342c2bd2554330a"
+  integrity sha512-SzpqSExsp31gg7w+UAsqdrFyZGxKNTIE8MVwcfkevEx4BgugpLcmUxgcelgDktMs7GGykxluPIm0ZHDk3ytXeg==
   dependencies:
     "@achrinza/node-ipc" "^9.2.5"
     chalk "^4.1.2"
