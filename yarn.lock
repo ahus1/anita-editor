@@ -9876,10 +9876,10 @@ vue-style-loader@^4.1.0, vue-style-loader@^4.1.3:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
 
-vue-template-compiler@^2.7.1:
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.7.1.tgz#ebbefd9cc9a7b9ee9ee6862fa1ec3a9bf3959963"
-  integrity sha512-ku/H1k1yHAgY0BEdoXVj7xZIjuFSwB2IV3nQWnmUMJ6U1jzK56LPHLWzEe5bTzt0WR0b/rJRkuiig44SUoaBoQ==
+vue-template-compiler@^2.7.2:
+  version "2.7.2"
+  resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.7.2.tgz#656c2ccfd53696c52a9740645b7a9fda421d84e6"
+  integrity sha512-3PDLIPankm7b1YZHk6/mTz9kMZaDSd1Vhp1tFPITot5uW9WjnIyv6zRax3+j1kwF0DHmvfIVXMX8G+Rn/BHfaQ==
   dependencies:
     de-indent "^1.0.2"
     he "^1.2.0"
