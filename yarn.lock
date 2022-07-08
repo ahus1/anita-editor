@@ -1817,12 +1817,12 @@
     thread-loader "^3.0.0"
     webpack "^5.54.0"
 
-"@vue/cli-plugin-e2e-nightwatch@~5.0.6":
-  version "5.0.6"
-  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-e2e-nightwatch/-/cli-plugin-e2e-nightwatch-5.0.6.tgz#798793ac0ddd6acbfa5fe37e1634fb661da5dd8a"
-  integrity sha512-nNn12gtHuiTvJmp1fcXoM6WTvybCK7XNnGAEwk7f2wweyQnUod8F26vsWRA7BCVsYHqLv57+2s8rrKp6Gw4SMA==
+"@vue/cli-plugin-e2e-nightwatch@~5.0.8":
+  version "5.0.8"
+  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-e2e-nightwatch/-/cli-plugin-e2e-nightwatch-5.0.8.tgz#2952a9ec1ec148a7ff744f6a9bfa3b746b882e68"
+  integrity sha512-CE9lkftqiVtmvhNG7SkzGz6dQCQBqoKO0V4M5kM24RcR/l52CrRLVK4SPf8chTues+EKFggnRRI4XM0mXLq72g==
   dependencies:
-    "@vue/cli-shared-utils" "^5.0.6"
+    "@vue/cli-shared-utils" "^5.0.8"
     deepmerge "^4.2.2"
     nightwatch "^2.0.5"
 
@@ -1926,10 +1926,10 @@
     webpack-virtual-modules "^0.4.2"
     whatwg-fetch "^3.6.2"
 
-"@vue/cli-shared-utils@^5.0.6", "@vue/cli-shared-utils@^5.0.7":
-  version "5.0.7"
-  resolved "https://registry.yarnpkg.com/@vue/cli-shared-utils/-/cli-shared-utils-5.0.7.tgz#c6774573ea2e8106e11d3d6df342c2bd2554330a"
-  integrity sha512-SzpqSExsp31gg7w+UAsqdrFyZGxKNTIE8MVwcfkevEx4BgugpLcmUxgcelgDktMs7GGykxluPIm0ZHDk3ytXeg==
+"@vue/cli-shared-utils@^5.0.6", "@vue/cli-shared-utils@^5.0.7", "@vue/cli-shared-utils@^5.0.8":
+  version "5.0.8"
+  resolved "https://registry.yarnpkg.com/@vue/cli-shared-utils/-/cli-shared-utils-5.0.8.tgz#75fc96528eba2b1c7e33cb7e989a984ddef99c8a"
+  integrity sha512-uK2YB7bBVuQhjOJF+O52P9yFMXeJVj7ozqJkwYE9PlMHL1LMHjtCYm4cSdOebuPzyP+/9p0BimM/OqxsevIopQ==
   dependencies:
     "@achrinza/node-ipc" "^9.2.5"
     chalk "^4.1.2"
