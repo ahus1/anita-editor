@@ -484,7 +484,8 @@ const store = createStore({
       } = regex;
       // GET /repos/:owner/:repo/contents/:path
       // eslint-disable-next-line max-len
-      // adding a timestamp to avoid receiving a cached response (GitHub seems to cache up to 10 seconds)
+      // adding a timestamp to avoid receiving a cached response
+      // (GitHub seems to cache up to 10 seconds)
       const responseFile = await axios.get(`https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}&ts=${Date.now()}`);
       if (responseFile.data.encoding === 'base64') {
         const content = b64DecodeUnicode(responseFile.data.content);
@@ -648,7 +649,8 @@ const store = createStore({
 let unload = false;
 
 window.addEventListener('storage', (event) => {
-  // when using Safari, the current window receives its own events (as opposed to Chrome and Firefox)
+  // when using Safari, the current window receives its own events
+  // (as opposed to Chrome and Firefox)
   // therefore check this windows is in the background (doesn't have focus) before unloading)
   if (event.key === 'vuex' && !document.hasFocus()) {
     unload = true;

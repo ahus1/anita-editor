@@ -1,16 +1,18 @@
 <template>
-    <div class="grid grid-cols-2" id="content">
-        <div class="overflow-y-auto relative border-collapse box-border shadow-inner"
-             style="min-height: 100vh; height: 100vh; max-height: 100vh;">
-          <codemirror :options="cmOptions" @ready="onCmReady" @input="onCmCodeChange" />
-        </div>
-        <div class="overflow-y-auto relative border-collapse box-border shadow-inner p-4"
-             style="min-height: 100vh; height: 100vh; max-height: 100vh;">
-            <div>
-                <div v-html="preview" class="adoc"></div>
-            </div>
-        </div>
+  <div class="grid grid-cols-2" id="content">
+    <div
+      class="overflow-y-auto relative border-collapse box-border shadow-inner"
+      style="min-height: 100vh; height: 100vh; max-height: 100vh;">
+      <codemirror :options="cmOptions" @ready="onCmReady" @input="onCmCodeChange" />
     </div>
+    <div
+      class="overflow-y-auto relative border-collapse box-border shadow-inner p-4"
+      style="min-height: 100vh; height: 100vh; max-height: 100vh;">
+      <div>
+        <div v-html="preview" class="adoc" />
+      </div>
+    </div>
+  </div>
 </template>
 
 <style>
@@ -94,7 +96,8 @@ export default {
       immediate: true,
       async handler() {
         const { name } = this.$route.params;
-        if (name !== undefined && (this.activeScratch === undefined || this.activeScratch.name !== name)) {
+        if (name !== undefined
+          && (this.activeScratch === undefined || this.activeScratch.name !== name)) {
           await this.addScratch({ name });
         }
       },
@@ -141,7 +144,8 @@ export default {
     },
     onCmCodeChange(content) {
       // this will debounce changes in the editor for the preview
-      // the first character will render immediately, the next character will be delayed for some milliseconds
+      // the first character will render immediately,
+      // the next character will be delayed for some milliseconds
       if (this.content !== content || this.delay) {
         if (this.delay) {
           this.delayedContent = content;
