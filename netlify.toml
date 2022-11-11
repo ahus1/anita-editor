@@ -4,8 +4,9 @@
   functions = "lambda/dist"
 [build.environment]
   # maybe look at https://github.com/puppeteer/puppeteer/releases to find out which release matches with revision
-  NODE_CHROMIUM_REVISION = "1002410"
+  NODE_CHROMIUM_REVISION = "1045629"
   NODE_VERSION = "v16.13.2"
+  YARN_VERSION = "1.22.19"
 [[headers]]
   for = "/static/fonts/*.*.*"
   [headers.values]
