@@ -10478,10 +10478,10 @@ v8-to-istanbul@^8.1.0:
     convert-source-map "^1.6.0"
     source-map "^0.7.3"
 
-val-loader@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/val-loader/-/val-loader-5.0.0.tgz#1b7e45c5df207203a4b3f1c45cbc82b018b505b7"
-  integrity sha512-N766NTSjQGVxl/kQ7LRmdnPy3f8ylBx1SxgY/ZfZVnguaHK72uI5koTMMA72wQ8sxLK9TuRxBPd47w58ZI4QBA==
+val-loader@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/val-loader/-/val-loader-5.0.1.tgz#ce29d3bbe68381f42bef0d693d0f18202fe5efe8"
+  integrity sha512-r4h7b9AuvGQU1vyC4rAMoJNMG8fJUE6CYAqlM265tOdnZrZC6axVawBg2GlQ9+6osPCJjw4/vyADiSBAFlhzlg==
 
 validate-npm-package-license@^3.0.1:
   version "3.0.4"
