@@ -30,7 +30,7 @@
     "xss": "^1.0.13",
     "y-codemirror": "^2.1.1",
     "y-indexeddb": "^9.0.8",
-    "y-webrtc": "^10.2.3",
+    "y-webrtc": "^10.2.4",
     "y-websocket": "^1.4.3",
     "yjs": "^13.5.44"
   },
