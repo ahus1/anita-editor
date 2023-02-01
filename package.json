@@ -13,7 +13,7 @@
   "dependencies": {
     "@asciidoctor/core": "^2.2.6",
     "asciidoctor-highlight.js": "^0.4.0",
-    "axios": "^1.2.6",
+    "axios": "^1.3.0",
     "codemirror-asciidoc": "^1.0.4",
     "codemirror-editor-vue3": "^2.1.7",
     "core-js": "^3.27.2",
