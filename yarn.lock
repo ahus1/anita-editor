@@ -3439,10 +3439,10 @@ codemirror-asciidoc@^1.0.4:
   resolved "https://registry.yarnpkg.com/codemirror-asciidoc/-/codemirror-asciidoc-1.0.4.tgz#7439fcc38f30f1408ab144d156bf398ed35b2cc0"
   integrity sha1-dDn8w48w8UCKsUTRVr85jtNbLMA=
 
-codemirror-editor-vue3@^2.1.7:
-  version "2.1.7"
-  resolved "https://registry.yarnpkg.com/codemirror-editor-vue3/-/codemirror-editor-vue3-2.1.7.tgz#983c431605d50e0bef496adb7f5450c1c329b233"
-  integrity sha512-Pj4p9vacexMk6P1XEjxriHU/Xna4V/6+KzJbUE8lwxx0wbCrAopuCHSdJSKpsMWhYj/enkaNVFoIp1MAfvqTgw==
+codemirror-editor-vue3@^2.1.8:
+  version "2.1.8"
+  resolved "https://registry.yarnpkg.com/codemirror-editor-vue3/-/codemirror-editor-vue3-2.1.8.tgz#c279cdd3d53c47e62674d88748e742e450830c8f"
+  integrity sha512-rpZI1dEMwEkADArqNeLrPTs9/irX8JB461GJE+puLMbHDVLSAYp9lT2Ap378QrZB6c96so5S4z1oD4JJGh+LdA==
   dependencies:
     codemirror "^5.64.0"
     diff-match-patch "^1.0.5"
