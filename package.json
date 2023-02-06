@@ -48,7 +48,7 @@
     "asciidoctor-kroki": "^0.16.0",
     "autoprefixer": "^10.4.13",
     "babel-eslint": "^10.1.0",
-    "chromedriver": "107.0.3",
+    "chromedriver": "109.0.0",
     "chromium": "^3.0.3",
     "dotenv": "^16.0.1",
     "eslint": "^8.27.0",
