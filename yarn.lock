@@ -11090,10 +11090,10 @@ yauzl@^2.10.0:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.1.0"
 
-yjs@^13.5.45:
-  version "13.5.45"
-  resolved "https://registry.yarnpkg.com/yjs/-/yjs-13.5.45.tgz#fd30e41371abbc83c07e5c042296f52e041d22fe"
-  integrity sha512-9VUNDvb9oJHdYSMdzIpdM/agVm+EEFKRN+843CFqQuq5bo/BP3EAaxofRG9jQut3sqtGQT4A9YdQvOeeAjU6aA==
+yjs@^13.5.46:
+  version "13.5.46"
+  resolved "https://registry.yarnpkg.com/yjs/-/yjs-13.5.46.tgz#b58de4e34f1525d463f4b1fda26ff30b9928b5b3"
+  integrity sha512-KIY4BEWYCm79Sr4JTDvgirXmz3lVZ5n7h6nKlsBYu97f/HDQo+XSoq92RqBiybejF9E/L5Iz+56zZrSfBKZ5DQ==
   dependencies:
     lib0 "^0.2.49"
 
