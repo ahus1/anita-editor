@@ -40,17 +40,21 @@ function getRandomColor() {
 
 // initialize color once per browser, so that the color stays the same after name changes
 const myColor = getRandomColor();
+const url = 'wss://anita-editor-eu.herokuapp.com/';
 
 function initRoom(room, user) {
   const ydoc = new Y.Doc();
   let yjsWebrtcProvider;
   // use websocket provider to better support VPNs and mobile devices
-  const yjsWsProvider = new WebsocketProvider('wss://anita-editor-eu.herokuapp.com/', room, ydoc);
+  const yjsWsProvider = new WebsocketProvider(url, room, ydoc);
   yjsWsProvider.on('status', (event) => {
     console.log(`ws status ${room}: ${event.status}`); // logs "connected" or "disconnected"
   });
   if (WEBRTC_ENABLED) {
-    yjsWebrtcProvider = new WebrtcProvider(room, ydoc, { awareness: yjsWsProvider.awareness });
+    yjsWebrtcProvider = new WebrtcProvider(room, ydoc, {
+      awareness: yjsWsProvider.awareness,
+      signaling: [url],
+    });
     yjsWebrtcProvider.once('synced', () => {
       console.log(`synced webrtc ${room}`);
     });
