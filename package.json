@@ -46,7 +46,7 @@
     "@vue/test-utils": "^2.2.7",
     "@vue/vue3-jest": "^29.2.3",
     "asciidoctor-kroki": "^0.17.0",
-    "autoprefixer": "^10.4.13",
+    "autoprefixer": "^10.4.14",
     "babel-eslint": "^10.1.0",
     "chromedriver": "107.0.3",
     "chromium": "^3.0.3",
