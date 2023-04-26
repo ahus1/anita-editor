@@ -10967,10 +10967,10 @@ y-codemirror@^2.1.1:
   dependencies:
     lib0 "^0.2.41"
 
-y-indexeddb@^9.0.8:
-  version "9.0.9"
-  resolved "https://registry.yarnpkg.com/y-indexeddb/-/y-indexeddb-9.0.9.tgz#fd360f6b62ce1b2d4127671fe73b4feb08de70b2"
-  integrity sha512-GcJbiJa2eD5hankj46Hea9z4hbDnDjvh1fT62E5SpZRsv8GcEemw34l1hwI2eknGcv5Ih9JfusT37JLx9q3LFg==
+y-indexeddb@^9.0.10:
+  version "9.0.10"
+  resolved "https://registry.yarnpkg.com/y-indexeddb/-/y-indexeddb-9.0.10.tgz#0c824b1bfd9f9f697cae95e7f65b9349950d5a1c"
+  integrity sha512-Tz4IzLZ20Pe8LTjXU125k2+7caERsX4ANsrjskHMm3yXUX4v9kBga/kK7ctT05P0uAj+glQComkAglY1qey7zg==
   dependencies:
     lib0 "^0.2.35"
 
