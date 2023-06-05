@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "babel-minify-webpack-plugin": "^0.3.1",
-    "dotenv": "^16.0.3",
+    "dotenv": "^16.1.4",
     "netlify-lambda": "^2.0.16"
   }
 }
