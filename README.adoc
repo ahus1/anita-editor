@@ -4,7 +4,7 @@ This is a web-browser only proof-of concept for an editor.
 The editor runs in the browser and reads files from GitHub, or edits files locally.
 It shows all changes in a live preview.
 
-**This editor is in maintainance mode, and will not add any new features*.
+**This editor is in maintainance mode, and will not add any new features**.
 Integration to log in to GitHub was removed, as well as collaborative editing.
 It can still read files from GitHub.
 
@@ -29,25 +29,6 @@ yarn serve
 
 == How to deploy
 
-=== Configuration
-
-For the login at GitHub to work, the application needs to be registered as an OAuth application with the production URL as callback.
-The client ID and secret should then be provided as environment variables.
-
-Follow these steps to do this:
-
-. Open https://github.com/settings/developers
-. Click on "`New OAuth App`"
-. Fill the blanks with the following details:
-+
-Application name:: AsciiDoc Web Editor Development
-Homepage URL:: (production URL)
-Application description:: (optional, but should receive a meaningful description)
-Authorization callback URL:: (production URL)
-. Set environment variables _CLIENT_ID_ and _CLIENT_SECRET_ with their respective values
-
-Optional: to enable the Netlify notifications via Telegram on deploys, add _API_TOKEN_/_CHAT_ID_ for the relevant bot.
-
 === Building the application
 
 . Run build of the client:
@@ -57,12 +38,4 @@ yarn install
 yarn build
 ----
 +
-. Run build of Netlify lambdas:
-+
-----
-yarn install
-yarn generate
-----
-+
 . Publish contents in _dist_ folder to a web server as static files
-. Publish contents in _lambda/dist_ as lambdas functions on Netlify
