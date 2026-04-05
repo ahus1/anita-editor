@@ -16,4 +16,4 @@ link:/#https://github.com/ahus1/anita-editor/blob/main/public/start.adoc[Click h
 
 link:/#https://github.com/asciidoctor/asciidoctor.org/blob/main/docs/_includes/asciidoc-article-template.adoc[Click here to open an AsciiDoc article template]
 
-link:/#/scratch/general[Click here for a general collaboration session]
+link:/#/scratch/general[Click here for a local scratch file]
