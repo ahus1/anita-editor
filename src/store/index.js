@@ -4,11 +4,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import merge from 'three-way-merge';
 import * as Y from 'yjs';
-import { WebrtcProvider } from 'y-webrtc';
-import { WebsocketProvider } from 'y-websocket';
 import { IndexeddbPersistence } from 'y-indexeddb';
-
-const WEBRTC_ENABLED = true;
 
 function b64EncodeUnicode(str) {
   // first we use encodeURIComponent to get percent-encoded UTF-8,
@@ -29,61 +25,17 @@ function roomFromName(str) {
   return `yjs-${str}`.replace(/\s/g, '').toLowerCase();
 }
 
-function getRandomColor() {
-  const letters = '0123456789ABCDEF';
-  let color = '#';
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
-
-// initialize color once per browser, so that the color stays the same after name changes
-const myColor = getRandomColor();
-const url = 'wss://anita-editor-eu.herokuapp.com/';
-
-function initRoom(room, user) {
+function initRoom(room) {
   const ydoc = new Y.Doc();
-  let yjsWebrtcProvider;
   // use websocket provider to better support VPNs and mobile devices
-  const yjsWsProvider = new WebsocketProvider(url, room, ydoc);
-  yjsWsProvider.on('status', (event) => {
-    console.log(`ws status ${room}: ${event.status}`); // logs "connected" or "disconnected"
-  });
-  if (WEBRTC_ENABLED) {
-    yjsWebrtcProvider = new WebrtcProvider(room, ydoc, {
-      awareness: yjsWsProvider.awareness,
-      signaling: [url],
-    });
-    yjsWebrtcProvider.once('synced', () => {
-      console.log(`synced webrtc ${room}`);
-    });
-    yjsWebrtcProvider.on('status', (event) => {
-      console.log(`webrtc ${room}: ${event.status}`);
-    });
-  }
   const yjsIndexdbProvider = new IndexeddbPersistence(room, ydoc);
   yjsIndexdbProvider.once('synced', () => {
     console.log(`synced indexdb ${room}`);
   });
   const yText = ydoc.getText('codemirror');
   const yjsUndoManager = new Y.UndoManager(yText);
-  if (user && user !== '') {
-    if (yjsWebrtcProvider) {
-      yjsWebrtcProvider.awareness.setLocalStateField('user', {
-        name: user,
-        color: getRandomColor(),
-      });
-    }
-    yjsWsProvider.awareness.setLocalStateField('user', {
-      name: user,
-      color: getRandomColor(),
-    });
-  }
   return {
     ydoc,
-    yjsWebrtcProvider,
-    yjsWsProvider,
     yjsIndexdbProvider,
     yjsUndoManager,
     yText,
@@ -390,18 +342,6 @@ const store = createStore({
     },
     setScratchUser(state, { name }) {
       state.scratchUserName = name;
-      for (let i = 0; i < state.docs.length; ++i) {
-        if (state.docs[i].yjsWebrtcProvider) {
-          state.docs[i].yjsWebrtcProvider.awareness.setLocalStateField('user', {
-            name,
-            color: myColor,
-          });
-        }
-        state.docs[i].yjsWsProvider.awareness.setLocalStateField('user', {
-          name,
-          color: getRandomColor(),
-        });
-      }
     },
   },
   actions: {

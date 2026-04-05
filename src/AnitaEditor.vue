@@ -9,38 +9,14 @@
     <div
       class="overflow-y-auto relative border-collapse box-border shadow-inner p-4"
       style="min-height: 100vh; height: 100vh; max-height: 100vh;">
-      <template v-if="changed && !loggedin">
-        Please log-in using the action on the toolbar on the left to be able to save your changes.
-        <br />
-      </template>
-      <template v-else-if="!canpush && loggedin">
-        Unable to save contents as user doesn't have push permissions on this repository.
-        <br />
-      </template>
-      <template v-else-if="conflicted">
-        Unable to save contents as remote branch has been modified. Discard local changes and
-        reload from server.
-        <br />
-      </template>
-      <button
-        type="submit"
-        v-else-if="!conflicted && loggedin"
-        class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        @click="opensavedialog"
-        :class="{
-          'bg-white': saveDialogOpen, 'bg-gray-500': !saveDialogOpen && !changed, 'bg-blue-500': !saveDialogOpen && changed, 'hover:bg-blue-700': !saveDialogOpen && changed, 'cursor-wait': saving, 'cursor-default': !changed && !saveDialogOpen, 'cursor-auto': saveDialogOpen,
-        }"
-        :disabled="saving || !changed || saveDialogOpen">
-        {{ this.saving ? 'Saving...' : 'Save' }}
-      </button>
       <button
         type="submit"
         class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         @click="reload"
         :class="{
-          'bg-gray-500': !changed, 'bg-red-500': changed || conflicted, 'hover:bg-red-700': changed || conflicted, 'cursor-wait': reloading, 'cursor-default': !changed,
+          'bg-gray-500': !changed, 'bg-red-500': changed, 'hover:bg-red-700': changed, 'cursor-wait': reloading, 'cursor-default': !changed,
         }"
-        :disabled="reloading || (!changed && !conflicted)">
+        :disabled="reloading || !changed">
         {{ this.reloading ? 'Reloading...' : 'Discard Changes' }}
       </button>
       <button
@@ -53,39 +29,6 @@
         }">
         Toggle Preview
       </button>
-      <div class="relative">
-        <form class="absolute z-10 fixed top-0 left-0 rounded p-6 border bg-white shadow" v-if="saveDialogOpen">
-          <div class="mb-4">
-            <p class="pb-2">Enter a commit message and press <i>Save</i> to commit your changes to GitHub.</p>
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-              Commit message
-            </label>
-            <textarea
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="username"
-              placeholder="Commit message"
-              v-model="commitMessage" />
-          </div>
-          <div class="flex items-center justify-between">
-            <button
-              class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="button"
-              :class="{
-                'bg-gray-500': commitMessage.trim().length === 0, 'bg-blue-500': commitMessage.trim().length !== 0, 'hover:bg-blue-700': commitMessage.trim().length !== 0, 'cursor-not-allowed': commitMessage.trim().length === 0,
-              }"
-              @click="save"
-              :disabled="commitMessage.trim().length === 0">
-              Save
-            </button>
-            <button
-              class="bg-white-500 hover:bg-blue-700 border-gray-400 border text-gray-500 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="button"
-              @click="closesavedialog">
-              Cancel
-            </button>
-          </div>
-        </form>
-      </div>
       <div>
         <div v-html="preview" class="adoc" />
       </div>
@@ -129,7 +72,6 @@ export default {
   data() {
     return {
       saving: false,
-      saveDialogOpen: false,
       commitMessage: '',
       reloading: false,
       mode: 0,
@@ -196,23 +138,6 @@ export default {
       }
       return activeFile.content !== activeFile.original;
     },
-    conflicted() {
-      const { activeFile } = this.$store.getters;
-      if (activeFile === undefined) {
-        return false;
-      }
-      return activeFile.conflict === true;
-    },
-    canpush() {
-      const { activeWorkspace } = this.$store.getters;
-      if (activeWorkspace === undefined) {
-        return false;
-      }
-      return activeWorkspace.permissions.push;
-    },
-    loggedin() {
-      return this.$store.state.github.user !== undefined && this.$store.state.github.user !== null;
-    },
     content: {
       get() {
         const { activeFile } = this.$store.getters;
@@ -228,12 +153,6 @@ export default {
   },
   methods: {
     ...mapActions(['loadFile']),
-    opensavedialog() {
-      this.saveDialogOpen = true;
-    },
-    closesavedialog() {
-      this.saveDialogOpen = false;
-    },
     togglePreview() {
       this.mode = (this.mode + 1) % 3;
     },
@@ -255,7 +174,6 @@ export default {
     },
     async getContent() {
       const { file } = this.$route.query;
-      this.saveDialogOpen = false;
       const { activeFile } = this.$store.getters;
       if (file !== undefined) {
         await this.loadFile({ file });
@@ -266,25 +184,9 @@ export default {
         await this.$router.replace({ name: 'welcome' });
       }
     },
-    async save() {
-      // PUT /repos/:owner/:repo/contents/:path
-      if (!this.saving) {
-        this.saveDialogOpen = false;
-        this.saving = true;
-        try {
-          await this.$store.dispatch('saveActiveFileContent', { message: this.commitMessage.trim() });
-          this.commitMessage = '';
-        } catch (error) {
-          await this.$store.dispatch('showErrorMessage', { error });
-        } finally {
-          this.saving = false;
-        }
-      }
-    },
     async reload() {
       if (!this.reloading) {
         this.reloading = true;
-        this.saveDialogOpen = false;
         try {
           await this.$store.dispatch('reloadActiveFile');
         } catch (error) {

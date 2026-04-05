@@ -1,6 +1,4 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import Login from '../AnitaLogin.vue';
-import Logout from '../AnitaLogout.vue';
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -25,8 +23,6 @@ const router = createRouter({
       component: () => import(/* webpackChunkName: "AnitaScratch" */ '../AnitaScratch.vue'),
       name: 'scratch',
     },
-    { path: '/login', component: Login },
-    { path: '/logout', component: Logout },
   ],
 });
 
