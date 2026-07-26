@@ -28,7 +28,7 @@
     "vuex-persistedstate": "^4.1.0",
     "xss": "^1.0.13",
     "y-codemirror": "^2.1.1",
-    "y-indexeddb": "^9.0.8",
+    "y-indexeddb": "^9.0.12",
     "yjs": "^13.5.50"
   },
   "devDependencies": {
