@@ -16,7 +16,7 @@
     "codemirror-asciidoc": "^1.0.4",
     "codemirror-editor-vue3": "^2.2.0",
     "core-js": "^3.31.0",
-    "diff": "^5.1.0",
+    "diff": "^5.2.2",
     "font-awesome": "^4.7.0",
     "htmldiff-js": "^1.0.5",
     "js-cookie": "^3.0.7",
